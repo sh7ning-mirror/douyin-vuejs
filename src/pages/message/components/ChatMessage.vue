@@ -1,59 +1,60 @@
 <template>
-  <div class="ChatMessage"
-       :class="!isMe ? 'left' : 'right'"
-       :style="message.type ===  MESSAGE_TYPE.TIME && 'margin-bottom: 0;'">
-    <div class="time" v-if="message.type ===  MESSAGE_TYPE.TIME">
+  <div
+    class="ChatMessage"
+    :class="!isMe ? 'left' : 'right'"
+    :style="message.type === MESSAGE_TYPE.TIME && 'margin-bottom: 0;'"
+  >
+    <div class="time" v-if="message.type === MESSAGE_TYPE.TIME">
       {{ message.time }}
     </div>
     <template v-else>
-      <img v-if="!isMe" src="../../../assets/img/icon/avatar/3.png" alt="" class="avatar">
-      <div class="chat-wrapper" @click="$emit('itemClick',message)">
-        <div class="chat-text"
-             v-if="message.type ===  MESSAGE_TYPE.TEXT">
+      <img v-if="!isMe" src="../../../assets/img/icon/avatar/3.png" alt="" class="avatar" />
+      <div class="chat-wrapper" @click="$emit('itemClick', message)">
+        <div class="chat-text" v-if="message.type === MESSAGE_TYPE.TEXT">
           {{ message.data }}
         </div>
 
-        <div class="douyin_video"
-             v-if="message.type ===  MESSAGE_TYPE.DOUYIN_VIDEO">
-          <img class="poster" :src="message.data.poster" alt=""/>
+        <div class="douyin_video" v-if="message.type === MESSAGE_TYPE.DOUYIN_VIDEO">
+          <img class="poster" :src="message.data.poster" alt="" />
           <div class="title">{{ message.data.title }}</div>
-          <img src="../../../assets/img/icon/play-white.png" class="pause"/>
+          <img src="../../../assets/img/icon/play-white.png" class="pause" />
           <div class="author">
-            <img class="video-avatar" :src="message.data.author.avatar" alt="">
+            <img class="video-avatar" :src="message.data.author.avatar" alt="" />
             <span class="name">{{ message.data.author.name }}</span>
           </div>
         </div>
 
-        <div class="douyin_video"
-             v-if="message.type ===  MESSAGE_TYPE.VIDEO">
-          <img class="poster" :src="message.data.poster" alt=""/>
-          <img src="../../../assets/img/icon/play-white.png" class="pause"/>
+        <div class="douyin_video" v-if="message.type === MESSAGE_TYPE.VIDEO">
+          <img class="poster" :src="message.data.poster" alt="" />
+          <img src="../../../assets/img/icon/play-white.png" class="pause" />
         </div>
 
-        <div class="audio"
-             v-if="message.type ===  MESSAGE_TYPE.AUDIO">
+        <div class="audio" v-if="message.type === MESSAGE_TYPE.AUDIO">
           <template v-if="isMe">
             <div class="duration">{{ message.data.duration }}'</div>
-            <img src="../../../assets/img/icon/message/chat/rss2.png" alt="" class="audio-icon">
+            <img src="../../../assets/img/icon/message/chat/rss2.png" alt="" class="audio-icon" />
           </template>
           <template v-else>
-            <img src="../../../assets/img/icon/message/chat/rss.png" alt="" class="audio-icon">
+            <img src="../../../assets/img/icon/message/chat/rss.png" alt="" class="audio-icon" />
             <div class="duration">{{ message.data.duration }}'</div>
           </template>
-
         </div>
 
-        <div class="call"
-             v-if="message.type ===  MESSAGE_TYPE.VIDEO_CALL ||
-          message.type ===  MESSAGE_TYPE.AUDIO_CALL"
+        <div
+          class="call"
+          v-if="
+            message.type === MESSAGE_TYPE.VIDEO_CALL || message.type === MESSAGE_TYPE.AUDIO_CALL
+          "
         >
           <div class="resolve" v-if="message.state === CALL_STATE.RESOLVE">
-            <img class="icon" src="../../../assets/img/icon/message/chat/video.png" alt="">
+            <img class="icon" src="../../../assets/img/icon/message/chat/video.png" alt="" />
             <span>通话时长 05:32</span>
           </div>
-          <div class="reject" v-if="message.state === CALL_STATE.REJECT||
-        message.state === CALL_STATE.NONE">
-            <img class="icon" src="../../../assets/img/icon/message/chat/video.png" alt="">
+          <div
+            class="reject"
+            v-if="message.state === CALL_STATE.REJECT || message.state === CALL_STATE.NONE"
+          >
+            <img class="icon" src="../../../assets/img/icon/message/chat/video.png" alt="" />
             <div class="notice">
               <span class="state" v-if="message.state === CALL_STATE.REJECT">对方已拒绝</span>
               <span class="state" v-if="message.state === CALL_STATE.NONE">对方未接通</span>
@@ -62,61 +63,71 @@
           </div>
         </div>
 
-        <div class="image"
-             v-if="message.type ===  MESSAGE_TYPE.IMAGE">
-          <img :src="message.data" alt="">
+        <div class="image" v-if="message.type === MESSAGE_TYPE.IMAGE">
+          <img :src="message.data" alt="" />
         </div>
 
-        <div class="meme"
-             v-if="message.type ===  MESSAGE_TYPE.MEME">
-          <img :src="message.data" alt="">
+        <div class="meme" v-if="message.type === MESSAGE_TYPE.MEME">
+          <img :src="message.data" alt="" />
         </div>
 
-        <div class="red_packet"
-             :class="message.data.state !== '未领取' ? 'invalid' : ''"
-             v-if="message.type ===  MESSAGE_TYPE.RED_PACKET">
+        <div
+          class="red_packet"
+          :class="message.data.state !== '未领取' ? 'invalid' : ''"
+          v-if="message.type === MESSAGE_TYPE.RED_PACKET"
+        >
           <div class="top">
-            <img src="../../../assets/img/icon/message/chat/redpack-logo.webp" alt="">
+            <img src="../../../assets/img/icon/message/chat/redpack-logo.webp" alt="" />
             <div class="right">
               <div class="title">{{ message.data.title }}</div>
-              <div v-if="message.data.state !== '未领取'" class="state">{{ message.data.state }}</div>
+              <div v-if="message.data.state !== '未领取'" class="state">
+                {{ message.data.state }}
+              </div>
             </div>
           </div>
           <span class="bottom">抖音红包</span>
         </div>
 
         <div class="loves" v-if="message.loved?.length">
-          <img src="../../../assets/img/icon/loved.svg" alt="">
-          <img v-for="user in message.loved" src="../../../assets/img/icon/head-image.jpeg" alt="" class="love-avatar">
+          <img src="../../../assets/img/icon/loved.svg" alt="" />
+          <img
+            :key="user"
+            v-for="user in message.loved"
+            src="../../../assets/img/icon/head-image.jpeg"
+            alt=""
+            class="love-avatar"
+          />
         </div>
       </div>
-      <img v-if="isMe" src="../../../assets/img/icon/avatar/2.png" alt="" class="avatar">
+      <img v-if="isMe" src="../../../assets/img/icon/avatar/2.png" alt="" class="avatar" />
     </template>
   </div>
 </template>
 
 <script>
-
-import {mapState} from "pinia";
-import {useBaseStore} from "@/store/pinia";
+import { mapState } from 'pinia'
+import { useBaseStore } from '@/store/pinia'
 
 let CALL_STATE = {
   REJECT: 0,
   RESOLVE: 1,
-  NONE: 2,
+  NONE: 2
 }
+// eslint-disable-next-line
 let VIDEO_STATE = {
   VALID: 0,
-  INVALID: 1,
+  INVALID: 1
 }
+// eslint-disable-next-line
 let AUDIO_STATE = {
   NORMAL: 0,
-  SENDING: 1,
+  SENDING: 1
 }
+// eslint-disable-next-line
 let READ_STATE = {
   SENDING: 0,
   ARRIVED: 1,
-  READ: 1,
+  READ: 1
 }
 let RED_PACKET_MODE = {
   SINGLE: 1,
@@ -131,11 +142,11 @@ let MESSAGE_TYPE = {
   IMAGE: 6,
   VIDEO_CALL: 4,
   AUDIO_CALL: 5,
-  MEME: 7,//表情包
-  RED_PACKET: 8,//红包
+  MEME: 7, //表情包
+  RED_PACKET: 8 //红包
 }
 export default {
-  name: "ChatMessage",
+  name: 'ChatMessage',
   props: {
     message: {
       type: Object,
@@ -157,14 +168,13 @@ export default {
       return this.userinfo.uid === this.message.user.id
     }
   },
-  created() {
-  },
+  created() {},
   methods: {}
 }
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .ChatMessage {
   padding: 0 10rem;
@@ -187,7 +197,9 @@ export default {
       margin-left: 50rem;
     }
 
-    .chat-text, .call, .audio {
+    .chat-text,
+    .call,
+    .audio {
       background: @chat-bg-right-color;
     }
   }
@@ -205,7 +217,9 @@ export default {
       margin-right: 50rem;
     }
 
-    .chat-text, .call, .audio {
+    .chat-text,
+    .call,
+    .audio {
       background: @chat-bg-left-color;
     }
   }
@@ -227,7 +241,7 @@ export default {
   .red_packet {
     border-radius: @border-radius;
     @not-received: rgb(253, 92, 72);
-    @received: rgba(253, 92, 72, .8);
+    @received: rgba(253, 92, 72, 0.8);
     width: 60vw;
     background: @not-received;
     display: flex;
@@ -256,7 +270,7 @@ export default {
 
       .state {
         font-size: 12rem;
-        color: rgba(255, 231, 206, .8);
+        color: rgba(255, 231, 206, 0.8);
       }
     }
 
@@ -349,7 +363,7 @@ export default {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translateY(-50%) translateX(-50%);;
+      transform: translateY(-50%) translateX(-50%);
       width: 24rem;
     }
 
@@ -393,7 +407,6 @@ export default {
         overflow: hidden;
       }
     }
-
   }
 
   .chat-text {

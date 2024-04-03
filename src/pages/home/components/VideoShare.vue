@@ -1,53 +1,74 @@
 <template>
   <from-bottom-dialog
-      :page-id="pageId"
-      :modelValue="modelValue"
-      @update:modelValue="e=>$emit('update:modelValue',e)"
-      @cancel="closeShare1"
-      :touch-moved="false"
-      maskMode="light"
-      height="60vh"
-      mode="light">
+    :page-id="pageId"
+    :modelValue="modelValue"
+    @update:modelValue="(e) => $emit('update:modelValue', e)"
+    @cancel="closeShare1"
+    :touch-moved="false"
+    maskMode="light"
+    height="60vh"
+    mode="light"
+  >
     <div class="video-share">
       <div class="shares">
-        <to-share item-type="weChat" :need-down="true" :can-download="canDownload"
-                  @copy="copyLink"
-                  @click="closeShare"/>
-        <to-share item-type="weChatZone" :need-down="true" :can-download="canDownload"
-                  @copy="copyLink"
-                  @click="closeShare"/>
-        <to-share item-type="qq" :need-down="true" :can-download="canDownload"
-                  @copy="copyLink"
-                  @click="closeShare"/>
-        <to-share item-type="download" :need-down="true" :can-download="canDownload" @click="closeShare()"/>
-        <to-share item-type="report" @click="$nav('/home/report',{mode:this.mode})"/>
-        <to-share item-type="copyPassword" @click="copyLink"/>
-        <to-share :item-type="isCollect?'collectYellow':'collect'" @click="toggleCollect"/>
-        <to-share item-type="comeon" @click="$no"/>
-        <to-share item-type="dou" @click="$no"/>
-        <to-share item-type="copyLink" @click="copyLink"/>
+        <to-share
+          item-type="weChat"
+          :need-down="true"
+          :can-download="canDownload"
+          @copy="copyLink"
+          @click="closeShare"
+        />
+        <to-share
+          item-type="weChatZone"
+          :need-down="true"
+          :can-download="canDownload"
+          @copy="copyLink"
+          @click="closeShare"
+        />
+        <to-share
+          item-type="qq"
+          :need-down="true"
+          :can-download="canDownload"
+          @copy="copyLink"
+          @click="closeShare"
+        />
+        <to-share
+          item-type="download"
+          :need-down="true"
+          :can-download="canDownload"
+          @click="closeShare()"
+        />
+        <to-share item-type="report" @click="$nav('/home/report', { mode: this.mode })" />
+        <to-share item-type="copyPassword" @click="copyLink" />
+        <to-share :item-type="isCollect ? 'collectYellow' : 'collect'" @click="toggleCollect" />
+        <to-share item-type="comeon" @click="$no" />
+        <to-share item-type="dou" @click="$no" />
+        <to-share item-type="copyLink" @click="copyLink" />
         <template v-if="isShowMore">
-          <to-share item-type="duoshan" @click="isShowMore = true"/>
-          <to-share item-type="totoutiao" @click="isShowMore = true"/>
+          <to-share item-type="duoshan" @click="isShowMore = true" />
+          <to-share item-type="totoutiao" @click="isShowMore = true" />
         </template>
-        <to-share v-else item-type="share" @click="isShowMore = true"/>
-        <to-share item-type="dislike" @click="isShowMore = true"/>
-        <to-share item-type="bizhi" @click="$no"/>
-        <to-share item-type="code" @click="$no"/>
+        <to-share v-else item-type="share" @click="isShowMore = true" />
+        <to-share item-type="dislike" @click="isShowMore = true" />
+        <to-share item-type="bizhi" @click="$no" />
+        <to-share item-type="code" @click="$no" />
       </div>
       <div class="friends">
-        <div class="item" v-for="item in friends.all">
-          <img class="left" v-lazy="$imgPreview(item.avatar)" alt="">
+        <div class="item" :key="i" v-for="(item, i) in friends.all">
+          <img class="left" v-lazy="$imgPreview(item.avatar)" alt="" />
           <div class="right">
             <span>{{ item.name }}</span>
-            <dy-button size="small" :type="item.shared?'dark':'primary'"
-                       @click="item.shared = true">
+            <dy-button
+              size="small"
+              :type="item.shared ? 'dark' : 'primary'"
+              @click="item.shared = true"
+            >
               {{ item.shared ? '已' : '' }}分享
             </dy-button>
           </div>
         </div>
         <div class="more" @click="closeShare($nav('/message/share-to-friend'))">
-          <img class="left" src="../../../assets/img/icon/components/video/more-dark.png">
+          <img class="left" src="../../../assets/img/icon/components/video/more-dark.png" />
           <span>更多朋友</span>
         </div>
       </div>
@@ -56,19 +77,18 @@
 </template>
 
 <script lang="jsx">
-import {mapState} from "pinia";
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import LoadingCircle from "./LoadingCircle";
-import {useBaseStore} from "@/store/pinia";
+import { mapState } from 'pinia'
+import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
+import LoadingCircle from './LoadingCircle'
+import { useBaseStore } from '@/store/pinia'
 // import DouyinCode from "./DouyinCode";
 
 export default {
-  name: "Share",
+  name: 'Share',
   components: {
     FromBottomDialog,
-    LoadingCircle,
     // DouyinCode,
-    'ToShare': {
+    ToShare: {
       components: {
         LoadingCircle
       },
@@ -107,14 +127,14 @@ export default {
             totoutiao: '今日头条',
             dislike: '不感兴趣',
             bizhi: '动态壁纸',
-            code: '抖音码',
-          },
+            code: '抖音码'
+          }
         }
       },
       computed: {
         styleCanDownload() {
           if (!this.canDownload) {
-            return this.itemType !== 'download';
+            return this.itemType !== 'download'
           }
           return true
         }
@@ -158,24 +178,33 @@ export default {
       },
       render() {
         return (
-            <div className="to" onClick={this.click} style={{opacity: this.styleCanDownload ? '1' : '0.5'}}>
-              <div className="wrapper">
-                {this.loading ?
-                    <div className="loading-wrapper" style="width: 80%;height: 80%;">
-                      <LoadingCircle v-model={this.progress}/>
-                    </div>
-                    :
-                    <img src={`/src/assets/img/icon/components/share/${this.itemType}.png`} alt=""/>
-                }
-              </div>
-              <span>{this.displayText()}</span>
+          <div
+            className="to"
+            onClick={this.click}
+            style={{ opacity: this.styleCanDownload ? '1' : '0.5' }}
+          >
+            <div className="wrapper">
+              {this.loading ? (
+                <div className="loading-wrapper" style="width: 80%;height: 80%;">
+                  <LoadingCircle v-model={this.progress} />
+                </div>
+              ) : (
+                <img src={`/src/assets/img/icon/components/share/${this.itemType}.png`} alt="" />
+              )}
             </div>
+            <span>{this.displayText()}</span>
+          </div>
         )
       }
     }
   },
   props: {
-    modelValue: false,
+    modelValue: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    },
     videoId: {
       type: String,
       default: null
@@ -187,17 +216,17 @@ export default {
     canDownload: {
       type: Boolean,
       default: false
-    },
+    }
   },
   computed: {
-    ...mapState(useBaseStore, ['friends']),
+    ...mapState(useBaseStore, ['friends'])
   },
   watch: {
     modelValue(newVal) {
       if (!newVal) {
         this.loading = {
           weChat: false,
-          weChatZone: false,
+          weChatZone: false
         }
         this.progress = 0
         this.isShowMore = false
@@ -210,7 +239,7 @@ export default {
       isShowMore: false,
       loading: {
         weChat: false,
-        weChatZone: false,
+        weChatZone: false
       },
       text: {
         weChat: '微信',
@@ -246,18 +275,16 @@ export default {
       item.select = !item.select
     },
     closeShare() {
-      this.$emit("update:modelValue", false)
+      this.$emit('update:modelValue', false)
     },
     closeShare1() {
-      this.$emit("update:modelValue", false)
+      this.$emit('update:modelValue', false)
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-
-
 .video-share {
   height: 60vh;
   width: 100%;
@@ -360,7 +387,6 @@ export default {
     }
   }
 
-
   .loading {
     width: 60%;
     height: 60%;
@@ -382,10 +408,9 @@ export default {
       box-sizing: border-box;
       width: 100%;
       height: 100%;
-      border: @border-width solid #514F56;
+      border: @border-width solid #514f56;
       border-radius: 50%;
     }
   }
 }
-
 </style>

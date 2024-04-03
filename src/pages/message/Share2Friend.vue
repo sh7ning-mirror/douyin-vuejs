@@ -1,6 +1,6 @@
 <template>
   <div class="Share2Friend">
-    <BaseHeader backImg="close" style="z-index: 7;">
+    <BaseHeader backImg="close" style="z-index: 7">
       <template v-slot:center>
         <span class="f16">私信给</span>
       </template>
@@ -8,37 +8,59 @@
         <div class="search">
           <div class="search-select-friends" v-if="selectFriends.length">
             <div class="wrapper">
-              <img :src="$imgPreview(item.avatar)" v-for="item in selectFriends" @click="toggleSelect(item)">
+              <img
+                :src="$imgPreview(item.avatar)"
+                :key="i"
+                v-for="(item, i) in selectFriends"
+                @click="toggleSelect(item)"
+              />
             </div>
           </div>
-          <img v-else class="search-icon" src="../../assets/img/icon/search-gray.png" alt="">
-          <input type="text" placeholder="搜索" v-model="searchKey">
-          <img v-if="searchKey" @click="clear" class="clear" src="../../assets/img/icon/components/gray-close-full.png">
+          <img v-else class="search-icon" src="../../assets/img/icon/search-gray.png" alt="" />
+          <input type="text" placeholder="搜索" v-model="searchKey" />
+          <img
+            v-if="searchKey"
+            @click="clear"
+            class="clear"
+            src="../../assets/img/icon/components/gray-close-full.png"
+          />
         </div>
       </template>
     </BaseHeader>
-    <div class="is-search"
-         :style="{ height : (selectFriends.length && searchResult.length) ? 'calc(100% - 272rem)' : 'calc(100% - 112rem)' }"
-         v-show="searchKey">
+    <div
+      class="is-search"
+      :style="{
+        height:
+          selectFriends.length && searchResult.length
+            ? 'calc(100% - 272rem)'
+            : 'calc(100% - 112rem)'
+      }"
+      v-show="searchKey"
+    >
       <div class="list" v-if="searchResult.length">
-        <div class="local-row" v-for="item of searchResult" @click="toggleSelect(item);searchKey = '';">
-          <Check mode="red" v-model="item.select"/>
-          <img :src="$imgPreview(item.avatar)" alt="">
+        <div
+          class="local-row"
+          :key="i"
+          v-for="(item, i) of searchResult"
+          @click="handleClick(item)"
+        >
+          <Check mode="red" v-model="item.select" />
+          <img :src="$imgPreview(item.avatar)" alt="" />
           <div class="desc">
             <span class="name">
               <span v-if="item.name.indexOf(searchKey) > -1">
-                {{ item.name.substr(0, item.name.indexOf(searchKey)) }}<span style="color: #ffd800">{{
-                  searchKey
-                }}</span>{{ item.name.substr(item.name.indexOf(searchKey) + searchKey.length) }}
+                {{ item.name.substr(0, item.name.indexOf(searchKey))
+                }}<span style="color: #ffd800">{{ searchKey }}</span
+                >{{ item.name.substr(item.name.indexOf(searchKey) + searchKey.length) }}
               </span>
               <span v-else>{{ item.name }}</span>
             </span>
             <span class="account" v-if="item.account">
               抖音号：
               <span v-if="item.account.indexOf(searchKey) > -1">
-                {{ item.account.substr(0, item.account.indexOf(searchKey)) }}<span style="color: #ffd800">{{
-                  searchKey
-                }}</span>{{ item.account.substr(item.account.indexOf(searchKey) + searchKey.length) }}
+                {{ item.account.substr(0, item.account.indexOf(searchKey))
+                }}<span style="color: #ffd800">{{ searchKey }}</span
+                >{{ item.account.substr(item.account.indexOf(searchKey) + searchKey.length) }}
               </span>
               <span v-else>{{ item.account }}</span>
             </span>
@@ -46,40 +68,52 @@
         </div>
       </div>
       <div class="no-result" v-else>
-        <img src="../../assets/img/icon/no-result.png" alt="">
+        <img src="../../assets/img/icon/no-result.png" alt="" />
         <span class="n1">搜索结果为空</span>
         <span class="n2">没有搜索到相关的联系人</span>
       </div>
     </div>
-    <div ref="list"
-         :style="{ paddingBottom : selectFriends.length ? '160rem' : 0 }"
-         class="content"
-         @scroll="scroll">
+    <div
+      ref="list"
+      :style="{ paddingBottom: selectFriends.length ? '160rem' : 0 }"
+      class="content"
+      @scroll="scroll"
+    >
       <div class="list">
         <div class="row" @click="$nav('/message/joined-group-chat')">
           <span>已加入的群聊</span>
-          <dy-back :scale=".7" direction="right"></dy-back>
+          <dy-back :scale="0.7" direction="right"></dy-back>
         </div>
         <div class="title">最近聊天</div>
-        <div class="local-row" v-for="item  of friends.recent" @click="toggleSelect(item)">
-          <Check mode="red" v-model="item.select"/>
-          <img :src="$imgPreview(item.avatar)" alt="">
+        <div
+          class="local-row"
+          :key="i"
+          v-for="(item, i) of friends.recent"
+          @click="toggleSelect(item)"
+        >
+          <Check mode="red" v-model="item.select" />
+          <img :src="$imgPreview(item.avatar)" alt="" />
           <span>{{ item.name }}</span>
         </div>
         <div class="title">互关好友</div>
-        <div class="local-row" v-for="item  of friends.eachOther" @click="toggleSelect(item)">
-          <Check mode="red" v-model="item.select"/>
-          <img :src="$imgPreview(item.avatar)" alt="">
+        <div
+          class="local-row"
+          :key="i"
+          v-for="(item, i) of friends.eachOther"
+          @click="toggleSelect(item)"
+        >
+          <Check mode="red" v-model="item.select" />
+          <img :src="$imgPreview(item.avatar)" alt="" />
           <span>{{ item.name }}</span>
         </div>
         <div class="title">全部</div>
-        <div v-for="(value, name)  of friendsSort">
-          <div :class="name === '#'?'top':name" class="title">
+        <div :key="name" v-for="(value, name) of friendsSort">
+          <div :class="name === '#' ? 'top' : name" class="title">
             <span>{{ name }}</span>
           </div>
-          <div class="local-row" v-for="item  of value" @click="toggleSelect(item)">
-            <Check mode="red" v-model="item.select"/>
-            <img :src="$imgPreview(item.avatar)" alt="">
+          <div class="local-row" :key="i" v-for="(item, i) of value" @click="toggleSelect(item)">
+            <Check mode="red" v-model="item.select" />
+            <img :src="$imgPreview(item.avatar)" alt="" />
             <span>{{ item.name }}</span>
           </div>
         </div>
@@ -87,14 +121,16 @@
       <div class="share2friend" v-if="selectFriends.length && searchResult.length">
         <div class="comment">
           <textarea placeholder="有什么想和好友说的..."></textarea>
-          <img class="poster" src="../../assets/img/poster/1.jpg" alt="">
+          <img class="poster" src="../../assets/img/poster/1.jpg" alt="" />
         </div>
         <div class="wrapper">
-          <div class="create-chat" v-if="selectFriends.length>1">
-            <Check mode="red" v-model="isCreateChat"/>
+          <div class="create-chat" v-if="selectFriends.length > 1">
+            <Check mode="red" v-model="isCreateChat" />
             <span>创建群聊</span>
           </div>
-          <dy-button type="primary">{{ selectFriends.length > 1 ? '分别发送' : '发送' }}</dy-button>
+          <dy-button type="primary"
+            >{{ selectFriends.length > 1 ? '分别发送' : '发送' }}
+          </dy-button>
         </div>
       </div>
     </div>
@@ -129,23 +165,24 @@
         <div class="item">Z</div>
       </div>
     </div>
-    <div class="hover"
-         :style="{ top : currentFixedIndicatorTop }"
-         ref="hover"
-         v-if="currentFixedIndicator">
-      <img src="../../assets/img/icon/components/video/water.png" alt="">
+    <div
+      class="hover"
+      :style="{ top: currentFixedIndicatorTop }"
+      ref="hover"
+      v-if="currentFixedIndicator"
+    >
+      <img src="../../assets/img/icon/components/video/water.png" alt="" />
       <span>{{ currentFixedIndicator }}</span>
     </div>
   </div>
 </template>
 <script>
-import Search from "../../components/Search";
-import Check from "../../components/Check";
-import {friends} from "@/api/user";
+import Check from '../../components/Check'
+import { friends } from '@/api/user'
 
 export default {
-  name: "Share2Friend",
-  components: {Search, Check},
+  name: 'Share2Friend',
+  components: { Check },
   props: {},
   computed: {
     // ...mapState(['friends']),
@@ -160,7 +197,7 @@ export default {
       friends: {
         all: {},
         recent: [],
-        eachOther: [],
+        eachOther: []
       },
       selectFriends: [],
       friendsSort: {},
@@ -170,11 +207,11 @@ export default {
   watch: {
     searchKey(newVal) {
       let temp = this.$clone(this.friends.all)
-      temp.map(v => {
-        if (this.selectFriends.find(w => w.id === v.id)) v.select = true
+      temp.map((v) => {
+        if (this.selectFriends.find((w) => w.id === v.id)) v.select = true
       })
-      this.searchResult = temp.filter(v => {
-        return v.name.includes(newVal) || v.account.includes(newVal);
+      this.searchResult = temp.filter((v) => {
+        return v.name.includes(newVal) || v.account.includes(newVal)
       })
     }
   },
@@ -183,7 +220,7 @@ export default {
   },
   mounted() {
     let indexs = document.querySelectorAll('.index')
-    indexs.forEach(v => {
+    indexs.forEach((v) => {
       this.indexOffsetTop[v.children[0].innerText] = v.offsetTop
     })
     let items = document.querySelectorAll('.item')
@@ -192,14 +229,14 @@ export default {
     let ul = document.querySelector('.indicator')
     let ulOffsetTop = ul.offsetTop
     let resetColor = 'rgb(143, 143, 158)'
-    ul.addEventListener('touchstart', e => {
+    ul.addEventListener('touchstart', (e) => {
       let pageY = e.touches[0].pageY - ulOffsetTop
       let currentIndex = pageY / itemHeight
       currentIndex = Math.floor(currentIndex)
       render(currentIndex)
       this.currentFixedIndicatorTop = e.touches[0].pageY - 28 + 'px'
     })
-    ul.addEventListener('touchmove', e => {
+    ul.addEventListener('touchmove', (e) => {
       let pageY = e.touches[0].pageY - ulOffsetTop
       this.currentFixedIndicatorTop = e.touches[0].pageY - 28 + 'px'
 
@@ -209,11 +246,11 @@ export default {
         render(currentIndex)
       }
     })
-    ul.addEventListener('touchend', e => {
-      return this.currentFixedIndicator = ''
+    ul.addEventListener('touchend', () => {
+      return (this.currentFixedIndicator = '')
     })
     let render = (currentIndex) => {
-      items.forEach((el, index) => {
+      items.forEach((el) => {
         el.style.color = resetColor
       })
       items[currentIndex].style.color = '#fff'
@@ -222,6 +259,10 @@ export default {
     }
   },
   methods: {
+    handleClick(item) {
+      this.toggleSelect(item)
+      this.searchKey = ''
+    },
     clear() {
       console.log('clear')
       this.searchKey = ''
@@ -259,7 +300,7 @@ export default {
         if (find) break
       }
 
-      let resIndex = this.selectFriends.findIndex(v => v.name === item.name)
+      let resIndex = this.selectFriends.findIndex((v) => v.name === item.name)
       if (resIndex !== -1) {
         item.select = false
         this.selectFriends.splice(resIndex, 1)
@@ -274,11 +315,11 @@ export default {
       if (res.code === this.SUCCESS) {
         this.friends = res.data
         this.friends.all = this.friends.all.sort((a, b) => {
-          if (a.pinyin < b.pinyin) return -1;
-          if (a.pinyin > b.pinyin) return 1;
-          return 0;
+          if (a.pinyin < b.pinyin) return -1
+          if (a.pinyin > b.pinyin) return 1
+          return 0
         })
-        this.friends.all.map(v => {
+        this.friends.all.map((v) => {
           if (this.friendsSort[v.pinyin]) {
             this.friendsSort[v.pinyin].push(v)
           } else {
@@ -322,7 +363,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .Share2Friend {
   position: fixed;
@@ -481,7 +522,6 @@ export default {
       }
 
       .button {
-
       }
     }
   }
@@ -548,7 +588,6 @@ export default {
       padding: 10rem 20rem;
     }
 
-
     .local-row {
       display: flex;
       align-items: center;
@@ -576,7 +615,6 @@ export default {
         flex-direction: column;
 
         .name {
-
         }
 
         .account {
@@ -587,6 +625,5 @@ export default {
       }
     }
   }
-
 }
 </style>

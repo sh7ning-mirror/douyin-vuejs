@@ -1,27 +1,26 @@
 <template>
   <SlideVerticalInfinite
-      ref="listRef"
-      v-love="state.uniqueId"
-      :id="state.uniqueId"
-      :uniqueId="state.uniqueId"
-      name="main"
-      :active="props.active"
-      :loading="baseStore.loading"
-      v-model:index="state.index"
-      :render="render"
-      :list="state.list"
-      @loadMore="loadMore"
-      @refresh="() => getData(true)"
+    ref="listRef"
+    v-love="props.uniqueId"
+    :id="props.uniqueId"
+    :uniqueId="props.uniqueId"
+    name="main"
+    :active="props.active"
+    :loading="baseStore.loading"
+    v-model:index="state.index"
+    :render="render"
+    :list="state.list"
+    @loadMore="loadMore"
+    @refresh="() => getData(true)"
   />
 </template>
 
 <script setup lang="jsx">
 import SlideVerticalInfinite from '@/components/slide/SlideVerticalInfinite.vue'
-import {onMounted, onUnmounted, reactive, ref} from "vue";
-import bus, {EVENT_KEY} from "@/utils/bus";
-import {$notice} from "@/utils";
-import {useSlideListItemRender} from "@/utils/hooks/useSlideListItemRender";
-import {useBaseStore} from "@/store/pinia";
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
+import bus, { EVENT_KEY } from '@/utils/bus'
+import { useSlideListItemRender } from '@/utils/hooks/useSlideListItemRender'
+import { useBaseStore } from '@/store/pinia'
 
 const props = defineProps({
   cbs: {
@@ -44,8 +43,16 @@ const props = defineProps({
   },
   list: {
     type: Array,
-    default: []
+    default() {
+      return []
+    }
   },
+  uniqueId: {
+    type: String,
+    default() {
+      return 'uniqueId1'
+    }
+  }
 })
 
 const baseStore = useBaseStore()
@@ -56,15 +63,14 @@ const p = {
   }
 }
 
-const render = useSlideListItemRender({...props.cbs, ...p})
+const render = useSlideListItemRender({ ...props.cbs, ...p })
 const listRef = ref(null)
 const state = reactive({
   index: props.index,
   list: props.list,
-  uniqueId: 'uniqueId1',
   totalSize: 0,
   pageSize: 10,
-  pageNo: 0,
+  pageNo: 0
 })
 
 function loadMore() {
@@ -77,7 +83,10 @@ function loadMore() {
 async function getData(refresh = false) {
   if (baseStore.loading) return
   baseStore.loading = true
-  let res = await props.api({pageNo: refresh ? 0 : state.pageNo, pageSize: state.pageSize})
+  let res = await props.api({
+    pageNo: refresh ? 0 : state.pageNo,
+    pageSize: state.pageSize
+  })
   // console.log('getSlide4Data-', 'refresh', refresh, res)
   baseStore.loading = false
   if (res.code === 200) {
@@ -91,18 +100,18 @@ async function getData(refresh = false) {
   }
 }
 
-function dislike() {
-  listRef.value.dislike(state.list[1])
-  state.list[state.index] = state.list[1]
-  $notice('操作成功，将减少此类视频的推荐')
-}
+// function dislike() {
+//   listRef.value.dislike(state.list[1])
+//   state.list[state.index] = state.list[1]
+//   $notice('操作成功，将减少此类视频的推荐')
+// }
 
-function end() {
-  // this.$notice('暂时没有更多了')
-}
+// function end() {
+//   // this.$notice('暂时没有更多了')
+// }
 
 function click(uniqueId) {
-  if (uniqueId !== state.uniqueId) return
+  if (uniqueId !== props.uniqueId) return
   bus.emit(EVENT_KEY.SINGLE_CLICK_BROADCAST, {
     uniqueId,
     index: state.index,
@@ -110,8 +119,8 @@ function click(uniqueId) {
   })
 }
 
-function updateItem({position, item}) {
-  if (position.uniqueId === state.uniqueId) {
+function updateItem({ position, item }) {
+  if (position.uniqueId === props.uniqueId) {
     state.list[position.index] = item
   }
 }

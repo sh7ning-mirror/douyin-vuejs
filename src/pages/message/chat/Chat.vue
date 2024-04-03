@@ -8,60 +8,81 @@
           <span>zzzz</span>
         </div>
         <div class="right">
-          <img @click="mitt.emit('showAudioCall')"
-               src="../../../assets/img/icon/message/chat/call.png" alt="">
-          <img @click="$no"
-               src="../../../assets/img/icon/message/chat/video-white.png" alt="">
-          <img src="../../../assets/img/icon/menu-white.png" alt="" @click="$nav('/message/chat/detail')">
+          <img
+            @click="mitt.emit('showAudioCall')"
+            src="../../../assets/img/icon/message/chat/call.png"
+            alt=""
+          />
+          <img @click="$no" src="../../../assets/img/icon/message/chat/video-white.png" alt="" />
+          <img
+            src="../../../assets/img/icon/menu-white.png"
+            alt=""
+            @click="$nav('/message/chat/detail')"
+          />
         </div>
       </div>
       <div class="message-wrapper" ref="msgWrapper" :class="isExpand ? 'expand' : ''">
-        <ChatMessage @itemClick="clickItem" v-longpress="showTooltip" :message="item"
-                     v-for="(item,index) in messages" :key="item"></ChatMessage>
+        <ChatMessage
+          @itemClick="clickItem"
+          v-longpress="showTooltip"
+          :message="item"
+          :key="index"
+          v-for="(item, index) in messages"
+        ></ChatMessage>
       </div>
       <div class="footer">
         <div class="toolbar" v-if="!recording">
-          <img src="../../../assets/img/icon/message/camera.png" alt="" class="camera">
-          <input @click="typing = true"
-                 @blur="typing = false"
-                 type="text" placeholder="发送信息...">
-          <img @click="recording = true;showOption = false" src="../../../assets/img/icon/message/voice-white.png"
-               alt="">
-          <img src="../../../assets/img/icon/message/emoji-white.png" alt="">
-          <img @click="showOption = !showOption" src="../../../assets/img/icon/message/add-white.png" alt="">
+          <img src="../../../assets/img/icon/message/camera.png" alt="" class="camera" />
+          <input
+            @click="typing = true"
+            @blur="typing = false"
+            type="text"
+            placeholder="发送信息..."
+          />
+          <img @click="handleClick" src="../../../assets/img/icon/message/voice-white.png" alt="" />
+          <img src="../../../assets/img/icon/message/emoji-white.png" alt="" />
+          <img
+            @click="showOption = !showOption"
+            src="../../../assets/img/icon/message/add-white.png"
+            alt=""
+          />
         </div>
         <div class="record" v-else>
           <span>按住 说话</span>
-          <img @click="recording = false" src="../../../assets/img/icon/message/keyboard.png" alt="">
+          <img
+            @click="recording = false"
+            src="../../../assets/img/icon/message/keyboard.png"
+            alt=""
+          />
         </div>
         <div class="options" v-if="showOption">
           <div class="option-wrapper">
             <div class="option">
-              <img src="../../../assets/img/icon/message/photo.png" alt="">
+              <img src="../../../assets/img/icon/message/photo.png" alt="" />
               <span>照片</span>
             </div>
             <div class="option">
-              <img src="../../../assets/img/icon/message/camera2.png" alt="">
+              <img src="../../../assets/img/icon/message/camera2.png" alt="" />
               <span>拍摄</span>
             </div>
             <div class="option">
-              <img src="../../../assets/img/icon/message/redpack.png" alt="">
+              <img src="../../../assets/img/icon/message/redpack.png" alt="" />
               <span>红包</span>
             </div>
             <div class="option">
-              <img src="../../../assets/img/icon/message/video.png" alt="">
+              <img src="../../../assets/img/icon/message/video.png" alt="" />
               <span>视频通话</span>
             </div>
             <div class="option">
-              <img src="../../../assets/img/icon/message/audio.png" alt="">
+              <img src="../../../assets/img/icon/message/audio.png" alt="" />
               <span>语音通话</span>
             </div>
             <div class="option">
-              <img src="../../../assets/img/icon/message/come-on.png" alt="">
+              <img src="../../../assets/img/icon/message/come-on.png" alt="" />
               <span>一起看视频</span>
             </div>
             <div class="option">
-              <img src="../../../assets/img/icon/message/come-chang.png" alt="">
+              <img src="../../../assets/img/icon/message/come-chang.png" alt="" />
               <span>一起唱</span>
             </div>
           </div>
@@ -72,29 +93,29 @@
     <!--  长按工具栏  -->
     <transition name="tooltip">
       <!--      TODO 定位也有问题-->
-      <div class="tooltip" :style="{top:tooltipTop+'px'}" v-if="tooltipTop !==-1">
+      <div class="tooltip" :style="{ top: tooltipTop + 'px' }" v-if="tooltipTop !== -1">
         <div class="options">
-          <img src="../../../assets/img/icon/message/chat/like.png" alt="">
+          <img src="../../../assets/img/icon/message/chat/like.png" alt="" />
           <span>点赞</span>
         </div>
         <div class="options">
-          <img src="../../../assets/img/icon/message/chat/copy.png" alt="">
+          <img src="../../../assets/img/icon/message/chat/copy.png" alt="" />
           <span>复制</span>
         </div>
         <div class="options">
-          <img src="../../../assets/img/icon/message/chat/send.png" alt="">
+          <img src="../../../assets/img/icon/message/chat/send.png" alt="" />
           <span>转发</span>
         </div>
         <div class="options">
-          <img src="../../../assets/img/icon/message/chat/comment.png" alt="">
+          <img src="../../../assets/img/icon/message/chat/comment.png" alt="" />
           <span>回复</span>
         </div>
         <div class="options">
-          <img src="../../../assets/img/icon/message/chat/return.png" alt="">
+          <img src="../../../assets/img/icon/message/chat/return.png" alt="" />
           <span>回复</span>
         </div>
         <div class="options">
-          <img src="../../../assets/img/icon/message/chat/del.png" alt="">
+          <img src="../../../assets/img/icon/message/chat/del.png" alt="" />
           <span>删除</span>
         </div>
         <!--      TODO 官方的三角头会随着点击位置变动，先注释掉-->
@@ -104,82 +125,88 @@
 
     <div class="preview-img" v-if="false">
       <div class="header">
-        <dy-back mode="light"/>
-        <img src="../../../assets/img/icon/search-light.png" alt="">
+        <dy-back mode="light" />
+        <img src="../../../assets/img/icon/search-light.png" alt="" />
       </div>
-      <img :src="previewImg" alt="" class="img-src">
+      <img :src="previewImg" alt="" class="img-src" />
       <div class="footer"></div>
     </div>
 
     <!--  红包  -->
     <transition name="scale">
       <div class="red-packet" v-if="isShowOpenRedPacket">
-        <Mask @click="isShowOpenRedPacket = false"/>
+        <BaseMask @click="isShowOpenRedPacket = false" />
         <div class="content">
           <template v-if="isOpened">
-            <img src="../../../assets/img/icon/message/chat/bg-open.png" alt="" class="bg">
+            <img src="../../../assets/img/icon/message/chat/bg-open.png" alt="" class="bg" />
             <div class="wrapper">
               <div class="top">
                 <div class="money">0.01元</div>
                 <div class="belong">{{ userinfo.nickname }}的红包</div>
                 <div class="password">大吉大利</div>
               </div>
-              <div class="notice" @click="$nav('/message/chat/red-packet-detail')">查看红包详情></div>
+              <div class="notice" @click="$nav('/message/chat/red-packet-detail')">
+                查看红包详情>
+              </div>
             </div>
           </template>
           <template v-else>
-            <img src="../../../assets/img/icon/message/chat/bg-close.png" alt="" class="bg">
+            <img src="../../../assets/img/icon/message/chat/bg-close.png" alt="" class="bg" />
             <div class="wrapper">
               <div class="top">
-                <img :src="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" class="avatar">
+                <img :src="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" class="avatar" />
                 <div class="belong">{{ userinfo.nickname }}的红包</div>
                 <div class="password">大吉大利</div>
               </div>
 
-              <div class="l-button" :class="{opening}" @click="openRedPacket">
+              <div class="l-button" :class="{ opening }" @click="openRedPacket">
                 <template v-if="opening">
-                  <img src="../../../assets/img/icon/loading-white.png" alt="">
+                  <img src="../../../assets/img/icon/loading-white.png" alt="" />
                   正在打开
                 </template>
                 <span v-else>开红包</span>
               </div>
             </div>
           </template>
-          <img src="../../../assets/img/icon/message/chat/close.png" alt="" class="close"
-               @click="isShowOpenRedPacket = false">
+          <img
+            src="../../../assets/img/icon/message/chat/close.png"
+            alt=""
+            class="close"
+            @click="isShowOpenRedPacket = false"
+          />
         </div>
       </div>
     </transition>
 
-    <Loading v-if="loading"/>
+    <Loading v-if="loading" />
   </div>
 </template>
 <script>
-import ChatMessage from "../components/ChatMessage";
-import {inject, nextTick} from "vue";
-import Mask from "../../../components/Mask";
-import {mapState} from "pinia";
-import Loading from "../../../components/Loading";
-import {useBaseStore} from "@/store/pinia";
-import {_checkImgUrl} from "@/utils";
+import ChatMessage from '../components/ChatMessage'
+import { inject, nextTick } from 'vue'
+import { mapState } from 'pinia'
+import Loading from '../../../components/Loading'
+import { useBaseStore } from '@/store/pinia'
+import { _checkImgUrl } from '@/utils'
+import $ from 'jquery'
 
 let CALL_STATE = {
   REJECT: 0,
   RESOLVE: 1,
-  NONE: 2,
+  NONE: 2
 }
 let VIDEO_STATE = {
   VALID: 0,
-  INVALID: 1,
+  INVALID: 1
 }
 let AUDIO_STATE = {
   NORMAL: 0,
-  SENDING: 1,
+  SENDING: 1
 }
 let READ_STATE = {
   SENDING: 0,
   ARRIVED: 1,
-  READ: 1,
+  READ: 1
 }
 let MESSAGE_TYPE = {
   TEXT: 0,
@@ -190,18 +217,17 @@ let MESSAGE_TYPE = {
   IMAGE: 6,
   VIDEO_CALL: 4,
   AUDIO_CALL: 5,
-  MEME: 7,//表情包
-  RED_PACKET: 8,//红包
+  MEME: 7, //表情包
+  RED_PACKET: 8 //红包
 }
 let RED_PACKET_MODE = {
   SINGLE: 1,
   MULTIPLE: 2
 }
 export default {
-  name: "Chat",
+  name: 'Chat',
   components: {
     Loading,
-    Mask,
     ChatMessage
   },
   data() {
@@ -237,7 +263,7 @@ export default {
             {
               id: 2,
               avatar: '../../assets/img/icon/head-image.jpg'
-            },
+            }
           ]
         },
         {
@@ -326,7 +352,7 @@ export default {
           state: AUDIO_STATE.NORMAL,
           data: {
             duration: 5,
-            src: '',
+            src: ''
           },
           time: '2021-01-02 21:21',
           user: {
@@ -339,7 +365,7 @@ export default {
           state: AUDIO_STATE.NORMAL,
           data: {
             duration: 10,
-            src: '',
+            src: ''
           },
           time: '2021-01-02 21:21',
           user: {
@@ -404,7 +430,7 @@ export default {
           type: MESSAGE_TYPE.VIDEO,
           state: VIDEO_STATE.VALID,
           data: {
-            poster: new URL('../../../assets/img/poster/3.jpg', import.meta.url).href,
+            poster: new URL('../../../assets/img/poster/3.jpg', import.meta.url).href
           },
           time: '2021-01-02 21:21',
           user: {
@@ -441,7 +467,7 @@ export default {
             id: 1,
             avatar: '../../assets/img/icon/head-image.jpg'
           }
-        },
+        }
       ],
       typing: false,
       loading: false,
@@ -452,7 +478,7 @@ export default {
       isShowOpenRedPacket: false,
       tooltipTop: -1,
       tooltipTopLocation: '',
-      mitt: inject('mitt'),
+      mitt: inject('mitt')
     }
   },
   computed: {
@@ -462,10 +488,9 @@ export default {
     isTyping() {
       return this.typing || this.isExpand
     },
-    ...mapState(useBaseStore, ['userinfo']),
+    ...mapState(useBaseStore, ['userinfo'])
   },
-  created() {
-  },
+  created() {},
   mounted() {
     $('img').on('load', this.scrollBottom)
     this.scrollBottom()
@@ -474,15 +499,18 @@ export default {
     $('img').off('load', this.scrollBottom)
   },
   methods: {
+    handleClick() {
+      this.recording = true
+      this.showOption = false
+    },
     _checkImgUrl,
     scrollBottom() {
       nextTick(() => {
         let wrapper = this.$refs.msgWrapper
         // console.log('wrapper.clientHeight', wrapper.clientHeight)
         // console.log('wrapper.scrollHeight', wrapper.scrollHeight)
-        wrapper.scrollTo({top: wrapper.scrollHeight - wrapper.clientHeight})
+        wrapper.scrollTo({ top: wrapper.scrollHeight - wrapper.clientHeight })
       })
-
     },
     openRedPacket() {
       this.opening = true
@@ -496,14 +524,14 @@ export default {
         this.loading = true
         await this.$sleep(500)
         this.loading = false
-        this.isOpened = e.data.state === '已过期';
+        this.isOpened = e.data.state === '已过期'
         this.isShowOpenRedPacket = true
       }
     },
     showTooltip(e) {
       console.log(e)
       let wrapper = null
-      e.path.map(v => {
+      e.path.map((v) => {
         if (v && v.classList) {
           if (v.classList.value === 'chat-wrapper') {
             wrapper = v
@@ -517,7 +545,8 @@ export default {
           this.tooltipTop = wrapper.getBoundingClientRect().y - 70
         } else {
           this.tooltipTopLocation = 'bottom'
-          this.tooltipTop = wrapper.getBoundingClientRect().y + wrapper.getBoundingClientRect().height + 10
+          this.tooltipTop =
+            wrapper.getBoundingClientRect().y + wrapper.getBoundingClientRect().height + 10
         }
       }
     }
@@ -528,7 +557,7 @@ export default {
 <style>
 .scale-enter-active,
 .scale-leave-active {
-  transition: transform .2s ease;
+  transition: transform 0.2s ease;
 }
 
 .scale-enter-from,
@@ -537,7 +566,7 @@ export default {
 }
 </style>
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .Chat {
   position: fixed;
@@ -634,7 +663,6 @@ export default {
           border-radius: 50%;
           background: @chat-bg-color;
         }
-
       }
 
       .record {
@@ -670,7 +698,7 @@ export default {
           @grid-width: calc((100vw - 30rem) / 4);
           color: gray;
           display: grid;
-          grid-template-columns:@grid-width @grid-width @grid-width @grid-width;
+          grid-template-columns: @grid-width @grid-width @grid-width @grid-width;
 
           .option {
             display: flex;
@@ -712,7 +740,6 @@ export default {
         width: 22rem;
       }
     }
-
   }
 
   .tooltip {
@@ -822,7 +849,6 @@ export default {
           margin-bottom: 65rem;
         }
 
-
         .belong {
           font-size: 12rem;
           margin-bottom: 30rem;
@@ -832,7 +858,6 @@ export default {
           font-size: 16rem;
         }
 
-
         .notice {
           margin-top: 150rem;
           font-size: 12rem;
@@ -840,7 +865,7 @@ export default {
 
         .l-button {
           font-size: 16rem;
-          border-radius: .50rem;
+          border-radius: 0.5rem;
           margin-bottom: 30rem;
           padding: 12rem 0;
           display: flex;
@@ -857,7 +882,7 @@ export default {
             img {
               width: 18rem;
               margin-right: 10rem;
-              animation: animal .8s infinite linear;
+              animation: animal 0.8s infinite linear;
 
               @keyframes animal {
                 0% {
@@ -878,8 +903,6 @@ export default {
         width: 30rem;
       }
     }
-
   }
 }
-
 </style>

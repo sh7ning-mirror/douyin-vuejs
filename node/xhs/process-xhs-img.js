@@ -1,31 +1,30 @@
 import fs from 'fs'
 import request from 'request'
-import {nanoid} from 'nanoid'
+import { nanoid } from 'nanoid'
 
 let fileName = './xhs.json'
 let savefileName = './xhs-save.json'
-let saveFileStr = fs.readFileSync(fileName, "utf8");
-let inputData = JSON.parse(saveFileStr);
-
+let saveFileStr = fs.readFileSync(fileName, 'utf8')
+let inputData = JSON.parse(saveFileStr)
 
 const downloadImage = async (src, dest, callback) => {
   console.log('下载:', src, dest, Date.now())
-  return new Promise(resolve => {
-    request.head(src, (err, res, body) => {
+  return new Promise((resolve) => {
+    request.head(src, (err) => {
       if (err) {
-        console.log(err);
-        return;
+        console.log(err)
+        return
       }
       src &&
-      request(src)
-        .pipe(fs.createWriteStream(dest))
-        .on("close", () => {
-          setTimeout(resolve, 1500)
-          callback && callback(null, dest);
-        });
-    });
+        request(src)
+          .pipe(fs.createWriteStream(dest))
+          .on('close', () => {
+            setTimeout(resolve, 1500)
+            callback && callback(null, dest)
+          })
+    })
   })
-};
+}
 
 let saveFilePath = './imgs/'
 
@@ -36,7 +35,7 @@ async function test(list) {
     let a = list[j]
     let coverUrl = a.info_list[0].url
 
-    let rIndex = imgList.findIndex(v => v.url === coverUrl)
+    let rIndex = imgList.findIndex((v) => v.url === coverUrl)
     if (rIndex === -1) {
       if (coverUrl.includes('http')) {
         let name = nanoid() + '.png'
@@ -47,21 +46,25 @@ async function test(list) {
         await downloadImage(coverUrl, saveFilePath + name, () => {
           // console.log('close', name)
           list[j] = {
-            info_list: [{
-              url: name
-            }]
+            info_list: [
+              {
+                url: name
+              }
+            ]
           }
-          fs.writeFileSync(savefileName, JSON.stringify(inputData, null, 2));
+          fs.writeFileSync(savefileName, JSON.stringify(inputData, null, 2))
         })
       }
     } else {
       list[j] = {
-        info_list: [{
-          url: imgList[rIndex].name
-        }]
+        info_list: [
+          {
+            url: imgList[rIndex].name
+          }
+        ]
       }
       console.log('重复')
-      fs.writeFileSync(savefileName, JSON.stringify(inputData, null, 2));
+      fs.writeFileSync(savefileName, JSON.stringify(inputData, null, 2))
     }
   }
 }
@@ -78,13 +81,12 @@ for (let i = 0; i < inputData.slice(0, 111111).length; i++) {
     })
     await downloadImage(url, saveFilePath + name, () => {
       // console.log('close', name)
-      v.note_card.cover = {url_default: name}
-      fs.writeFileSync(savefileName, JSON.stringify(inputData, null, 2));
+      v.note_card.cover = { url_default: name }
+      fs.writeFileSync(savefileName, JSON.stringify(inputData, null, 2))
     })
   }
 
   if (v.note_card?.image_list) {
-   await test(v.note_card.image_list)
+    await test(v.note_card.image_list)
   }
 }
-

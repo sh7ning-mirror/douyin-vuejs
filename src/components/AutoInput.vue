@@ -1,16 +1,18 @@
 <template>
-  <div ref="input"
-       :placeholder="placeholder"
-       class="auto-input"
-       contenteditable
-       @input="changeText">
+  <div
+    ref="input"
+    :placeholder="placeholder"
+    class="auto-input"
+    contenteditable
+    @input="changeText"
+  >
     {{ modelValue }}
   </div>
 </template>
 
 <script>
 export default {
-  name: "AutoInput",
+  name: 'AutoInput',
   props: {
     modelValue: String,
     placeholder: {
@@ -26,15 +28,14 @@ export default {
     return {}
   },
   methods: {
-    changeText(e) {
-      this.$emit('update:modelValue', this.$el.innerText);
+    changeText() {
+      this.$emit('update:modelValue', this.$el.innerText)
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-
 .auto-input {
   font-size: 14rem;
   width: 100%;
@@ -45,7 +46,7 @@ export default {
 }
 
 .auto-input::-webkit-scrollbar {
-  width: 0 !important
+  width: 0 !important;
 }
 
 .auto-input:empty::before {

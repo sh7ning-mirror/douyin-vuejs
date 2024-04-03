@@ -1,67 +1,69 @@
 <template>
   <from-bottom-dialog
-      :page-id="pageId"
-      :modelValue="modelValue"
-      @update:modelValue="e=>$emit('update:modelValue',e)"
-      @cancel="cancel"
-      maskMode="light"
-      :height="height">
-    <div class="content" :style="{minHeight:height}">
+    :page-id="pageId"
+    :modelValue="modelValue"
+    @update:modelValue="(e) => $emit('update:modelValue', e)"
+    @cancel="cancel"
+    maskMode="light"
+    :height="height"
+  >
+    <div class="content" :style="{ minHeight: height }">
       <div class="create-chat" v-show="!showJoinedChat">
         <Search
-            :isShowRightText="isShowRightText"
-            @click="isShowRightText = true;height = 'calc(var(--vh, 1vh) * 100)';"
-            @notice="isShowRightText = false;searchKey = '';height = '70vh';"
-            rightText="取消"
-            rightTextColor="gray"
-            placeholder="搜索"
-            v-model="searchKey"/>
+          :isShowRightText="isShowRightText"
+          @click="handleClick"
+          @notice="onNotice"
+          rightText="取消"
+          rightTextColor="gray"
+          placeholder="搜索"
+          v-model="searchKey"
+        />
         <template v-if="searchKey">
           <div class="friend-list" v-if="searchResult.length">
-            <div class="friend-item" v-for="item in searchResult"
-                 @click="item.select = !item.select;searchKey = ''">
-              <img class="left" v-lazy="$imgPreview(item.avatar)" alt="">
+            <div
+              class="friend-item"
+              :key="i"
+              v-for="(item, i) in searchResult"
+              @click="handleClick2(item)"
+            >
+              <img class="left" v-lazy="$imgPreview(item.avatar)" alt="" />
               <div class="right">
                 <div class="info">
                   <span class="name">
-                     <span v-if="item.name.indexOf(searchKey) > -1">
-                       {{ item.name.substr(0, item.name.indexOf(searchKey)) }}<span style="color: #fc2f56">{{
-                         searchKey
-                       }}</span>{{ item.name.substr(item.name.indexOf(searchKey) + searchKey.length) }}
-                      </span>
-                      <span v-else>{{ item.name }}</span>
+                    <span v-if="item.name.indexOf(searchKey) > -1">
+                      {{ item.name.substr(0, item.name.indexOf(searchKey))
+                      }}<span style="color: #fc2f56">{{ searchKey }}</span
+                      >{{ item.name.substr(item.name.indexOf(searchKey) + searchKey.length) }}
+                    </span>
+                    <span v-else>{{ item.name }}</span>
                   </span>
                 </div>
-                <dy-button :type="item.shared?'dark':'primary'" @click="item.shared = true">
+                <dy-button :type="item.shared ? 'dark' : 'primary'" @click="item.shared = true">
                   {{ item.shared ? '已' : '' }}分享
                 </dy-button>
               </div>
             </div>
           </div>
           <div class="no-result" v-else>
-            <div class="notice-h1">
-              搜索结果为空
-            </div>
-            <div class="notice-h2">
-              没有搜索到相关的联系人
-            </div>
+            <div class="notice-h1">搜索结果为空</div>
+            <div class="notice-h2">没有搜索到相关的联系人</div>
           </div>
         </template>
         <template v-else>
           <div class="joined-chat-group-nav" @click="showJoinedChat = true">
-            <img class="left" src="../../../assets/img/icon/people-gray.png" alt="">
+            <img class="left" src="../../../assets/img/icon/people-gray.png" alt="" />
             <div class="right">
               <span>已加入的群聊</span>
-              <dy-back direction="right" mode="gray" scale=".7"/>
+              <dy-back direction="right" mode="gray" scale=".7" />
             </div>
           </div>
           <div class="friend-list">
             <div class="index">所有朋友</div>
-            <div class="friend-item" v-for="item in localFriends">
-              <img class="left" v-lazy="$imgPreview(item.avatar)" alt="">
+            <div class="friend-item" :key="i" v-for="(item, i) in localFriends">
+              <img class="left" v-lazy="$imgPreview(item.avatar)" alt="" />
               <div class="right">
                 <span>{{ item.name }}</span>
-                <dy-button :type="item.shared?'dark':'primary'" @click="item.shared = true">
+                <dy-button :type="item.shared ? 'dark' : 'primary'" @click="item.shared = true">
                   {{ item.shared ? '已' : '' }}分享
                 </dy-button>
               </div>
@@ -77,14 +79,14 @@
         </div>
 
         <div class="chat-list">
-          <div class="chat-item" v-for="item in localFriends">
-            <img class="left" v-lazy="$imgPreview(item.avatar)" alt="">
+          <div class="chat-item" :key="i" v-for="(item, i) in localFriends">
+            <img class="left" v-lazy="$imgPreview(item.avatar)" alt="" />
             <div class="right">
               <div class="title">
                 <div class="name">{{ text }}</div>
                 <div class="num">(3)</div>
               </div>
-              <dy-button :type="item.shared?'dark':'primary'" @click="item.shared = true">
+              <dy-button :type="item.shared ? 'dark' : 'primary'" @click="item.shared = true">
                 {{ item.shared ? '已' : '' }}分享
               </dy-button>
             </div>
@@ -95,27 +97,30 @@
   </from-bottom-dialog>
 </template>
 <script>
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import {mapState} from "pinia";
-import Search from "../../../components/Search";
-import Check from "../../../components/Check";
-import {useBaseStore} from "@/store/pinia";
+import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
+import { mapState } from 'pinia'
+import Search from '../../../components/Search'
+import { useBaseStore } from '@/store/pinia'
 /*
 分享给朋友
 * */
 export default {
-  name: "ShareTo",
+  name: 'ShareTo',
   components: {
     FromBottomDialog,
-    Search,
-    Check
+    Search
   },
   props: {
-    modelValue: false,
+    modelValue: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    },
     pageId: {
       type: String,
       default: 'home-index'
-    },
+    }
   },
   data() {
     return {
@@ -125,16 +130,16 @@ export default {
       text: 'AAAAAAA、BBBBBBBB、CCCCCCCCCCCCC',
       localFriends: [],
       searchResult: [],
-      searchKey: '',
+      searchKey: ''
     }
   },
   watch: {
     searchKey(newVal) {
       if (newVal) {
         let temp = this.$clone(this.localFriends)
-        this.searchResult = temp.filter(v => {
+        this.searchResult = temp.filter((v) => {
           // return v.name.includes(newVal) || v.account.includes(newVal);
-          return v.name.includes(newVal);
+          return v.name.includes(newVal)
         })
       } else {
         this.searchResult = []
@@ -143,7 +148,7 @@ export default {
     modelValue(newVal) {
       if (newVal) {
         this.localFriends = this.$clone(this.friends.all)
-        this.localFriends.map(v => v.shared = false)
+        this.localFriends.map((v) => (v.shared = false))
       } else {
         this.searchKey = ''
         this.height = '70vh'
@@ -155,22 +160,34 @@ export default {
   computed: {
     ...mapState(useBaseStore, ['friends']),
     selectFriends() {
-      return this.localFriends.filter(v => v.shared)
+      return this.localFriends.filter((v) => v.shared)
     }
   },
-  created() {
-  },
+  created() {},
   methods: {
+    handleClick() {
+      this.isShowRightText = true
+      this.height = 'calc(var(--vh, 1vh) * 100)'
+    },
+    handleClick2(item) {
+      item.select = !item.select
+      this.searchKey = ''
+    },
+    onNotice() {
+      this.isShowRightText = false
+      this.searchKey = ''
+      this.height = '70vh'
+    },
     cancel() {
       this.height = '70vh'
       this.$emit('update:modelValue', false)
-    },
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .button {
   width: 64rem;
@@ -297,7 +314,6 @@ export default {
         font-size: 14rem;
         color: var(--second-text-color);
       }
-
     }
   }
 

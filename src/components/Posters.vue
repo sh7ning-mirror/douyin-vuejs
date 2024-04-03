@@ -1,10 +1,9 @@
 <template>
   <div class="posters">
-    <div class="poster-item" v-for="(i,index) in list"
-         @click="goDetail(index)">
-      <img class="poster" v-lazy="_checkImgUrl(i.video.cover.url_list[0])" alt="">
+    <div class="poster-item" :key="index" v-for="(i, index) in list" @click="goDetail(index)">
+      <img class="poster" v-lazy="_checkImgUrl(i.video.cover.url_list[0])" alt="" />
       <div class="num" v-if="mode === 'normal'">
-        <Icon icon="icon-park-outline:like"/>
+        <Icon icon="icon-park-outline:like" />
         <span>{{ _formatNumber(i.statistics.digg_count) }}</span>
       </div>
       <div class="date" v-if="mode === 'date'">
@@ -12,19 +11,17 @@
         <div class="month">{{ getMonth(i.create_time) }}</div>
       </div>
       <template v-if="mode === 'music'">
-        <div class="music" v-if="index === 0">
-          首发
-        </div>
+        <div class="music" v-if="index === 0">首发</div>
       </template>
     </div>
   </div>
 </template>
 
 <script setup>
-import {_checkImgUrl, _formatNumber} from "@/utils";
-import {useBaseStore} from "@/store/pinia";
-import {useRouter} from "vue-router";
-import {cloneDeep} from '@/utils'
+import { _checkImgUrl, _formatNumber } from '@/utils'
+import { useBaseStore } from '@/store/pinia'
+import { useRouter } from 'vue-router'
+import { cloneDeep } from '@/utils'
 
 const store = useBaseStore()
 const nav = useRouter()
@@ -37,7 +34,7 @@ const props = defineProps({
   },
   mode: {
     type: String,
-    default: 'normal'//date,music
+    default: 'normal' //date,music
   }
 })
 
@@ -46,8 +43,8 @@ defineOptions({
 })
 
 function goDetail(index) {
-  store.routeData = cloneDeep({list: props.list, index})
-  nav.push({path: '/video-detail'})
+  store.routeData = cloneDeep({ list: props.list, index })
+  nav.push({ path: '/video-detail' })
 }
 
 function getDay(time) {
@@ -95,7 +92,7 @@ function getMonth(time) {
 
 .poster-item {
   height: calc(33.33vw * 1.2);
-  border: .5px solid black;
+  border: 0.5px solid black;
   overflow: hidden;
   position: relative;
 

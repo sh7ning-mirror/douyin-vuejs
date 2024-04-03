@@ -9,29 +9,29 @@
       <div class="row" @click="setDisplayType(enums.DISPLAY_TYPE.ALL)">
         <div class="left">公开可见</div>
         <div class="right" v-if="displayType === enums.DISPLAY_TYPE.ALL">
-          <img src="../../../assets/img/icon/ok-red.png" alt="">
+          <img src="../../../assets/img/icon/ok-red.png" alt="" />
         </div>
       </div>
       <div class="row" @click="setDisplayType(enums.DISPLAY_TYPE.SCHOOL)">
         <div class="left">校友可见</div>
         <div class="right" v-if="displayType === enums.DISPLAY_TYPE.SCHOOL">
-          <img src="../../../assets/img/icon/ok-red.png" alt="">
+          <img src="../../../assets/img/icon/ok-red.png" alt="" />
         </div>
       </div>
       <div class="row" @click="setDisplayType(enums.DISPLAY_TYPE.ME)">
         <div class="left">仅自己可见</div>
         <div class="right" v-if="displayType === enums.DISPLAY_TYPE.ME">
-          <img src="../../../assets/img/icon/ok-red.png" alt="">
+          <img src="../../../assets/img/icon/ok-red.png" alt="" />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import enums from "../../../utils/enums";
+import enums from '../../../utils/enums'
 
 export default {
-  name: "DisplayType",
+  name: 'DisplayType',
   data() {
     return {
       enums,
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .DisplayType {
   position: fixed;
@@ -65,6 +65,5 @@ export default {
   .content {
     padding-top: 60rem;
   }
-
 }
 </style>

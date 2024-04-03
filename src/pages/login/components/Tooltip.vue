@@ -8,7 +8,7 @@
 </template>
 <script>
 export default {
-  name: "Popover",
+  name: 'Popover',
   props: {
     modelValue: {
       type: Boolean,
@@ -19,14 +19,13 @@ export default {
     return {}
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {}
 }
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .scale-enter-active,
 .scale-leave-active {
@@ -58,5 +57,4 @@ export default {
     bottom: -14rem;
   }
 }
-
 </style>

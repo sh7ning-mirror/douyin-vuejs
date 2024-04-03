@@ -6,14 +6,18 @@
       </template>
       <template v-slot:right>
         <div>
-          <img src="../../assets/img/icon/menu-gray.png" style="width: 20rem;" @click="isShowOption = true">
+          <img
+            src="../../assets/img/icon/menu-gray.png"
+            style="width: 20rem"
+            @click="isShowOption = true"
+          />
         </div>
       </template>
     </BaseHeader>
-    <Loading v-if="loading"/>
+    <Loading v-if="loading" />
     <div v-else class="content">
       <div class="none" v-if="false">
-        <img src="../../assets/img/icon/none-bg1.webp" alt="">
+        <img src="../../assets/img/icon/none-bg1.webp" alt="" />
         <div class="title">暂时还没有粉丝点击“求更新”</div>
         <div class="subtitle">当粉丝期待你的新作品时，会点击“求更新”提醒你</div>
       </div>
@@ -22,9 +26,9 @@
         <!--        <div class="subtitle f12">上次发布作品：2020-08-01 上次开播：昨天23:12</div>-->
         <div class="subtitle f12">历史求更新（粉丝送礼后7天未开播则退还礼物）</div>
         <div class="list">
-          <div class="item" v-for="item in friends.all">
+          <div class="item" :key="i" v-for="(item, i) in friends.all">
             <div class="left">
-              <img :src='$imgPreview(item.avatar)'>
+              <img :src="$imgPreview(item.avatar)" />
               <span class="name">{{ item.name }}</span>
             </div>
             <span class="time">{{ $dateFormat(item.lastLoginTime, 'D') }}</span>
@@ -34,46 +38,45 @@
       </div>
     </div>
     <div class="buttons">
-      <dy-button type="white" :border="false" :active="false" @click="$nav('/publish')">发布作品</dy-button>
+      <dy-button type="white" :border="false" :active="false" @click="$nav('/publish')"
+        >发布作品</dy-button
+      >
       <dy-button type="primary" :active="false" @click="$no">去直播</dy-button>
     </div>
 
     <from-bottom-dialog
-        page-id="RequestUpdate"
-        height="160rem"
-        :show-heng-gang="false"
-        mode="white"
-        v-model="isShowOption">
+      page-id="RequestUpdate"
+      height="160rem"
+      :show-heng-gang="false"
+      mode="white"
+      v-model="isShowOption"
+    >
       <div class="l-row" @click="toggleRequestUpdate">
         {{ openRequestUpdate ? '关闭' : '开启' }}求更新提醒
       </div>
-      <div class="l-row" @click="$nav('/me/my-request-update')">
-        我的求更新提醒
-      </div>
+      <div class="l-row" @click="$nav('/me/my-request-update')">我的求更新提醒</div>
       <div class="space"></div>
-      <div class="l-row" @click="isShowOption = false">
-        取消
-      </div>
+      <div class="l-row" @click="isShowOption = false">取消</div>
     </from-bottom-dialog>
   </div>
 </template>
 <script>
-import {mapState} from "pinia";
-import FromBottomDialog from "../../components/dialog/FromBottomDialog";
-import {useBaseStore} from "@/store/pinia";
+import { mapState } from 'pinia'
+import FromBottomDialog from '../../components/dialog/FromBottomDialog'
+import { useBaseStore } from '@/store/pinia'
 
 export default {
-  name: "RequestUpdate",
-  components: {FromBottomDialog},
+  name: 'RequestUpdate',
+  components: { FromBottomDialog },
   data() {
     return {
       isShowOption: false,
       loading: false,
-      openRequestUpdate: true,
+      openRequestUpdate: true
     }
   },
   computed: {
-    ...mapState(useBaseStore,['friends'])
+    ...mapState(useBaseStore, ['friends'])
   },
   created() {
     this.getData()
@@ -98,7 +101,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .RequestUpdate {
   position: fixed;
@@ -205,6 +208,5 @@ export default {
       }
     }
   }
-
 }
 </style>

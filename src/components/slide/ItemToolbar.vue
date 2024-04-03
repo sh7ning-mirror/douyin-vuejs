@@ -1,9 +1,8 @@
 <script setup>
-import BaseMusic from "../BaseMusic";
-import Utils from "../../utils";
-import {reactive,} from "vue";
-import bus, {EVENT_KEY} from "@/utils/bus";
-import {Icon} from '@iconify/vue'
+import BaseMusic from '../BaseMusic'
+import Utils from '../../utils'
+import bus, { EVENT_KEY } from '@/utils/bus'
+import { Icon } from '@iconify/vue'
 
 const props = defineProps({
   item: {
@@ -23,16 +22,9 @@ const props = defineProps({
     default: () => {
       return false
     }
-  },
+  }
 })
-const emit = defineEmits([
-  'update:item',
-  'goUserInfo',
-  'showComments',
-  'showShare',
-  'goMusic',
-])
-const state = reactive({})
+const emit = defineEmits(['update:item', 'goUserInfo', 'showComments', 'showShare', 'goMusic'])
 
 function loved() {
   Utils.updateItem(props, 'isLoved', !props.item.isLoved, emit)
@@ -49,52 +41,56 @@ function showComments() {
   // emit('showComments')
   bus.emit(EVENT_KEY.OPEN_COMMENTS, props.item.id)
 }
-
 </script>
 
 <template>
   <div class="toolbar mb1r">
     <div class="avatar-ctn mb2r">
-      <img class="avatar" :src="props.item.author.avatar_168x168.url_list[0]" alt=""
-           @click.stop="bus.emit(EVENT_KEY.GO_USERINFO)">
+      <img
+        class="avatar"
+        :src="props.item.author.avatar_168x168.url_list[0]"
+        alt=""
+        @click.stop="bus.emit(EVENT_KEY.GO_USERINFO)"
+      />
       <transition name="fade">
         <div v-if="!props.item.isAttention" @click.stop="attention" class="options">
-          <img class="no" src="../../assets/img/icon/add-light.png" alt="">
-          <img class="yes" src="../../assets/img/icon/ok-red.png" alt="">
+          <img class="no" src="../../assets/img/icon/add-light.png" alt="" />
+          <img class="yes" src="../../assets/img/icon/ok-red.png" alt="" />
         </div>
       </transition>
     </div>
     <div class="love mb2r" @click.stop="loved($event)">
       <div>
-        <img src="../../assets/img/icon/love.svg" class="love-image" v-if="!props.item.isLoved">
-        <img src="../../assets/img/icon/loved.svg" class="love-image" v-if="props.item.isLoved">
+        <img src="../../assets/img/icon/love.svg" class="love-image" v-if="!props.item.isLoved" />
+        <img src="../../assets/img/icon/loved.svg" class="love-image" v-if="props.item.isLoved" />
       </div>
       <span>{{ Utils.formatNumber(props.item.statistics.digg_count) }}</span>
     </div>
     <div class="message mb2r" @click.stop="showComments">
-      <Icon icon="mage:message-dots-round-fill" class="icon" style="color: white"/>
+      <Icon icon="mage:message-dots-round-fill" class="icon" style="color: white" />
       <span>{{ Utils.formatNumber(props.item.statistics.comment_count) }}</span>
     </div>
     <!--TODO     -->
-    <div class="message mb2r" @click.stop="Utils.updateItem(props, 'isCollect', !props.item.isCollect, emit)">
-      <Icon v-if="props.item.isCollect" icon="ic:round-star" class="icon" style="color: yellow"/>
-      <Icon v-else icon="ic:round-star" class="icon" style="color: white"/>
+    <div
+      class="message mb2r"
+      @click.stop="Utils.updateItem(props, 'isCollect', !props.item.isCollect, emit)"
+    >
+      <Icon v-if="props.item.isCollect" icon="ic:round-star" class="icon" style="color: yellow" />
+      <Icon v-else icon="ic:round-star" class="icon" style="color: white" />
       <span>{{ Utils.formatNumber(props.item.statistics.comment_count) }}</span>
     </div>
     <div v-if="!props.isMy" class="share mb2r" @click.stop="bus.emit(EVENT_KEY.SHOW_SHARE)">
-      <img src="../../assets/img/icon/share-white-full.png" alt="" class="share-image">
+      <img src="../../assets/img/icon/share-white-full.png" alt="" class="share-image" />
       <span>{{ Utils.formatNumber(props.item.statistics.share_count) }}</span>
     </div>
     <div v-else class="share mb2r" @click.stop="bus.emit(EVENT_KEY.SHOW_SHARE)">
-      <img src="../../assets/img/icon/menu-white.png" alt="" class="share-image">
+      <img src="../../assets/img/icon/menu-white.png" alt="" class="share-image" />
     </div>
     <!--    <BaseMusic-->
     <!--        :cover="props.item.music.cover"-->
     <!--        @click.stop="$nav('/home/music')"-->
     <!--    /> -->
-    <BaseMusic
-        :item="props.item"
-    />
+    <BaseMusic :item="props.item" />
   </div>
 </template>
 
@@ -162,7 +158,9 @@ function showComments() {
     }
   }
 
-  .love, .message, .share {
+  .love,
+  .message,
+  .share {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -187,6 +185,5 @@ function showComments() {
   .loved {
     background: red;
   }
-
 }
 </style>

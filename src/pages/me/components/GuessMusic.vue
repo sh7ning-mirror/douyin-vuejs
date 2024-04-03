@@ -1,87 +1,98 @@
 <template>
   <div id="GuessMusic">
     <SlideVertical
-        :changeActiveIndexUseAnim="false"
-        v-model:index="guessSlideIndex"
-        :canMove="slideCanMove">
+      :changeActiveIndexUseAnim="false"
+      v-model:index="guessSlideIndex"
+      :canMove="slideCanMove"
+    >
       <SlideItemMusic
-          :ref="setItemRef"
-          @showList="isShowList = true"
-          @showShare="isSharing = true"
-          @previous="previous"
-          @next="next"
-          @slideCanMove="e => this.slideCanMove = e"
-          v-model="list[index]"
-          v-model:isLoop="isLoop"
-          v-for="(item,index) in list "/>
+        :ref="setItemRef"
+        @showList="isShowList = true"
+        @showShare="isSharing = true"
+        @previous="previous"
+        @next="next"
+        @slideCanMove="(e) => (this.slideCanMove = e)"
+        :model-value="list[index]"
+        v-model:isLoop="isLoop"
+        :key="index"
+        v-for="(item, index) in list"
+      />
     </SlideVertical>
     <from-bottom-dialog
-        mask-mode="lightgray"
-        page-id="GuessMusic"
-        border-radius="15rem 15rem 0 0"
-        :show-heng-gang="false"
-        height="70vh"
-        v-model="isShowList">
+      mask-mode="lightgray"
+      page-id="GuessMusic"
+      border-radius="15rem 15rem 0 0"
+      :show-heng-gang="false"
+      height="70vh"
+      v-model="isShowList"
+    >
       <div class="music-list-dialog">
         <div class="music-list-header">
           <div class="left">待播清单</div>
           <div class="right" @click="isLoop = !isLoop">
-            <img v-show="isLoop" src="@/assets/img/icon/me/loop.png" alt="">
-            <img v-show="!isLoop" src="@/assets/img/icon/me/play-normal.png" alt="">
+            <img v-show="isLoop" src="@/assets/img/icon/me/loop.png" alt="" />
+            <img v-show="!isLoop" src="@/assets/img/icon/me/play-normal.png" alt="" />
             <span>{{ isLoop ? '单曲循环' : '顺序播放' }}</span>
           </div>
         </div>
         <div class="wrapper">
-          <div class="l-row"
-               @click="play(index)"
-               :class="{active:guessSlideIndex === index}"
-               v-for="(item,index) in list">
+          <div
+            class="l-row"
+            @click="play(index)"
+            :class="{ active: guessSlideIndex === index }"
+            v-for="(item, index) in list"
+            :key="index"
+          >
             <div class="left">
-              <img v-if="guessSlideIndex === index" src="@/assets/img/icon/me/pinlv.gif" alt="" class="play-icon">
+              <img
+                v-if="guessSlideIndex === index"
+                src="@/assets/img/icon/me/pinlv.gif"
+                alt=""
+                class="play-icon"
+              />
               <div class="name">{{ item.name }}</div>
               <div class="author">{{ item.author }}</div>
             </div>
-            <dy-back class="right" mode="gray" img="close"/>
+            <dy-back class="right" mode="gray" img="close" />
           </div>
         </div>
         <div class="footer" @click="isShowList = false">取消</div>
       </div>
     </from-bottom-dialog>
 
-    <Share v-model="isSharing"
-           mode="my-music"
-           ref="share"
-           pageId="GuessMusic"
-           @ShareToFriend="delayShowDialog( e => this.isShowShareToFriend = true)"
+    <Share
+      v-model="isSharing"
+      mode="my-music"
+      ref="share"
+      pageId="GuessMusic"
+      @ShareToFriend="delayShowDialog((e) => (this.isShowShareToFriend = true))"
     />
 
-    <ShareToFriend pageId="GuessMusic" v-model="isShowShareToFriend"/>
+    <ShareToFriend pageId="GuessMusic" v-model="isShowShareToFriend" />
   </div>
 </template>
 <script>
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import Switches from "../../message/components/swtich/switches";
-import SlideItemMusic from "./SlideItemMusic";
-import IndicatorLight from "../../../components/slide/IndicatorLight";
-import Share from "../../../components/Share";
-import ShareToFriend from "../../home/components/ShareToFriend";
-import SlideVertical from "@/components/slide/SlideVertical.vue";
+import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
+import SlideItemMusic from './SlideItemMusic'
+import Share from '../../../components/Share'
+import ShareToFriend from '../../home/components/ShareToFriend'
+import SlideVertical from '@/components/slide/SlideVertical.vue'
 
 export default {
-  name: "GuessMusic",
+  name: 'GuessMusic',
   components: {
     SlideVertical,
     FromBottomDialog,
-    Switches,
     SlideItemMusic,
-    IndicatorLight,
     Share,
     ShareToFriend
   },
   props: {
     list: {
       type: Array,
-      default: []
+      default() {
+        return []
+      }
     }
   },
   data() {
@@ -97,16 +108,15 @@ export default {
     }
   },
   watch: {
-    guessSlideIndex(newVal, oldVal) {
-      this.itemRefs.map(ref => {
+    guessSlideIndex(newVal) {
+      this.itemRefs.map((ref) => {
         ref.togglePlay(false)
       })
       this.itemRefs[newVal].togglePlay(true, true)
     }
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {
     previous() {
       if (this.guessSlideIndex > 0) {
@@ -130,7 +140,7 @@ export default {
     },
     play(index) {
       this.guessSlideIndex = index
-      this.itemRefs.map(ref => {
+      this.itemRefs.map((ref) => {
         ref.togglePlay(false)
       })
       this.itemRefs[index].togglePlay(true, true)
@@ -139,8 +149,6 @@ export default {
 }
 </script>
 <style scoped lang="less">
-
-
 #GuessMusic {
   //width: 100vw;
   //height: calc(var(--vh, 1vh) * 100);
@@ -220,7 +228,7 @@ export default {
         &:after {
           content: '';
           width: 6rem;
-          height: .5px;
+          height: 0.5px;
           background: var(--second-text-color);
           position: absolute;
           left: -12rem;
@@ -247,5 +255,4 @@ export default {
     justify-content: center;
   }
 }
-
 </style>

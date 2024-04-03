@@ -7,7 +7,7 @@
     </BaseHeader>
     <div class="content">
       <div class="schools">
-        <div class="row" @click="save(item)" v-for="item in list">
+        <div class="row" @click="save(item)" :key="i" v-for="(item, i) in list">
           <span>{{ item }}</span>
         </div>
       </div>
@@ -16,15 +16,14 @@
 </template>
 
 <script>
-
-import {mapState} from "pinia";
-import {useBaseStore} from "@/store/pinia";
+import { mapState } from 'pinia'
+import { useBaseStore } from '@/store/pinia'
 
 export default {
-  name: "ChooseProvince",
+  name: 'ChooseProvince',
   setup() {
     const baseStore = useBaseStore()
-    return {baseStore}
+    return { baseStore }
   },
   data() {
     return {
@@ -49,7 +48,7 @@ export default {
         '资阳',
         '阿坝',
         '甘孜',
-        '凉山',
+        '凉山'
       ]
     }
   },
@@ -57,9 +56,9 @@ export default {
     ...mapState(useBaseStore, ['userinfo'])
   },
   methods: {
-    async save(item) {
+    async save() {
       this.$showLoading()
-      let data = {...this.userinfo, ...{location: '中国-四川-成都'}}
+      let data = { ...this.userinfo, ...{ location: '中国-四川-成都' } }
       this.baseStore.setUserinfo(data)
       await this.$sleep(500)
       this.$hideLoading()
@@ -70,7 +69,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .choose-location {
   position: fixed;
@@ -85,7 +84,6 @@ export default {
     padding-top: 60rem;
 
     .nearby {
-
       .title {
         padding: 10rem 20rem;
 
@@ -95,7 +93,6 @@ export default {
           margin-right: 2rem;
         }
       }
-
     }
 
     .row {
@@ -105,7 +102,7 @@ export default {
       align-items: center;
       height: 50rem;
       font-size: 14rem;
-      transition: all .1s;
+      transition: all 0.1s;
       background: var(--main-bg);
 
       .right {
@@ -127,5 +124,4 @@ export default {
     }
   }
 }
-
 </style>

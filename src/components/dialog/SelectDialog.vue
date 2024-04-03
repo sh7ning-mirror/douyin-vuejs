@@ -1,13 +1,15 @@
 <template>
-  <div class="SelectDialog " @click="$emit('cancel')">
+  <div class="SelectDialog" @click="$emit('cancel')">
     <div class="content">
-      <div class="item" v-for="item in list" @click.stop="$emit('ok',item)">{{ item.name }}</div>
+      <div class="item" :key="i" v-for="(item, i) in list" @click.stop="$emit('ok', item)">
+        {{ item.name }}
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: "SelectDialog",
+  name: 'SelectDialog',
   props: {
     visible: {
       type: Boolean,
@@ -39,7 +41,6 @@ export default {
   justify-content: center;
   align-items: center;
 
-
   .content {
     background: white;
     width: 80%;
@@ -50,14 +51,12 @@ export default {
     .item {
       font-size: 15rem;
       padding: 15rem 20rem;
-      transition: all .2s;
+      transition: all 0.2s;
 
       &:active {
         background: darkgray;
       }
     }
-
   }
-
 }
 </style>

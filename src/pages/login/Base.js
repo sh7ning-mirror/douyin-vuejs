@@ -1,5 +1,5 @@
 export default {
-  name: "Base",
+  name: 'Base',
   props: {},
   data() {
     return {
@@ -7,15 +7,14 @@ export default {
       isOtherLogin: false,
       showAnim: false,
       showTooltip: false,
-      loading: false,
+      loading: false
     }
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {
     async check() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         if (this.isAgree) {
           resolve(true)
         } else {

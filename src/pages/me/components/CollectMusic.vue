@@ -1,92 +1,103 @@
 <template>
   <div id="CollectMusic">
     <SlideVertical
-        :changeActiveIndexUseAnim="false"
-        v-model:index="activeIndex"
-        :canMove="slideCanMove">
+      :changeActiveIndexUseAnim="false"
+      v-model:index="activeIndex"
+      :canMove="slideCanMove"
+    >
       <SlideItemMusic
-          :ref="setItemRef"
-          @showList="isShowList = true"
-          @showShare="isSharing = true"
-          @previous="previous"
-          @next="next"
-          @slideCanMove="e => this.slideCanMove = e"
-          v-model="list[index]"
-          v-model:isLoop="isLoop"
-          v-for="(item,index) in list "/>
+        :ref="setItemRef"
+        @showList="isShowList = true"
+        @showShare="isSharing = true"
+        @previous="previous"
+        @next="next"
+        @slideCanMove="(e) => (this.slideCanMove = e)"
+        :model-value="list[index]"
+        v-model:isLoop="isLoop"
+        v-for="(item, index) in list"
+        :key="index"
+      />
     </SlideVertical>
     <from-bottom-dialog
-        mask-mode="lightgray"
-        page-id="CollectMusic"
-        border-radius="15rem 15rem 0 0"
-        :show-heng-gang="false"
-        height="70vh"
-        v-model="isShowList">
+      mask-mode="lightgray"
+      page-id="CollectMusic"
+      border-radius="15rem 15rem 0 0"
+      :show-heng-gang="false"
+      height="70vh"
+      v-model="isShowList"
+    >
       <div class="music-list-dialog">
         <div class="music-list-header">
           <div class="left">待播清单</div>
           <div class="right" @click="isLoop = !isLoop">
-            <img v-show="isLoop" src="@/assets/img/icon/me/loop.png" alt="">
-            <img v-show="!isLoop" src="@/assets/img/icon/me/play-normal.png" alt="">
+            <img v-show="isLoop" src="@/assets/img/icon/me/loop.png" alt="" />
+            <img v-show="!isLoop" src="@/assets/img/icon/me/play-normal.png" alt="" />
             <span>{{ isLoop ? '单曲循环' : '顺序播放' }}</span>
           </div>
         </div>
         <div class="wrapper">
-          <div class="l-row"
-               @click="play(index)"
-               :class="{active:activeIndex === index}"
-               v-for="(item,index) in list">
+          <div
+            class="l-row"
+            v-for="(item, index) in list"
+            @click="play(index)"
+            :key="index"
+            :class="{ active: activeIndex === index }"
+          >
             <div class="left">
-              <img v-if="activeIndex === index" src="@/assets/img/icon/me/pinlv.gif" alt="" class="play-icon">
+              <img
+                v-if="activeIndex === index"
+                src="@/assets/img/icon/me/pinlv.gif"
+                alt=""
+                class="play-icon"
+              />
               <div class="name">{{ item.name }}</div>
               <div class="author">{{ item.author }}</div>
             </div>
-            <dy-back class="right" mode="gray" img="close"/>
+            <dy-back class="right" mode="gray" img="close" />
           </div>
         </div>
         <div class="footer" @click="isShowList = false">取消</div>
       </div>
     </from-bottom-dialog>
 
-    <Share v-model="isSharing"
-           mode="my-music"
-           ref="share"
-           pageId="GuessMusic"
-           @ShareToFriend="delayShowDialog( e => this.isShowShareToFriend = true)"
+    <Share
+      v-model="isSharing"
+      mode="my-music"
+      ref="share"
+      pageId="GuessMusic"
+      @ShareToFriend="delayShowDialog((e) => (this.isShowShareToFriend = true))"
     />
 
-    <ShareToFriend pageId="GuessMusic" v-model="isShowShareToFriend"/>
+    <ShareToFriend pageId="GuessMusic" v-model="isShowShareToFriend" />
   </div>
 </template>
 <script>
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import Switches from "../../message/components/swtich/switches";
-import SlideItemMusic from "./SlideItemMusic";
-import IndicatorLight from "../../../components/slide/IndicatorLight";
-import Share from "../../../components/Share";
-import ShareToFriend from "../../home/components/ShareToFriend";
-import SlideVertical from "@/components/slide/SlideVertical.vue";
+import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
+import SlideItemMusic from './SlideItemMusic'
+import Share from '../../../components/Share'
+import ShareToFriend from '../../home/components/ShareToFriend'
+import SlideVertical from '@/components/slide/SlideVertical.vue'
 
 export default {
-  name: "GuessMusic",
+  name: 'GuessMusic',
   components: {
     SlideVertical,
     FromBottomDialog,
-    Switches,
     SlideItemMusic,
-    IndicatorLight,
     Share,
     ShareToFriend
   },
   props: {
     list: {
       type: Array,
-      default: []
+      default() {
+        return []
+      }
     },
     page2SlideIndex: {
       type: Number,
       default: 0
-    },
+    }
   },
   data() {
     return {
@@ -110,11 +121,10 @@ export default {
       }
     }
   },
-  created() {
-  },
+  created() {},
   watch: {
-    activeIndex(newVal, oldVal) {
-      this.itemRefs.map(ref => {
+    activeIndex(newVal) {
+      this.itemRefs.map((ref) => {
         ref.togglePlay(false)
       })
       this.itemRefs[newVal].togglePlay(true, true)
@@ -143,13 +153,13 @@ export default {
     },
     play(index) {
       this.activeIndex = index
-      this.itemRefs.map(ref => {
+      this.itemRefs.map((ref) => {
         ref.togglePlay(false)
       })
       this.itemRefs[index].togglePlay(true, true)
     },
     pause() {
-      this.itemRefs.map(ref => {
+      this.itemRefs.map((ref) => {
         ref.togglePlay(false)
       })
     }
@@ -157,8 +167,6 @@ export default {
 }
 </script>
 <style scoped lang="less">
-
-
 #CollectMusic {
   //width: 100vw;
   //height: calc(var(--vh, 1vh) * 100);
@@ -238,7 +246,7 @@ export default {
         &:after {
           content: '';
           width: 6rem;
-          height: .5px;
+          height: 0.5px;
           background: var(--second-text-color);
           position: absolute;
           left: -12rem;
@@ -265,5 +273,4 @@ export default {
     justify-content: center;
   }
 }
-
 </style>

@@ -1,35 +1,38 @@
 <template>
   <div class="goods-detail">
     <header>
-      <Icon
-          @click="close"
-          icon="material-symbols-light:arrow-back-ios-new"/>
+      <Icon @click="close" icon="material-symbols-light:arrow-back-ios-new" />
       <div class="option" @click="nav('/home/search')">
-        <Icon icon="jam:search"/>
+        <Icon icon="jam:search" />
       </div>
     </header>
 
     <div class="scroll" ref="scrollEl">
       <div class="slide-imgs">
         <SlideHorizontal v-model:index="state.index">
-          <SlideItem v-for="item in props.detail.note_card?.image_list">
-            <img :src="_checkImgUrl(item.info_list?.[0]?.url)" alt="">
+          <SlideItem :key="i" v-for="(item, i) in props.detail.note_card?.image_list">
+            <img :src="_checkImgUrl(item.info_list?.[0]?.url)" alt="" />
           </SlideItem>
         </SlideHorizontal>
 
         <div class="indicator-bar" v-if="props.detail.note_card?.image_list?.length > 1">
-          <div class="indicator"
-               :class="[i <= state.index+1 && 'active']"
-               v-for="i in props.detail.note_card?.image_list?.length"></div>
+          <div
+            class="indicator"
+            :class="[i <= state.index + 1 && 'active']"
+            :key="j"
+            v-for="(i, j) in props.detail.note_card?.image_list?.length"
+          ></div>
         </div>
       </div>
 
       <div class="content">
         <div class="shop">
           <header>
-            <img class="avatar" :src="_checkImgUrl(props.detail.note_card?.user?.avatar)"/>
+            <img class="avatar" :src="_checkImgUrl(props.detail.note_card?.user?.avatar)" />
             <div class="right">
-              <div class="name">{{ props.detail.note_card.user.nick_name }}</div>
+              <div class="name">
+                {{ props.detail.note_card.user.nick_name }}
+              </div>
               <div class="r">关注</div>
             </div>
           </header>
@@ -44,39 +47,46 @@
             <span class="l">评论 {{ props.detail.note_card.comment_list.length }}</span>
             <div class="r">
               <span>查看全部</span>
-              <Icon class="arrow" icon="mingcute:right-line"/>
+              <Icon class="arrow" icon="mingcute:right-line" />
             </div>
           </header>
-          <div class="comment"
-               v-for="i in props.detail.note_card.comment_list.slice(0,2)">
-            <img src="https://cdn.seovx.com/?mom=302" alt="" class="avatar">
-            <span>
-               {{ i.name }}：{{ i.text }}
-            </span>
+          <div
+            class="comment"
+            :key="j"
+            v-for="(i, j) in props.detail.note_card.comment_list.slice(0, 2)"
+          >
+            <img src="https://cdn.seovx.com/?mom=302" alt="" class="avatar" />
+            <span> {{ i.name }}：{{ i.text }} </span>
           </div>
         </div>
       </div>
     </div>
     <div class="toolbar">
-      <div class="input-wrap">
-        说点什么...
-      </div>
+      <div class="input-wrap">说点什么...</div>
       <div class="options">
         <div class="option">
-          <Icon icon="solar:heart-linear"/>
-          <div class="text">{{ props.detail.note_card?.interact_info?.liked_count }}</div>
+          <Icon icon="solar:heart-linear" />
+          <div class="text">
+            {{ props.detail.note_card?.interact_info?.liked_count }}
+          </div>
         </div>
         <div class="option">
-          <Icon icon="mage:message-dots-round" class="icon"/>
-          <div class="text">{{ props.detail.note_card.comment_list.length }}</div>
+          <Icon icon="mage:message-dots-round" class="icon" />
+          <div class="text">
+            {{ props.detail.note_card.comment_list.length }}
+          </div>
         </div>
         <div class="option">
-          <Icon icon="mage:star"/>
-          <div class="text">{{ props.detail.note_card?.interact_info?.collect_count }}</div>
+          <Icon icon="mage:star" />
+          <div class="text">
+            {{ props.detail.note_card?.interact_info?.collect_count }}
+          </div>
         </div>
         <div class="option">
-          <Icon icon="ph:share-fat-light"/>
-          <div class="text">{{ props.detail.note_card?.interact_info?.share_count }}</div>
+          <Icon icon="ph:share-fat-light" />
+          <div class="text">
+            {{ props.detail.note_card?.interact_info?.share_count }}
+          </div>
         </div>
       </div>
     </div>
@@ -84,12 +94,12 @@
 </template>
 
 <script setup>
-import SlideHorizontal from "@/components/slide/SlideHorizontal.vue";
-import SlideItem from "@/components/slide/SlideItem.vue";
-import {reactive, ref} from "vue";
-import {useNav} from "@/utils/hooks/useNav";
-import {Icon} from "@iconify/vue";
-import {_checkImgUrl} from "@/utils";
+import SlideHorizontal from '@/components/slide/SlideHorizontal.vue'
+import SlideItem from '@/components/slide/SlideItem.vue'
+import { reactive, ref } from 'vue'
+import { useNav } from '@/utils/hooks/useNav'
+import { Icon } from '@iconify/vue'
+import { _checkImgUrl } from '@/utils'
 
 const nav = useNav()
 
@@ -112,7 +122,7 @@ const emit = defineEmits({
 
 const scrollEl = ref()
 const state = reactive({
-  index: 0,
+  index: 0
 })
 
 function close() {
@@ -125,7 +135,7 @@ function close() {
 </script>
 
 <style scoped lang="less">
-@import "@/assets/less/index.less";
+@import '@/assets/less/index.less';
 
 .goods-detail {
   background: var(--color-message);
@@ -309,7 +319,6 @@ function close() {
         margin-top: 10rem;
         color: gray;
       }
-
     }
   }
 
@@ -319,7 +328,7 @@ function close() {
     width: 100vw;
     left: 0;
     background: var(--color-message);
-    border-top: 1px solid rgba(white, .1);
+    border-top: 1px solid rgba(white, 0.1);
     display: flex;
     align-items: center;
     padding: 8rem 10rem;
@@ -358,5 +367,4 @@ function close() {
     }
   }
 }
-
 </style>

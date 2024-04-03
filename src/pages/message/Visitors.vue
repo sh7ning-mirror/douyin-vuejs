@@ -10,18 +10,16 @@
     </BaseHeader>
     <div class="content">
       <template v-if="realDisplay">
-        <Peoples v-model:list="recommend"
-                 :loading="loading"
-                 mode="visitor"/>
-        <NoMore/>
+        <Peoples v-model:list="recommend" :loading="loading" mode="visitor" />
+        <NoMore />
       </template>
       <template v-else>
         <div class="open-display-desc">
           <div class="header">
             <div class="wrapper">
-              <img src="../../assets/img/icon/message/display2.webp" alt="" class="icon1">
-              <img :src="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" class="icon2">
-              <img src="../../assets/img/icon/message/display1.webp" alt="" class="icon3">
+              <img src="../../assets/img/icon/message/display2.webp" alt="" class="icon1" />
+              <img :src="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" class="icon2" />
+              <img src="../../assets/img/icon/message/display1.webp" alt="" class="icon3" />
             </div>
           </div>
           <div class="title">查看新访客需要你的授权</div>
@@ -40,26 +38,37 @@
     </div>
 
     <from-bottom-dialog
-        page-id="Visitors"
-        v-model="isShowSetting"
-        mode="white"
-        mask-mode="dark"
-        height="270rem"
-        :show-heng-gang="false"
+      page-id="Visitors"
+      v-model="isShowSetting"
+      mode="white"
+      mask-mode="dark"
+      height="270rem"
+      :show-heng-gang="false"
     >
       <div class="setting-dialog">
         <div class="header">
           <div class="status">
-            <img class="icon" src="../../assets/img/icon/message/peoples-black2.png" alt="">
+            <img class="icon" src="../../assets/img/icon/message/peoples-black2.png" alt="" />
             <transition name="remove">
-              <img v-if="!display" class="remove" src="../../assets/img/icon/message/remove.png" alt="">
+              <img
+                v-if="!display"
+                class="remove"
+                src="../../assets/img/icon/message/remove.png"
+                alt=""
+              />
             </transition>
           </div>
-          <img class="close" @click="isShowSetting = false" src="../../assets/img/icon/components/gray-close-full2.png"
-               alt="">
+          <img
+            class="close"
+            @click="isShowSetting = false"
+            src="../../assets/img/icon/components/gray-close-full2.png"
+            alt=""
+          />
         </div>
         <div class="title">主页访客</div>
-        <div class="sub-title">关闭后，你查看他人主页时不会留下记录；同时，你也无法查看谁访问了你的主页</div>
+        <div class="sub-title">
+          关闭后，你查看他人主页时不会留下记录；同时，你也无法查看谁访问了你的主页
+        </div>
         <div class="l-line"></div>
         <div class="row">
           <div class="left">展示主页访客</div>
@@ -72,17 +81,17 @@
   </div>
 </template>
 <script>
-import {mapState} from "pinia";
-import Peoples from "../people/components/Peoples";
-import NoMore from "../../components/NoMore";
-import FromBottomDialog from "../../components/dialog/FromBottomDialog";
-import Switches from "./components/swtich/switches";
-import BaseButton from "../../components/BaseButton";
-import {useBaseStore} from "@/store/pinia";
-import {_checkImgUrl} from "@/utils";
+import { mapState } from 'pinia'
+import Peoples from '../people/components/Peoples'
+import NoMore from '../../components/NoMore'
+import FromBottomDialog from '../../components/dialog/FromBottomDialog'
+import Switches from './components/swtich/switches'
+import BaseButton from '../../components/BaseButton'
+import { useBaseStore } from '@/store/pinia'
+import { _checkImgUrl } from '@/utils'
 
 export default {
-  name: "visitors",
+  name: 'visitors',
   components: {
     BaseButton,
     FromBottomDialog,
@@ -95,7 +104,7 @@ export default {
       recommend: [],
       isShowSetting: false,
       display: false,
-      realDisplay: false,
+      realDisplay: false
     }
   },
   watch: {
@@ -106,7 +115,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(useBaseStore, ['friends', 'userinfo']),
+    ...mapState(useBaseStore, ['friends', 'userinfo'])
   },
   created() {
     this.recommend = this.$clone(this.friends.all)
@@ -122,8 +131,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-
-
 .remove-enter-active,
 .remove-leave-active {
   transition: transform 0.3s ease;

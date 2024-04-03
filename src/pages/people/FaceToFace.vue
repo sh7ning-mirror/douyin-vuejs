@@ -5,26 +5,24 @@
         <span class="f16" @click="$nav('/common-setting')">设置</span>
       </template>
     </BaseHeader>
-    <div class="content">
-    </div>
+    <div class="content"></div>
   </div>
 </template>
 <script>
 //TODO 动画效果麻烦
 export default {
-  name: "FaceToFace",
+  name: 'FaceToFace',
   data() {
     return {}
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {}
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .FaceToFace {
   background: black;

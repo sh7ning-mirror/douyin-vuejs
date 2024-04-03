@@ -1,33 +1,33 @@
 <template>
-  <div v-if="visible" class="footer" :class="{isWhite}">
+  <div v-if="visible" class="footer" :class="{ isWhite }">
     <div class="l-button" @click="refresh(1)">
-      <span v-if="!isRefresh1" :class="{active:currentTab===1}">首页</span>
-      <img v-if="isRefresh1 " src="../assets/img/icon/refresh1.png" alt="" class="refresh">
+      <span v-if="!isRefresh1" :class="{ active: currentTab === 1 }">首页</span>
+      <img v-if="isRefresh1" src="../assets/img/icon/refresh1.png" alt="" class="refresh" />
     </div>
     <div class="l-button" @click="refresh(2)">
-      <span v-if="!isRefresh2" :class="{active:currentTab === 2}">商城</span>
-      <img v-if="isRefresh2" src="../assets/img/icon/refresh1.png" alt="" class="refresh">
+      <span v-if="!isRefresh2" :class="{ active: currentTab === 2 }">商城</span>
+      <img v-if="isRefresh2" src="../assets/img/icon/refresh1.png" alt="" class="refresh" />
     </div>
     <div class="l-button" @click="tab(3)">
       <div class="add-ctn">
-        <img src="../assets/img/icon/add-light.png" alt="" class="add">
+        <img src="../assets/img/icon/add-light.png" alt="" class="add" />
       </div>
     </div>
     <div class="l-button" @click="tab(4)">
-      <span :class="{active:currentTab===4}">消息</span>
+      <span :class="{ active: currentTab === 4 }">消息</span>
       <div class="badge">2</div>
     </div>
     <div class="l-button" @click="tab(5)">
-      <span :class="{active:currentTab===5}">我</span>
+      <span :class="{ active: currentTab === 5 }">我</span>
     </div>
   </div>
 </template>
 
 <script>
-import bus, {EVENT_KEY} from "../utils/bus";
+import bus, { EVENT_KEY } from '../utils/bus'
 
 export default {
-  name: "Footer",
+  name: 'BaseFooter',
   props: ['initTab', 'isWhite'],
   data() {
     return {
@@ -38,13 +38,13 @@ export default {
     }
   },
   created() {
-    bus.on('setFooterVisible', (e) => this.visible = e)
-    bus.on(EVENT_KEY.ENTER_FULLSCREEN, (e) => this.visible = false)
-    bus.on(EVENT_KEY.EXIT_FULLSCREEN, (e) => this.visible = true)
+    bus.on('setFooterVisible', (e) => (this.visible = e))
+    bus.on(EVENT_KEY.ENTER_FULLSCREEN, () => (this.visible = false))
+    bus.on(EVENT_KEY.EXIT_FULLSCREEN, () => (this.visible = true))
   },
   unmounted() {
-    bus.off(EVENT_KEY.ENTER_FULLSCREEN,)
-    bus.off(EVENT_KEY.EXIT_FULLSCREEN,)
+    bus.off(EVENT_KEY.ENTER_FULLSCREEN)
+    bus.off(EVENT_KEY.EXIT_FULLSCREEN)
   },
   methods: {
     tab(index) {
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../assets/less/index";
+@import '../assets/less/index';
 
 .footer {
   font-size: 14rem;
@@ -100,8 +100,8 @@ export default {
   //justify-content: space-between;
 
   &.isWhite {
-    background: white!important;
-    color: #000!important;
+    background: white !important;
+    color: #000 !important;
   }
 
   .l-button {
@@ -114,7 +114,7 @@ export default {
 
     .refresh {
       width: 25%;
-      animation: rotate .5s linear infinite;
+      animation: rotate 0.5s linear infinite;
     }
 
     @keyframes rotate {
@@ -148,7 +148,7 @@ export default {
 
     span {
       font-weight: bold;
-      opacity: .7;
+      opacity: 0.7;
 
       &.active {
         opacity: 1;
@@ -162,5 +162,4 @@ export default {
     }
   }
 }
-
 </style>

@@ -69,18 +69,22 @@
           <switches v-model="option12" theme="bootstrap" color="success"></switches>
         </div>
       </template>
-
     </div>
   </div>
 </template>
 <script>
-import Switches from "../components/swtich/switches";
+import Switches from '../components/swtich/switches'
 
 export default {
-  name: "NoticeSetting",
-  components: {Switches},
+  name: 'NoticeSetting',
+  components: { Switches },
   props: {
-    modelValue: false
+    modelValue: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    }
   },
   data() {
     return {
@@ -105,16 +109,12 @@ export default {
   created() {
     this.type = this.$route.query.type
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {}
 }
 </script>
 
 <style scoped lang="less">
-
-
 #SystemNotice {
   position: fixed;
   left: 0;
@@ -138,8 +138,6 @@ export default {
       color: var(--second-text-color);
       font-size: 12rem;
     }
-
-
   }
 }
 </style>

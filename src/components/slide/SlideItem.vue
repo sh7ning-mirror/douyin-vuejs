@@ -4,8 +4,7 @@
   </div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
 <style lang="less">
 .slide-item {
@@ -14,5 +13,4 @@
   flex-shrink: 0;
   position: relative;
 }
-
 </style>

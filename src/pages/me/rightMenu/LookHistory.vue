@@ -10,22 +10,21 @@
     </BaseHeader>
     <div class="content">
       <Indicator
-          style="width: calc(100vw - 2rem); margin-left: 1rem;"
-          tabStyleWidth="50%"
-          :tabTexts="['视频','影视综']"
-          v-model:active-index="currentSlideItemIndex">
+        style="width: calc(100vw - 2rem); margin-left: 1rem"
+        tabStyleWidth="50%"
+        :tabTexts="['视频', '影视综']"
+        v-model:active-index="currentSlideItemIndex"
+      >
       </Indicator>
-      <SlideHorizontal
-          v-model:index="currentSlideItemIndex" class="SlideRowList">
-        <SlideItem class="tab1" style="overflow:auto;">
-          <Scroll class="Scroll"
-                  @pulldown="getHistoryVideo">
+      <SlideHorizontal v-model:index="currentSlideItemIndex" class="SlideRowList">
+        <SlideItem class="tab1" style="overflow: auto">
+          <Scroll class="Scroll" @pulldown="getHistoryVideo">
             <Posters :list="historyVideo.list" v-if="historyVideo.total"></Posters>
-            <Loading :is-full-screen="false" v-if="loadingVideo"/>
+            <Loading :is-full-screen="false" v-if="loadingVideo" />
             <template v-else>
-              <NoMore v-if="historyVideo.list.length"/>
+              <NoMore v-if="historyVideo.list.length" />
               <div class="empty" v-else>
-                <img src="../../../assets/img/icon/none-bg1.webp" alt="">
+                <img src="../../../assets/img/icon/none-bg1.webp" alt="" />
                 <div class="title">暂无观看历史记录</div>
               </div>
             </template>
@@ -33,7 +32,7 @@
         </SlideItem>
         <SlideItem class="tab2">
           <div class="empty">
-            <img src="../../../assets/img/icon/none-bg1.webp" alt="">
+            <img src="../../../assets/img/icon/none-bg1.webp" alt="" />
             <div class="title">暂无观影历史记录</div>
           </div>
         </SlideItem>
@@ -42,13 +41,13 @@
   </div>
 </template>
 <script>
-import Posters from "../../../components/Posters";
-import Scroll from "../../../components/Scroll";
-import NoMore from "../../../components/NoMore";
-import {historyOther, historyVideo} from "@/api/videos";
+import Posters from '../../../components/Posters'
+import Scroll from '../../../components/Scroll'
+import NoMore from '../../../components/NoMore'
+import { historyOther, historyVideo } from '@/api/videos'
 
 export default {
-  name: "lookHistory",
+  name: 'lookHistory',
   components: {
     NoMore,
     Posters,
@@ -80,7 +79,7 @@ export default {
         return this.historyVideo.list.length
       }
       return this.historyOther.list.length
-    },
+    }
   },
   created() {
     this.getHistoryVideo(true)
@@ -95,7 +94,10 @@ export default {
         this.historyVideo.pageNo++
       }
       this.loadingVideo = true
-      let res = await historyVideo({pageNo: this.historyVideo.pageNo, pageSize: this.pageSize,})
+      let res = await historyVideo({
+        pageNo: this.historyVideo.pageNo,
+        pageSize: this.pageSize
+      })
       console.log(res)
       this.loadingVideo = false
       if (res.code === this.SUCCESS) {
@@ -110,7 +112,10 @@ export default {
       if (!init) {
         this.historyOther.pageNo++
       }
-      let res = await historyOther({pageNo: this.historyOther.pageNo, pageSize: this.pageSize,})
+      let res = await historyOther({
+        pageNo: this.historyOther.pageNo,
+        pageSize: this.pageSize
+      })
       this.loadingOther = false
       if (res.code === this.SUCCESS) {
         this.historyOther.list = this.historyOther.list.concat(res.data.list)
@@ -133,7 +138,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .lookHistory {
   position: fixed;
@@ -148,8 +153,11 @@ export default {
   .content {
     padding-top: 60rem;
 
-    .SlideRowList, .Scroll {
-      height: calc(var(--vh, 1vh) * 100 - var(--indicator-height) - var(--common-header-height)) !important;
+    .SlideRowList,
+    .Scroll {
+      height: calc(
+        var(--vh, 1vh) * 100 - var(--indicator-height) - var(--common-header-height)
+      ) !important;
     }
 
     .empty {

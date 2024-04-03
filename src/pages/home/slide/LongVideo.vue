@@ -1,23 +1,13 @@
 <script setup>
-
-import {onMounted, reactive, ref, watch} from "vue";
-import {_checkImgUrl, _duration, _formatNumber} from "@/utils";
-import {recommendedVideo} from "@/api/videos";
-import {useBaseStore} from "@/store/pinia";
-import ScrollList from "@/components/ScrollList.vue";
-import {useNav} from "@/utils/hooks/useNav";
-
-const baseStore = useBaseStore()
+import { reactive, ref, watch } from 'vue'
+import { _checkImgUrl, _duration, _formatNumber } from '@/utils'
+import { recommendedVideo } from '@/api/videos'
+import ScrollList from '@/components/ScrollList.vue'
+import { useNav } from '@/utils/hooks/useNav'
 
 const props = defineProps({
   active: Boolean
 })
-
-const p = {
-  onShowComments() {
-    console.log('onShowComments')
-  }
-}
 
 const playingEl = ref()
 const state = reactive({
@@ -26,52 +16,59 @@ const state = reactive({
   danmu: false
 })
 
-watch(() => props.active, n => {
-  if (n) {
-    if (state.show) {
-      let el = playingEl.value
-      if (el) {
-        el.parentNode.parentNode.classList.remove('pause')
-        el.play()
+watch(
+  () => props.active,
+  (n) => {
+    if (n) {
+      if (state.show) {
+        let el = playingEl.value
+        if (el) {
+          el.parentNode.parentNode.classList.remove('pause')
+          el.play()
+        }
+      } else {
+        state.show = true
       }
     } else {
-      state.show = true
+      let el = playingEl.value
+      if (el) {
+        el.parentNode.parentNode.classList.add('pause')
+        el.pause()
+      }
     }
-  } else {
-    let el = playingEl.value
-    if (el) {
-      el.parentNode.parentNode.classList.add('pause')
-      el.pause()
-    }
-  }
-}, {immediate: true})
+  },
+  { immediate: true }
+)
 
 const obList = []
 
 const vIsCanPlay = {
-  mounted(el, binding, vnode, prevVnode) {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        let videoEls = document.querySelectorAll('.long-video video')
-        videoEls.forEach((item) => {
-          item.pause()
-          if (item.parentNode?.parentNode) {
-            item.parentNode.parentNode.classList.add('pause')
-          }
-        })
-        el.parentNode.parentNode.classList.remove('pause')
-        el.play()
-        playingEl.value = el
-      } else {
-        el.parentNode.parentNode.classList.add('pause')
-        el.pause()
-      }
-    }, {threshold: .5});
+  mounted(el) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          let videoEls = document.querySelectorAll('.long-video video')
+          videoEls.forEach((item) => {
+            item.pause()
+            if (item.parentNode?.parentNode) {
+              item.parentNode.parentNode.classList.add('pause')
+            }
+          })
+          el.parentNode.parentNode.classList.remove('pause')
+          el.play()
+          playingEl.value = el
+        } else {
+          el.parentNode.parentNode.classList.add('pause')
+          el.pause()
+        }
+      },
+      { threshold: 0.5 }
+    )
     observer.observe(el)
     obList.push(observer)
   },
-  unmounted(el, binding, vnode, prevVnode) {
-    obList.map(v => {
+  unmounted() {
+    obList.map((v) => {
       v.disconnect()
     })
   }
@@ -82,67 +79,71 @@ const nav = useNav()
 
 <template>
   <div class="long-video">
-    <ScrollList class="Scroll"
-                v-if="state.show"
-                :api="recommendedVideo"
-    >
-      <template v-slot="{list}">
+    <ScrollList class="Scroll" v-if="state.show" :api="recommendedVideo">
+      <template v-slot="{ list }">
         <div class="list">
-          <div class="item"
-               @click="nav( '/video-detail',{},{list, index:i})"
-               :class="[
-             i % 9 === 0 && 'big',
-              i % 9 === 0 ? '' : (i % 2 === 1 && 'l'),
-              i % 9 === 0 ? '' : (i % 2 === 0 && 'r'),
-         ]"
-
-               v-for="(item,i) in list">
+          <div
+            class="item"
+            @click="nav('/video-detail', {}, { list, index: i })"
+            :class="[
+              i % 9 === 0 && 'big',
+              i % 9 === 0 ? '' : i % 2 === 1 && 'l',
+              i % 9 === 0 ? '' : i % 2 === 0 && 'r'
+            ]"
+            :key="i"
+            v-for="(item, i) in list"
+          >
             <div class="video-wrapper" v-if="i % 9 === 0">
               <video
-                  muted
-                  preload
-                  loop
-                  x5-video-player-type="h5-page"
-                  :x5-video-player-fullscreen='false'
-                  :webkit-playsinline="true"
-                  :x5-playsinline="true"
-                  :playsinline="true"
-                  :fullscreen="false"
-                  v-is-can-play
-                  :poster="_checkImgUrl(item.video.cover.url_list[0])"
-                  :src="item.video.play_addr.url_list[0]"
+                muted
+                preload
+                loop
+                x5-video-player-type="h5-page"
+                :x5-video-player-fullscreen="false"
+                :webkit-playsinline="true"
+                :x5-playsinline="true"
+                :playsinline="true"
+                :fullscreen="false"
+                v-is-can-play
+                :poster="_checkImgUrl(item.video.cover.url_list[0])"
+                :src="item.video.play_addr.url_list[0]"
               ></video>
               <div class="options">
-                <div class="left">
-                </div>
+                <div class="left"></div>
                 <div class="right">
                   <div class="option" @click.stop="state.danmu = !state.danmu">
-                    <img v-if="state.danmu" src="@/assets/img/icon/danmu-open.svg"/>
-                    <img v-else src="@/assets/img/icon/danmu-close.svg"/>
+                    <img v-if="state.danmu" src="@/assets/img/icon/danmu-open.svg" />
+                    <img v-else src="@/assets/img/icon/danmu-close.svg" />
                   </div>
                   <div class="option" @click.stop="state.muted = !state.muted">
-                    <Icon v-if="state.muted" icon="charm:sound-mute"/>
-                    <Icon v-else icon="akar-icons:sound-on"/>
+                    <Icon v-if="state.muted" icon="charm:sound-mute" />
+                    <Icon v-else icon="akar-icons:sound-on" />
                   </div>
                   <div class="option">
-                    <img src="@/assets/img/icon/rotate.svg"/>
+                    <img src="@/assets/img/icon/rotate.svg" />
                   </div>
                 </div>
               </div>
             </div>
-            <img v-else v-lazy="_checkImgUrl(item.video.cover.url_list[0])" alt="" class="poster">
+            <img v-else v-lazy="_checkImgUrl(item.video.cover.url_list[0])" alt="" class="poster" />
             <div class="duration">{{ _duration(item.duration / 1000) }}</div>
             <div class="title">
               {{ item.desc }}
             </div>
             <div class="bottom">
               <div class="l">
-                <img v-lazy="_checkImgUrl(item.author.avatar_168x168.url_list[0])" alt="" class="avatar">
+                <img
+                  v-lazy="_checkImgUrl(item.author.avatar_168x168.url_list[0])"
+                  alt=""
+                  class="avatar"
+                />
                 <div class="name">{{ item.author.nickname }}</div>
               </div>
               <div class="r">
-                <Icon icon="icon-park-outline:like"/>
-                <div class="num">{{ _formatNumber(item.statistics.digg_count) }}</div>
+                <Icon icon="icon-park-outline:like" />
+                <div class="num">
+                  {{ _formatNumber(item.statistics.digg_count) }}
+                </div>
               </div>
             </div>
           </div>
@@ -160,7 +161,9 @@ const nav = useNav()
   background: rgb(21, 23, 36);
 
   .Scroll {
-    height: calc(var(--vh, 1vh) * 100 - var(--home-header-height) - var(--footer-height)) !important;
+    height: calc(
+      var(--vh, 1vh) * 100 - var(--home-header-height) - var(--footer-height)
+    ) !important;
   }
 }
 
@@ -280,7 +283,6 @@ const nav = useNav()
         svg {
           font-size: 16rem;
         }
-
       }
     }
 
@@ -309,7 +311,8 @@ const nav = useNav()
         -webkit-line-clamp: 1;
       }
 
-      .title, .bottom {
+      .title,
+      .bottom {
         padding: 0 10rem;
       }
     }

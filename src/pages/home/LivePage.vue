@@ -2,26 +2,28 @@
   <div class="LivePage" ref="page">
     <div class="live-wrapper">
       <video
-          src="https://www.douyin.com/aweme/v1/play/?video_id=v0d00fg10000cj1lq4jc77u0ng6s1gt0&amp;line=0&amp;file_id=bed51c00899b458cbc5d8280147c22a1&amp;sign=7749aec7bd62a3760065f60e40fc1867&amp;is_play_url=1&amp;source=PackSourceEnum_PUBLISH"
-          poster="/images/jwWCPZVTIA4IKM-8WipLF.png"
-          preload=""
-          loop=""
-          muted
-          x5-video-player-type="h5-page"
-          x5-video-player-fullscreen="false"
-          webkit-playsinline="true"
-          x5-playsinline="true"
-          playsinline="true"
-          fullscreen="false"
-          autoplay="">
-        <p> 您的浏览器不支持 video 标签。</p>
+        ref="videoEl"
+        src="https://www.douyin.com/aweme/v1/play/?video_id=v0d00fg10000cj1lq4jc77u0ng6s1gt0&amp;line=0&amp;file_id=bed51c00899b458cbc5d8280147c22a1&amp;sign=7749aec7bd62a3760065f60e40fc1867&amp;is_play_url=1&amp;source=PackSourceEnum_PUBLISH"
+        poster="/images/jwWCPZVTIA4IKM-8WipLF.png"
+        preload=""
+        loop=""
+        muted
+        x5-video-player-type="h5-page"
+        x5-video-player-fullscreen="false"
+        webkit-playsinline="true"
+        x5-playsinline="true"
+        playsinline="true"
+        fullscreen="false"
+        autoplay=""
+      >
+        <p>您的浏览器不支持 video 标签。</p>
       </video>
     </div>
     <div class="float">
       <div class="top">
         <div class="left">
           <div class="liver">
-            <img class="avatar" :src="_checkImgUrl(userinfo.avatar_168x168.url_list[0])" alt="">
+            <img class="avatar" :src="_checkImgUrl(userinfo.avatar_168x168.url_list[0])" alt="" />
             <div class="desc">
               <div class="desc-wrapper">
                 <div class="name">{{ userinfo.nickname }}</div>
@@ -32,28 +34,28 @@
           </div>
           <div class="left-bottom">
             <div class="tag">
-              <img src="../../assets/img/icon/home/jin.webp" alt="">
+              <img src="../../assets/img/icon/home/jin.webp" alt="" />
               <span>唱歌</span>
             </div>
             <div class="tag rank">
-              <img src="../../assets/img/icon/home/rank-yellow.png" alt="">
+              <img src="../../assets/img/icon/home/rank-yellow.png" alt="" />
               <span>江苏第15名</span>
             </div>
           </div>
         </div>
         <div class="right">
           <div class="follower">
-            <img src="../../assets/img/icon/avatar/1.png" alt="" class="round">
-            <img src="../../assets/img/icon/avatar/2.png" alt="" class="round">
-            <img src="../../assets/img/icon/avatar/3.png" alt="" class="round">
+            <img src="../../assets/img/icon/avatar/1.png" alt="" class="round" />
+            <img src="../../assets/img/icon/avatar/2.png" alt="" class="round" />
+            <img src="../../assets/img/icon/avatar/3.png" alt="" class="round" />
             <div class="round count">107</div>
-            <dy-back class="round close" img="close" mode="light" @click="$back"/>
+            <dy-back class="round close" img="close" mode="light" @click="$back" />
           </div>
           <div class="more">
             <div class="wrapper">
               <!--              缺个icon-->
               <span>更多同城</span>
-              <dy-back scale=".5" direction="right" class="back" img="back" mode="light"/>
+              <dy-back scale=".5" direction="right" class="back" img="back" mode="light" />
             </div>
           </div>
         </div>
@@ -63,16 +65,18 @@
           <div class="comments" ref="comments">
             <div class="comments-wrapper" ref="comments-wrapper">
               <div class="comment notice">
-                <span class="text">欢迎来到直播间！抖音严禁未成年人直播或打赏，直接间内严禁出现违法违规、低俗色情、吸烟酗酒等内容。如主播在直播过程中以不当方式诱导打赏、私下交易，请谨慎判断，以防人身财产损失。请大家注意财产安全，谨防网络诈骗。</span>
+                <span class="text"
+                  >欢迎来到直播间！抖音严禁未成年人直播或打赏，直接间内严禁出现违法违规、低俗色情、吸烟酗酒等内容。如主播在直播过程中以不当方式诱导打赏、私下交易，请谨慎判断，以防人身财产损失。请大家注意财产安全，谨防网络诈骗。</span
+                >
               </div>
-              <div class="comment" v-for="i in list">
+              <div class="comment" :key="j" v-for="(i, j) in list">
                 <div class="level">
                   <div class="wrapper">
-                    <img src="../../assets/img/icon/home/level.webp" alt="">
+                    <img src="../../assets/img/icon/home/level.webp" alt="" />
                     <span>30</span>
                   </div>
                 </div>
-                <span class="name">{{ i.name}}</span>
+                <span class="name">{{ i.name }}</span>
                 <span class="text">{{ i.text }}</span>
               </div>
             </div>
@@ -80,21 +84,26 @@
           <div class="options">
             <div class="input">
               <span>说点什么</span>
-              <img src="../../assets/img/icon/home/voice.png" alt="">
+              <img src="../../assets/img/icon/home/voice.png" alt="" />
             </div>
-            <img src="../../assets/img/icon/home/more.png" alt="" class="more">
-            <img src="../../assets/img/icon/home/love.webp" alt="" class="more">
-            <img src="../../assets/img/icon/home/gift.webp" alt="" class="gift">
+            <img src="../../assets/img/icon/home/more.png" alt="" class="more" />
+            <img src="../../assets/img/icon/home/love.webp" alt="" class="more" />
+            <img src="../../assets/img/icon/home/gift.webp" alt="" class="gift" />
           </div>
         </div>
         <div class="right">
-          <div class="avatar-wrapper" :class="{followed:isFollowed}">
-            <img src="../../assets/img/icon/avatar/2.png" alt="" class="avatar">
+          <div class="avatar-wrapper" :class="{ followed: isFollowed }">
+            <img src="../../assets/img/icon/avatar/2.png" alt="" class="avatar" />
             <div v-if="!isFollowed" @click.stop="attention" class="options" ref="attention-option">
-              <img class="no" src="../../assets/img/icon/add-light.png" alt="">
-              <img class="yes" src="../../assets/img/icon/ok-white.png" alt="">
+              <img class="no" src="../../assets/img/icon/add-light.png" alt="" />
+              <img class="yes" src="../../assets/img/icon/ok-white.png" alt="" />
             </div>
-            <img v-if="isFollowed" src="../../assets/img/icon/home/followed.webp" alt="" class="follow">
+            <img
+              v-if="isFollowed"
+              src="../../assets/img/icon/home/followed.webp"
+              alt=""
+              class="follow"
+            />
           </div>
         </div>
       </div>
@@ -103,17 +112,17 @@
   </div>
 </template>
 <script>
-import BaseButton from "../../components/BaseButton";
-import Dom from "../../utils/dom";
-import {nextTick} from "vue";
-import {mapState} from "pinia";
-import {useBaseStore} from "@/store/pinia";
-import {_checkImgUrl, random} from "@/utils";
-import Mock from "mockjs";
+import BaseButton from '../../components/BaseButton'
+import Dom from '../../utils/dom'
+import { nextTick } from 'vue'
+import { mapState } from 'pinia'
+import { useBaseStore } from '@/store/pinia'
+import { _checkImgUrl, random } from '@/utils'
+import Mock from 'mockjs'
 
 export default {
-  name: "LivePage",
-  components: {BaseButton},
+  name: 'LivePage',
+  components: { BaseButton },
   props: {},
   data() {
     return {
@@ -158,7 +167,7 @@ export default {
           '/images/KwJ9N7yFjYylfwYeThWjx.png',
           '/images/EKkC06GI4yXC2mNHMrm46.png',
           '/images/rlkpmpGPdhYZRJl3J4Xl7.png',
-          '/images/Ge4mMWQoICdpyTyixk3Sf.png',
+          '/images/Ge4mMWQoICdpyTyixk3Sf.png'
         ]
         let avatar = avatarList[random(0, avatarList.length - 1)]
         let gift = '/images/icon/love.webp'
@@ -186,15 +195,13 @@ export default {
         </div>
         `
       },
-      page: null,
+      page: null
     }
   },
   computed: {
-    ...mapState(useBaseStore, ['friends', 'userinfo']),
+    ...mapState(useBaseStore, ['friends', 'userinfo'])
   },
-  created() {
-  },
-  mounted() {
+  activated() {
     this.page = this.$refs.page
     this.timer1 = setInterval(async () => {
       this.sendGift()
@@ -208,8 +215,9 @@ export default {
     this.timer3 = setInterval(async () => {
       this.sendComment()
     }, 700)
+    this.$refs.videoEl.play()
   },
-  unmounted() {
+  deactivated() {
     clearInterval(this.timer1)
     clearInterval(this.timer2)
     clearInterval(this.timer3)
@@ -223,12 +231,12 @@ export default {
         sendGift.remove()
       })
       let oldSendGift = new Dom('.send-gift')
-      let top = document.body.clientHeight * .6
+      let top = document.body.clientHeight * 0.6
       if (oldSendGift.els.length !== 0) {
         top = sendGift.removePx(oldSendGift.css('top')) - 70
       }
       if (top < 100) {
-        top = document.body.clientHeight * .6
+        top = document.body.clientHeight * 0.6
       }
       console.log('top', top)
       sendGift.css('top', top)
@@ -249,12 +257,12 @@ export default {
         barrage.remove()
       })
       let oldBarrages = new Dom('.barrage')
-      let top = document.body.clientHeight * .35
+      let top = document.body.clientHeight * 0.35
       if (oldBarrages.els.length !== 0) {
         top = barrage.removePx(oldBarrages.css('top')) + 20
       }
-      if (top > document.body.clientHeight * .5) {
-        top = document.body.clientHeight * .35
+      if (top > document.body.clientHeight * 0.5) {
+        top = document.body.clientHeight * 0.35
       }
       barrage.css('top', top)
       page.append(barrage)
@@ -266,7 +274,10 @@ export default {
       })
       nextTick(() => {
         let comments = this.$refs['comments']
-        comments.scrollTo({top: comments.scrollHeight - comments.clientHeight, behavior: 'smooth'})
+        comments.scrollTo({
+          top: comments.scrollHeight - comments.clientHeight,
+          behavior: 'smooth'
+        })
         // comments.scrollTop = comments.scrollHeight - comments.clientHeight
       })
     },
@@ -282,7 +293,7 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .send-gift {
   position: fixed;
@@ -312,7 +323,7 @@ export default {
   }
 
   .left {
-    background: linear-gradient(to right, var(--primary-btn-color), rgba(252, 47, 86, .2));
+    background: linear-gradient(to right, var(--primary-btn-color), rgba(252, 47, 86, 0.2));
     padding: 5rem;
     border-radius: 50rem;
     display: flex;
@@ -329,7 +340,8 @@ export default {
     .desc {
       width: 20vw;
 
-      .name, .sendto {
+      .name,
+      .sendto {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -352,7 +364,6 @@ export default {
     .gift-icon {
       width: 40rem;
     }
-
   }
 
   .right {
@@ -386,7 +397,6 @@ export default {
     border-radius: 20rem;
     margin-right: 5rem;
   }
-
 }
 
 .user-joined {
@@ -397,7 +407,7 @@ export default {
   left: 15rem;
   padding: 4rem 8rem;
   border-radius: 20rem;
-  background: rgba(115, 114, 181, .7);
+  background: rgba(115, 114, 181, 0.7);
   margin-bottom: 5rem;
   animation: user-joined-anim 3s linear;
 
@@ -452,10 +462,9 @@ export default {
     word-break: break-all;
   }
 }
-
 </style>
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .LivePage {
   width: 100vw;
@@ -521,7 +530,6 @@ export default {
             align-items: center;
             justify-content: space-between;
 
-
             .desc-wrapper {
               width: 80rem;
 
@@ -571,7 +579,6 @@ export default {
             }
           }
         }
-
       }
 
       .right {
@@ -632,7 +639,6 @@ export default {
       padding: var(--page-padding);
       padding-bottom: 10rem;
       display: flex;
-
 
       .left {
         width: 87%;
@@ -749,7 +755,7 @@ export default {
           justify-content: center;
 
           &.followed {
-            background: linear-gradient(to bottom, rgba(240, 183, 31, .2), rgb(240, 183, 31));
+            background: linear-gradient(to bottom, rgba(240, 183, 31, 0.2), rgb(240, 183, 31));
           }
 
           .avatar {
@@ -777,7 +783,7 @@ export default {
             img {
               position: absolute;
               width: 18rem;
-              transition: all .8s;
+              transition: all 0.8s;
             }
 
             .yes {
@@ -786,7 +792,6 @@ export default {
             }
 
             &.attention {
-
               .no {
                 opacity: 0;
                 transform: rotate(180deg);

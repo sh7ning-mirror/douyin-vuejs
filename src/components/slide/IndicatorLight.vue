@@ -1,9 +1,9 @@
 <script lang="jsx">
-import bus from "../../utils/bus";
-import {useBaseStore} from "@/store/pinia";
+import bus from '../../utils/bus'
+import { useBaseStore } from '@/store/pinia'
 
 export default {
-  name: "IndicatorLight",
+  name: 'IndicatorLight',
   props: {
     activeIndex: {
       type: Number,
@@ -25,18 +25,18 @@ export default {
     name: {
       type: String,
       default: () => ''
-    },
+    }
   },
   data() {
     return {
       currentSlideItemIndex: this.activeIndex,
-      tabIndicatorRelationActiveIndexLefts: [],//指标和slideItem的index的对应left,
-      indicatorSpace: 0,//indicator之间的间距
+      tabIndicatorRelationActiveIndexLefts: [], //指标和slideItem的index的对应left,
+      indicatorSpace: 0 //indicator之间的间距
     }
   },
   setup() {
     const baseStore = useBaseStore()
-    return {baseStore}
+    return { baseStore }
   },
   computed: {},
   render() {
@@ -51,26 +51,28 @@ export default {
         </div>
     * */
     return (
-        <div className='indicator-ctn'>
-          {this.tabRender ?
-              this.tabRender() :
-              <div className="tabs" ref="tabs">
-                {
-                  this.tabTexts.map((item, index) => {
-                    return (
-                        <div className={this.currentSlideItemIndex === index ? 'active tab' : 'tab'}
-                             style={{width: this.tabStyleWidth || 100 / this.tabTexts.length + '%'}}
-                             onClick={e => this.changeIndex(index)}
-                        >
-                          < span> {item}</span>
-                        </div>
-                    )
-                  })
-                }
-              </div>
-          }
-          <div className="indicator" ref="indicator"/>
-        </div>
+      <div className="indicator-ctn">
+        {this.tabRender ? (
+          this.tabRender()
+        ) : (
+          <div className="tabs" ref="tabs">
+            {this.tabTexts.map((item, index) => {
+              return (
+                <div
+                  className={this.currentSlideItemIndex === index ? 'active tab' : 'tab'}
+                  style={{
+                    width: this.tabStyleWidth || 100 / this.tabTexts.length + '%'
+                  }}
+                  onClick={() => this.changeIndex(index)}
+                >
+                  <span> {item}</span>
+                </div>
+              )
+            })}
+          </div>
+        )}
+        <div className="indicator" ref="indicator" />
+      </div>
     )
   },
   mounted() {
@@ -81,9 +83,14 @@ export default {
   methods: {
     changeIndex(index) {
       this.currentSlideItemIndex = index
-      this.$attrs['onUpdate:activeIndex'] && this.$emit('update:active-index', this.currentSlideItemIndex)
+      this.$attrs['onUpdate:activeIndex'] &&
+        this.$emit('update:active-index', this.currentSlideItemIndex)
       this.$setCss(this.indicatorRef, 'transition-duration', `300ms`)
-      this.$setCss(this.indicatorRef, 'left', this.tabIndicatorRelationActiveIndexLefts[this.currentSlideItemIndex] + 'px')
+      this.$setCss(
+        this.indicatorRef,
+        'left',
+        this.tabIndicatorRelationActiveIndexLefts[this.currentSlideItemIndex] + 'px'
+      )
     },
     initTabs() {
       let tabs = this.$refs.tabs
@@ -93,24 +100,39 @@ export default {
         let item = tabs.children[i]
         this.tabWidth = this.$getCss(item, 'width')
         this.tabIndicatorRelationActiveIndexLefts.push(
-            item.getBoundingClientRect().x - tabs.children[0].getBoundingClientRect().x + (this.tabWidth * 0.5 - indicatorWidth / 2))
+          item.getBoundingClientRect().x -
+            tabs.children[0].getBoundingClientRect().x +
+            (this.tabWidth * 0.5 - indicatorWidth / 2)
+        )
       }
 
-      this.indicatorSpace = this.tabIndicatorRelationActiveIndexLefts[1] - this.tabIndicatorRelationActiveIndexLefts[0]
+      this.indicatorSpace =
+        this.tabIndicatorRelationActiveIndexLefts[1] - this.tabIndicatorRelationActiveIndexLefts[0]
       this.$setCss(this.indicatorRef, 'transition-duration', `0ms`)
-      this.$setCss(this.indicatorRef, 'left', this.tabIndicatorRelationActiveIndexLefts[this.currentSlideItemIndex] + 'px')
+      this.$setCss(
+        this.indicatorRef,
+        'left',
+        this.tabIndicatorRelationActiveIndexLefts[this.currentSlideItemIndex] + 'px'
+      )
     },
     move(e) {
-      this.$setCss(this.indicatorRef, 'left',
-          this.tabIndicatorRelationActiveIndexLefts[this.currentSlideItemIndex] -
-          e.x.distance / (this.baseStore.bodyWidth / this.indicatorSpace) + 'px')
+      this.$setCss(
+        this.indicatorRef,
+        'left',
+        this.tabIndicatorRelationActiveIndexLefts[this.currentSlideItemIndex] -
+          e.x.distance / (this.baseStore.bodyWidth / this.indicatorSpace) +
+          'px'
+      )
     },
     end(index) {
       // console.log(index)
       this.currentSlideItemIndex = index
       this.$setCss(this.indicatorRef, 'transition-duration', `300ms`)
-      this.$setCss(this.indicatorRef, 'left',
-          this.tabIndicatorRelationActiveIndexLefts[this.currentSlideItemIndex] + 'px')
+      this.$setCss(
+        this.indicatorRef,
+        'left',
+        this.tabIndicatorRelationActiveIndexLefts[this.currentSlideItemIndex] + 'px'
+      )
       setTimeout(() => {
         this.$setCss(this.indicatorRef, 'transition-duration', `0ms`)
       }, 300)
@@ -120,7 +142,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .indicator-ctn {
   font-size: 14rem;
@@ -143,7 +165,7 @@ export default {
       justify-content: center;
       align-items: center;
       color: var(--second-text-color);
-      transition: color .3s;
+      transition: color 0.3s;
 
       &.active {
         color: white;
@@ -164,9 +186,7 @@ export default {
     background: #fff;
     border-radius: 5px;
     position: relative;
-    transition: all .3s;
+    transition: all 0.3s;
   }
 }
-
-
 </style>

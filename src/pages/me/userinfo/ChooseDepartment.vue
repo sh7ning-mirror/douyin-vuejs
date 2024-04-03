@@ -5,15 +5,13 @@
         <span class="f16">选择院系</span>
       </template>
       <template v-slot:right>
-        <span class="f14" @click="$nav('/me/declare-school',{type:2})">没有找到?</span>
+        <span class="f14" @click="$nav('/me/declare-school', { type: 2 })">没有找到?</span>
       </template>
     </BaseHeader>
     <div class="content">
       <div class="nearby">
-        <div class="item"
-             v-for="item in departments"
-             @click="setDepartment(item)"
-        >{{ item }}
+        <div class="item" :key="i" v-for="(item, i) in departments" @click="setDepartment(item)">
+          {{ item }}
         </div>
       </div>
     </div>
@@ -21,17 +19,13 @@
 </template>
 
 <script>
-import Search from '../../../components/Search'
-
 export default {
-  name: "ChooseSchool",
-  components: {
-    Search
-  },
+  name: 'ChooseSchool',
+  components: {},
   data() {
     return {
       departments: [],
-      schoolName: '',
+      schoolName: ''
     }
   },
   computed: {},
@@ -44,13 +38,13 @@ export default {
     setDepartment(val) {
       localStorage.setItem('changeDepartment', val)
       this.$back()
-    },
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .choose-school {
   position: fixed;
@@ -60,7 +54,6 @@ export default {
   top: 0;
   color: white;
   overflow: auto;
-
 
   .content {
     padding-top: 60rem;
@@ -72,7 +65,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: all .1s;
+      transition: all 0.1s;
       background: var(--main-bg);
 
       &:active {
@@ -82,5 +75,4 @@ export default {
     }
   }
 }
-
 </style>

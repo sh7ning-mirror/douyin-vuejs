@@ -2,12 +2,11 @@ import * as Vue from 'vue'
 import App from './App.vue'
 import mitt from 'mitt'
 import './assets/less/index.less'
-import {startMock} from './mock'
-import router from "./router";
-import mixin from "./utils/mixin";
+import { startMock } from './mock'
+import router from './router'
+import mixin from './utils/mixin'
 import VueLazyload from '@jambonn/vue-lazyload'
-import {VueMasonryPlugin} from "vue-masonry";
-import {createPinia} from "pinia";
+import { createPinia } from 'pinia'
 
 const pinia = createPinia()
 
@@ -25,11 +24,9 @@ app.use(VueLazyload, {
   loading: loadImage,
   attempt: 1
 })
-app.use(VueMasonryPlugin)
 app.use(router)
 app.use(pinia)
 app.mount('#app')
 
 //放到最后才可以使用pinia
 startMock()
-

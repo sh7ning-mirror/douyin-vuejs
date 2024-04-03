@@ -5,19 +5,21 @@
         <span class="f16">钱包通知</span>
       </template>
       <template v-slot:right>
-        <span class="f14" @click="$nav('/message/notice-setting',{ type : 'MONEY' })">通知设置</span>
+        <span class="f14" @click="$nav('/message/notice-setting', { type: 'MONEY' })"
+          >通知设置</span
+        >
       </template>
     </BaseHeader>
-    <Loading v-if="loading"/>
+    <Loading v-if="loading" />
     <div class="content" v-else>
       <Scroll ref="mainScroll">
         <div class="list">
-          <NoMore/>
-          <!--TODO　超过3行显示全文-->
-          <div class="item" v-for="item in list" @click="$no">
+          <NoMore />
+          <!--TODO 超过3行显示全文-->
+          <div class="item" :key="i" v-for="(item, i) in list" @click="$no">
             <div class="header">
               <div class="left">
-                <img src="../../../assets/img/icon/msg-icon9.webp" alt="">
+                <img src="../../../assets/img/icon/msg-icon9.webp" alt="" />
               </div>
               <div class="right">
                 <template v-if="item.type === 1">
@@ -26,7 +28,11 @@
                 <template v-if="item.type === 2">
                   <span>钱包任务</span>
                 </template>
-                <img @click.stop="isShowSetting = true" src="../../../assets/img/icon/menu-gray.png" alt="">
+                <img
+                  @click.stop="isShowSetting = true"
+                  src="../../../assets/img/icon/menu-gray.png"
+                  alt=""
+                />
               </div>
             </div>
             <div class="title">{{ item.title }}</div>
@@ -43,7 +49,7 @@
 
             <div class="look-detail">
               <span>查看详情</span>
-              <dy-back direction="right" scale=".6"/>
+              <dy-back direction="right" scale=".6" />
             </div>
           </div>
         </div>
@@ -51,18 +57,16 @@
     </div>
 
     <from-bottom-dialog
-        page-id="MoneyNotice"
-        mode="white"
-        mask-mode="dark"
-        :show-heng-gang="false"
-        v-model="isShowSetting"
-        height="160rem"
+      page-id="MoneyNotice"
+      mode="white"
+      mask-mode="dark"
+      :show-heng-gang="false"
+      v-model="isShowSetting"
+      height="160rem"
     >
       <div class="setting-dialog">
         <div class="row disabled">钱包任务</div>
-        <div class="row" @click="openNotice = !openNotice;isShowSetting = false">
-          {{ openNotice ? '关闭' : '开启' }}消息免打扰
-        </div>
+        <div class="row" @click="handleClick">{{ openNotice ? '关闭' : '开启' }}消息免打扰</div>
         <div class="space"></div>
         <div class="row" @click="isShowSetting = false">取消</div>
       </div>
@@ -70,15 +74,14 @@
   </div>
 </template>
 <script>
-import {nextTick} from "vue";
-import Mask from "../../../components/Mask";
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import Scroll from "../../../components/Scroll";
-import BasePage from "../../BasePage";
+import { nextTick } from 'vue'
+import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
+import Scroll from '../../../components/Scroll'
+import BasePage from '../../BasePage'
 
 export default {
   extends: BasePage,
-  name: "MoneyNotice",
+  name: 'MoneyNotice',
   components: {
     FromBottomDialog,
     Scroll
@@ -96,7 +99,7 @@ export default {
           time: '2021-10-12 12:12',
           money: 0.01,
           desc: '抖音红包超过24小时未被领取',
-          toAccountTime: '2021-10-15 12:12',
+          toAccountTime: '2021-10-15 12:12'
         },
         {
           type: 2,
@@ -105,8 +108,8 @@ export default {
           time: '2021-10-12 12:12',
           money: 0.01,
           desc: '尊敬的用户，您获得1张DUO+满赠优惠券 到期时间:2021-08-26 23:23:23',
-          toAccountTime: '2021-10-15 12:12',
-        },
+          toAccountTime: '2021-10-15 12:12'
+        }
       ]
     }
   },
@@ -114,20 +117,22 @@ export default {
     this.getData()
   },
   methods: {
+    handleClick() {
+      this.openNotice = !this.openNotice
+      this.isShowSetting = false
+    },
     async getData() {
       this.loading = true
       await this.$sleep(700)
       this.loading = false
       await nextTick()
       this.$refs.mainScroll.scrollBottom()
-    },
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-
-
 #MoneyNotice {
   position: fixed;
   left: 0;
@@ -215,7 +220,6 @@ export default {
   }
 
   .setting-dialog {
-
     .row {
       color: black !important;
       height: 50rem;
@@ -230,7 +234,7 @@ export default {
 
       &.disabled {
         font-size: 12rem;
-        opacity: .5;
+        opacity: 0.5;
       }
     }
 
@@ -239,6 +243,5 @@ export default {
       background: whitesmoke;
     }
   }
-
 }
 </style>

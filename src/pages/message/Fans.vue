@@ -6,29 +6,25 @@
       </template>
     </BaseHeader>
     <div class="content">
-      <Loading v-if="data.loading"/>
+      <Loading v-if="data.loading" />
       <Scroll ref="mainScroll" @pulldown="loadData" v-else>
-        <Peoples v-model:list="data.fans"
-                 :loading="data.loadingMore"
-                 mode="fans"/>
+        <Peoples v-model:list="data.fans" :loading="data.loadingMore" mode="fans" />
         <div class="title">
           <span>朋友推荐</span>
-          <img src="../../assets/img/icon/about-gray.png" alt="">
+          <img src="../../assets/img/icon/about-gray.png" alt="" />
         </div>
-        <Peoples v-model:list="data.recommend"
-                 :loading="data.loadingMore"
-                 mode="recommend"/>
-        <Loading :is-full-screen="false" v-if="data.loadingMore"/>
+        <Peoples v-model:list="data.recommend" :loading="data.loadingMore" mode="recommend" />
+        <Loading :is-full-screen="false" v-if="data.loadingMore" />
       </Scroll>
     </div>
   </div>
 </template>
 <script setup>
-import Scroll from "@/components/Scroll.vue";
-import Peoples from "@/pages/people/components/Peoples.vue";
-import {onMounted, reactive} from "vue";
-import {useBaseStore} from "@/store/pinia";
-import {_sleep, cloneDeep} from "@/utils";
+import Scroll from '@/components/Scroll.vue'
+import Peoples from '@/pages/people/components/Peoples.vue'
+import { onMounted, reactive } from 'vue'
+import { useBaseStore } from '@/store/pinia'
+import { _sleep, cloneDeep } from '@/utils'
 
 defineOptions({
   name: 'Fans'
@@ -38,7 +34,7 @@ const data = reactive({
   loading: false,
   loadingMore: false,
   recommend: [],
-  fans: [],
+  fans: []
 })
 
 async function getData() {
@@ -48,7 +44,7 @@ async function getData() {
 
   data.recommend = cloneDeep(baseStore.friends.all)
   data.fans = cloneDeep(baseStore.friends.all)
-  data.recommend.map(v => {
+  data.recommend.map((v) => {
     v.type = -1
   })
 }
@@ -59,7 +55,7 @@ async function loadData() {
   await _sleep(500)
   data.loadingMore = false
   let temp = cloneDeep(baseStore.friends.all)
-  temp.map(v => {
+  temp.map((v) => {
     v.type = -1
   })
   data.recommend = data.recommend.concat(temp)
@@ -69,8 +65,6 @@ onMounted(getData)
 </script>
 
 <style scoped lang="less">
-
-
 .list-complete-enter-from,
 .list-complete-leave-to {
   opacity: 0;

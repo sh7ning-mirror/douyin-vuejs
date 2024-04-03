@@ -8,13 +8,15 @@
     <div class="content">
       <div class="peoples">
         <People
-            @follow="follow(index)"
-            @unfollow="unfollow(index)"
-            mode="normal-add-button"
-            v-for="(item,index) in list "
-            :people="item"/>
+          @follow="follow(index)"
+          @unfollow="unfollow(index)"
+          mode="normal-add-button"
+          :key="index"
+          v-for="(item, index) in list"
+          :people="item"
+        />
         <div class="add-people" @click="$nav('/message/share-to-friend')">
-          <img src="../../../assets/img/icon/message/chat/add.png" alt="" class="head-image">
+          <img src="../../../assets/img/icon/message/chat/add.png" alt="" class="head-image" />
           <div class="name">多人聊天</div>
         </div>
       </div>
@@ -37,7 +39,7 @@
             <dy-back direction="right" scale=".7"></dy-back>
           </div>
         </div>
-        <div class="row" @click="$nav('/home/report',{mode:'chat'})">
+        <div class="row" @click="$nav('/home/report', { mode: 'chat' })">
           <div class="left">举报</div>
           <div class="right">
             <dy-back direction="right" scale=".7"></dy-back>
@@ -51,22 +53,20 @@
         </div>
       </div>
     </div>
-    <BlockDialog v-model="blockDialog"/>
+    <BlockDialog v-model="blockDialog" />
   </div>
 </template>
 <script>
-import Switches from '../components/swtich/switches';
-import People from "../../people/components/People";
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import BlockDialog from "../components/BlockDialog";
-import CONST_VAR from "../../../utils/const_var";
+import Switches from '../components/swtich/switches'
+import People from '../../people/components/People'
+import BlockDialog from '../components/BlockDialog'
+import CONST_VAR from '../../../utils/const_var'
 
 export default {
-  name: "ChatDetail",
+  name: 'ChatDetail',
   components: {
     Switches,
     People,
-    FromBottomDialog,
     BlockDialog
   },
   data() {
@@ -76,30 +76,29 @@ export default {
       blockDialog: false,
       list: [
         {
-          "id": "224e9a00-ffa0-4bc1-bb07-c318c7b02fa5",
-          "avatar": new URL('../../../assets/img/icon/avatar/1.png', import.meta.url).href,
-          "name": "何以为家",
-          "sex": "",
-          "age": null,
-          "idCard": null,
-          "phone": "",
-          "address": null,
-          "wechat": "",
-          "password": null,
-          "lastLoginTime": "1629993515",
-          "createTime": "1630035089",
-          "isDelete": 0,
-          "account": "234",
-          "pinyin": "M",
-          "select": false,
+          id: '224e9a00-ffa0-4bc1-bb07-c318c7b02fa5',
+          avatar: new URL('../../../assets/img/icon/avatar/1.png', import.meta.url).href,
+          name: '何以为家',
+          sex: '',
+          age: null,
+          idCard: null,
+          phone: '',
+          address: null,
+          wechat: '',
+          password: null,
+          lastLoginTime: '1629993515',
+          createTime: '1630035089',
+          isDelete: 0,
+          account: '234',
+          pinyin: 'M',
+          select: false,
           type: CONST_VAR.RELATE_ENUM.FOLLOW_EACH_OTHER
-        },
+        }
       ]
     }
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {
     t() {
       this.enabled = !this.enabled
@@ -111,16 +110,15 @@ export default {
     },
     unfollow(index) {
       this.$showConfirmDialog(
-          '正在与对方相互关注，是否不再关注该用户',
-          null,
-          'gray',
-          () => {
-            this.list[index].type = this.RELATE_ENUM.FOLLOW_ME
-          },
-          () => {
-          },
-          '取消关注',
-          '返回'
+        '正在与对方相互关注，是否不再关注该用户',
+        null,
+        'gray',
+        () => {
+          this.list[index].type = this.RELATE_ENUM.FOLLOW_ME
+        },
+        () => {},
+        '取消关注',
+        '返回'
       )
     }
   }
@@ -128,7 +126,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 #ChatDetail {
   position: fixed;
@@ -167,7 +165,6 @@ export default {
         }
       }
     }
-
 
     .setting {
       .row {

@@ -8,17 +8,13 @@
     <div class="content">
       <div class="recommend">
         <div class="title">
-          <div class="left">
-            已有20+位朋友加入抖音
-          </div>
+          <div class="left">已有20+位朋友加入抖音</div>
         </div>
         <div class="list">
-          <People v-for="item in list " :people="item"></People>
+          <People :key="i" v-for="(item, i) in list" :people="item"></People>
         </div>
       </div>
-      <div class="footer">
-        为尊重用户选择，仅展示已授权用户
-      </div>
+      <div class="footer">为尊重用户选择，仅展示已授权用户</div>
     </div>
   </div>
 </template>
@@ -26,16 +22,16 @@
 import People from './components/People'
 
 export default {
-  name: "AddressList",
+  name: 'AddressList',
   components: {
-    People,
+    People
   },
   data() {
     return {
       list: [
         {
-          type: 5,
-        },
+          type: 5
+        }
       ]
     }
   },
@@ -44,7 +40,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .AddressList {
   position: fixed;
@@ -89,9 +85,7 @@ export default {
       line-height: 60rem;
       height: 60rem;
       color: var(--second-text-color);
-
     }
-
   }
 }
 </style>

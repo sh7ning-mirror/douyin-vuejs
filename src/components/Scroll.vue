@@ -1,28 +1,31 @@
 <template>
-  <div v-if="useRefresh" class="scroll-wrapper scroll Scroll"
-       ref="wrapper"
-       @touchmove="move"
-       @touchend="end"
-       @scroll="scroll">
-    <Loading :is-full-screen="false" :style="pullUpStyle"/>
+  <div
+    v-if="useRefresh"
+    class="scroll-wrapper scroll Scroll"
+    ref="wrapper"
+    @touchmove="move"
+    @touchend="end"
+    @scroll="scroll"
+  >
+    <Loading :is-full-screen="false" :style="pullUpStyle" />
     <div class="scroll-content" :style="pullUpStyle">
       <slot></slot>
-      <Loading v-if="loading" :is-full-screen="false"/>
+      <Loading v-if="loading" :is-full-screen="false" />
     </div>
   </div>
   <div v-else class="scroll-wrapper scroll Scroll" ref="wrapper" @scroll="scroll">
     <div class="scroll-content">
       <slot></slot>
-      <Loading v-if="loading" :is-full-screen="fullLoading"/>
+      <Loading v-if="loading" :is-full-screen="fullLoading" />
     </div>
   </div>
 </template>
 <script>
-import Loading from "./Loading";
-import {nextTick} from "vue";
+import Loading from './Loading'
+import { nextTick } from 'vue'
 
 export default {
-  name: "Scroll",
+  name: 'Scroll',
   components: {
     Loading
   },
@@ -60,8 +63,7 @@ export default {
       }
     }
   },
-  created() {
-  },
+  created() {},
   mounted() {
     nextTick(() => {
       this.wrapper = this.$refs.wrapper
@@ -72,7 +74,7 @@ export default {
       // console.log(this.wrapper)
       // console.log(this.wrapper.scrollTop)
       if (this.refresh) return
-      if (this.wrapper.scrollTop > 0) return;
+      if (this.wrapper.scrollTop > 0) return
       if (this.wrapper.scrollTop === 0 && this.startMoveY === null) {
         this.startMoveY = e.touches[0].pageY
       }
@@ -108,7 +110,9 @@ export default {
     },
     scrollBottom() {
       nextTick(() => {
-        this.wrapper.scrollTo({top: this.wrapper.scrollHeight - this.wrapper.clientHeight})
+        this.wrapper.scrollTo({
+          top: this.wrapper.scrollHeight - this.wrapper.clientHeight
+        })
       })
     }
   }
@@ -116,7 +120,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../assets/less/index";
+@import '../assets/less/index';
 
 .scroll-wrapper {
   overflow: auto;

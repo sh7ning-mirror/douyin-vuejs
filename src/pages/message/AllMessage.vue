@@ -4,7 +4,11 @@
       <template v-slot:center>
         <div class="center" @click="isShowType = !isShowType">
           <span class="f16">{{ showTypeText }}</span>
-          <img :class="{show:isShowType}" src="../../assets/img/icon/arrow-up-white.png" alt="">
+          <img
+            :class="{ show: isShowType }"
+            src="../../assets/img/icon/arrow-up-white.png"
+            alt=""
+          />
         </div>
       </template>
     </BaseHeader>
@@ -13,25 +17,25 @@
         <div class="dialog-content">
           <div class="row" @click="toggleShowType(1)">
             <div class="left">
-              <img src="../../assets/img/icon/message/done-gray.png" alt="">
+              <img src="../../assets/img/icon/message/done-gray.png" alt="" />
               <span>全部消息</span>
             </div>
           </div>
           <div class="row" @click="toggleShowType(2)">
             <div class="left">
-              <img src="../../assets/img/icon/message/like-gray.png" alt="">
+              <img src="../../assets/img/icon/message/like-gray.png" alt="" />
               <span>赞</span>
             </div>
           </div>
           <div class="row" @click="toggleShowType(3)">
             <div class="left">
-              <img src="../../assets/img/icon/message/call-gray.png" alt="">
+              <img src="../../assets/img/icon/message/call-gray.png" alt="" />
               <span>@我的</span>
             </div>
           </div>
           <div class="row" @click="toggleShowType(4)">
             <div class="left">
-              <img src="../../assets/img/icon/message/comment-gray.png" alt="">
+              <img src="../../assets/img/icon/message/comment-gray.png" alt="" />
               <span>评论</span>
             </div>
           </div>
@@ -40,43 +44,54 @@
       </div>
     </transition>
     <div class="content">
-      <Loading v-if="loading"/>
+      <Loading v-if="loading" />
       <Scroll
-          v-else
-          ref="mainScroll"
-          :use-refresh="true"
-          :loading="loadingMore"
-          @refresh="refresh"
-          @pulldown="loadData">
+        v-else
+        ref="mainScroll"
+        :use-refresh="true"
+        :loading="loadingMore"
+        @refresh="refresh"
+        @pulldown="loadData"
+      >
         <div class="messages">
           <div class="message" @click="$nav('/message/visitors')">
             <div class="left">
-              <img v-lazy="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" class="avatar">
+              <img v-lazy="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" class="avatar" />
             </div>
             <div class="right">
               <div class="desc">
                 <div class="top">
                   <div class="name">主页访客</div>
                 </div>
-                <div class="desc-content">
-                  4人最近访问了你的主页，看看他们是谁
-                </div>
+                <div class="desc-content">4人最近访问了你的主页，看看他们是谁</div>
                 <div class="bottom">
                   <div class="time">01-11</div>
                 </div>
               </div>
-              <img v-lazy="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" class="poster">
+              <img v-lazy="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" class="poster" />
             </div>
           </div>
-          <div class="message" v-for="item in showMessageList" @click="$no">
+          <div class="message" :key="i" v-for="(item, i) in showMessageList" @click="$no">
             <div class="left">
-              <img v-lazy="$imgPreview(item.author.avatar)" alt="" class="avatar">
-              <img v-if="selectShowType === 2" src="../../assets/img/icon/message/love-message.webp" alt=""
-                   class="type">
-              <img v-if="selectShowType === 3" src="../../assets/img/icon/message/call-message.webp" alt=""
-                   class="type">
-              <img v-if="selectShowType === 4" src="../../assets/img/icon/message/comment-message.webp" alt=""
-                   class="type">
+              <img v-lazy="$imgPreview(item.author.avatar)" alt="" class="avatar" />
+              <img
+                v-if="selectShowType === 2"
+                src="../../assets/img/icon/message/love-message.webp"
+                alt=""
+                class="type"
+              />
+              <img
+                v-if="selectShowType === 3"
+                src="../../assets/img/icon/message/call-message.webp"
+                alt=""
+                class="type"
+              />
+              <img
+                v-if="selectShowType === 4"
+                src="../../assets/img/icon/message/comment-message.webp"
+                alt=""
+                class="type"
+              />
             </div>
             <div class="right">
               <div class="desc">
@@ -96,43 +111,42 @@
                   <div class="time">01-11</div>
                 </div>
               </div>
-              <img v-lazy="$imgPreview(item.video+'?vframe/jpg/offset/0/w/300')" alt="" class="poster">
+              <img
+                v-lazy="$imgPreview(item.video + '?vframe/jpg/offset/0/w/300')"
+                alt=""
+                class="poster"
+              />
             </div>
           </div>
           <div class="look-all" v-if="!showAll" @click="showAll = true">
             <span>查看全部</span>
-            <dy-back/>
+            <dy-back />
           </div>
         </div>
         <div class="title">
           <span>朋友推荐</span>
-          <img src="../../assets/img/icon/about-gray.png" alt="">
+          <img src="../../assets/img/icon/about-gray.png" alt="" />
         </div>
-        <Peoples v-model:list="recommend"
-                 :loading="loadingMore"
-                 mode="recommend"/>
+        <Peoples v-model:list="recommend" :loading="loadingMore" mode="recommend" />
       </Scroll>
     </div>
   </div>
 </template>
 <script>
-import {mapState} from "pinia";
-import People from "../people/components/People";
-import Scroll from "../../components/Scroll";
-import Loading from "../../components/Loading";
-import Peoples from "../people/components/Peoples";
-import resource from "../../assets/data/resource.js";
-import BasePage from "../BasePage";
-import {useBaseStore} from "@/store/pinia";
-import {_checkImgUrl} from "@/utils";
-
+import { mapState } from 'pinia'
+import Scroll from '../../components/Scroll'
+import Loading from '../../components/Loading'
+import Peoples from '../people/components/Peoples'
+import resource from '../../assets/data/resource.js'
+import BasePage from '../BasePage'
+import { useBaseStore } from '@/store/pinia'
+import { _checkImgUrl } from '@/utils'
 
 export default {
   extends: BasePage,
-  name: "AllMessage",
+  name: 'AllMessage',
   components: {
     Scroll,
-    People,
     Loading,
     Peoples
   },
@@ -159,6 +173,8 @@ export default {
           return '@我的'
         case 4:
           return '评论'
+        default:
+          return ''
       }
     },
     showMessageList() {
@@ -179,7 +195,7 @@ export default {
       this.loading = false
       this.recommend = this.$clone(this.friends.all)
       this.fans = this.$clone(this.friends.all)
-      this.recommend.map(v => {
+      this.recommend.map((v) => {
         v.type = -1
       })
       this.messages = this.$clone(resource.videos)
@@ -202,7 +218,7 @@ export default {
       await this.$sleep(500)
       this.loadingMore = false
       let temp = this.$clone(this.friends.all)
-      temp.map(v => {
+      temp.map((v) => {
         v.type = -1
       })
       this.recommend = this.recommend.concat(temp)
@@ -212,7 +228,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-
 #AllMessage {
   position: fixed;
   left: 0;
@@ -230,7 +245,7 @@ export default {
     img {
       width: 15rem;
       transform: rotate(180deg);
-      transition: all .3s;
+      transition: all 0.3s;
     }
 
     .show {
@@ -263,7 +278,7 @@ export default {
   }
 
   .content {
-    padding:0 var(--page-padding);
+    padding: 0 var(--page-padding);
     padding-top: var(--common-header-height);
 
     .scroll {
@@ -366,7 +381,6 @@ export default {
         }
       }
     }
-
 
     .title {
       margin-top: 15rem;

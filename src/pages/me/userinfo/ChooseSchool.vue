@@ -5,50 +5,51 @@
         <span class="f16">添加学校</span>
       </template>
       <template v-slot:right>
-        <span class="f14" @click="$nav('/me/declare-school',{type:1})">没有找到?</span>
+        <span class="f14" @click="$nav('/me/declare-school', { type: 1 })">没有找到?</span>
       </template>
       <template v-slot:bottom>
-        <Search class="mt1r mb1r ml2r mr2r" placeholder="搜索大学名称"
-                v-model="schoolName"
-                @clear="isSearch = false"
-                :is-show-right-text="true"
-                @notice="search"></Search>
+        <Search
+          class="mt1r mb1r ml2r mr2r"
+          placeholder="搜索大学名称"
+          v-model="schoolName"
+          @clear="isSearch = false"
+          :is-show-right-text="true"
+          @notice="search"
+        ></Search>
       </template>
     </BaseHeader>
     <div class="content">
       <div class="nearby" v-if="!isSearch">
         <div class="title">
-          <img src="../../../assets/img/icon/location.svg" alt="">
+          <img src="../../../assets/img/icon/location.svg" alt="" />
           <span>离我最近</span>
         </div>
-        <div v-if="nearby.length"
-             class="item"
-             v-for="item in nearby"
-             @click="setSchool(item)"
-        >{{ item }}
-        </div>
+        <template v-if="nearby.length">
+          <div class="item" :key="i" v-for="(item, i) in nearby" @click="setSchool(item)">
+            {{ item }}
+          </div>
+        </template>
         <div v-else class="item">无法获取</div>
       </div>
-      <div class="line" style="width: calc(100% - 40rem);margin-left: 20rem;"></div>
+      <div class="line" style="width: calc(100% - 40rem); margin-left: 20rem"></div>
       <div class="schools" v-if="!isSearch">
-        <div class="item" v-for="item in schools"
-             @click="setSchool(item)"
-        >{{ item }}
+        <div class="item" :key="i" v-for="(item, i) in schools" @click="setSchool(item)">
+          {{ item }}
         </div>
       </div>
       <div v-if="isSearch">
-        <div v-if="searchSchools.length" class="item" v-for="item in searchSchools"
-             @click="setSchool(item)"
-        >
-          <span v-if="item.indexOf(schoolName) > -1">
-          {{ item.substr(0, item.indexOf(schoolName)) }}
-          <span style="color: #f50">{{ schoolName }}</span>
-          {{ item.substr(item.indexOf(schoolName) + schoolName.length) }}
-        </span>
-          <span v-else>{{ item }}</span>
-        </div>
+        <template v-if="searchSchools.length">
+          <div class="item" :key="i" v-for="(item, i) in searchSchools" @click="setSchool(item)">
+            <span v-if="item.indexOf(schoolName) > -1">
+              {{ item.substr(0, item.indexOf(schoolName)) }}
+              <span style="color: #f50">{{ schoolName }}</span>
+              {{ item.substr(item.indexOf(schoolName) + schoolName.length) }}
+            </span>
+            <span v-else>{{ item }}</span>
+          </div>
+        </template>
         <div v-else class="empty">
-          <img src="../../../assets/img/icon/head-image.jpeg" alt="">
+          <img src="../../../assets/img/icon/head-image.jpeg" alt="" />
           <div class="title">搜索结果为空</div>
           <div class="sub-title">没有搜索到相关的内容</div>
           <div class="btn" @click="$nav('/me/declare-school')">没有学校信息？去申报</div>
@@ -62,7 +63,7 @@
 import Search from '../../../components/Search'
 
 export default {
-  name: "ChooseSchool",
+  name: 'ChooseSchool',
   components: {
     Search
   },
@@ -72,7 +73,7 @@ export default {
       nearby: [],
       schools: [],
       searchSchools: [],
-      schoolName: '',
+      schoolName: ''
     }
   },
   created() {
@@ -87,17 +88,17 @@ export default {
       this.$back()
     },
     search() {
-      if (!this.schoolName.length) return this.isSearch = false
+      if (!this.schoolName.length) return (this.isSearch = false)
       this.isSearch = true
       let all = this.nearby.concat(this.schools)
-      this.searchSchools = all.filter(v => v.includes(this.schoolName))
+      this.searchSchools = all.filter((v) => v.includes(this.schoolName))
     }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .choose-school {
   position: fixed;
@@ -108,12 +109,10 @@ export default {
   color: white;
   overflow: auto;
 
-
   .content {
     padding-top: 120rem;
 
     .nearby {
-
       .title {
         padding: 10rem 20rem;
 
@@ -123,7 +122,6 @@ export default {
           margin-right: 2rem;
         }
       }
-
     }
 
     .item {
@@ -133,7 +131,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: all .1s;
+      transition: all 0.1s;
       background: var(--main-bg);
 
       &:active {
@@ -170,8 +168,6 @@ export default {
         border-radius: 2px;
       }
     }
-
   }
 }
-
 </style>

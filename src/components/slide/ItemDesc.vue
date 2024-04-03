@@ -1,7 +1,5 @@
 <script setup>
-
-import {reactive} from "vue";
-import bus from "../../utils/bus";
+import { reactive } from 'vue'
 
 const props = defineProps({
   item: {
@@ -27,21 +25,20 @@ const props = defineProps({
     default: () => {
       return false
     }
-  },
+  }
 })
 
 const state = reactive({
   isAttention: false,
-  test: [1, 2],
+  test: [1, 2]
 })
-
 </script>
 <template>
   <div class="item-desc ml1r mb1r">
     <div class="content" v-if="!props.isMy">
       <div class="location-wrapper" v-if="props.item.city || item.address">
         <div class="location">
-          <img src="../../assets/img/icon/location.webp" alt="">
+          <img src="../../assets/img/icon/location.webp" alt="" />
           <span>{{ props.item.city }}</span>
           <template v-if="props.item.address">
             <div class="gang"></div>
@@ -50,19 +47,21 @@ const state = reactive({
         </div>
       </div>
       <div class="live" v-if="props.isLive">直播中</div>
-      <div class="name mb1r f18 fb" @click.stop="$emit('goUserInfo')">@{{ props.item.author.nickname }}</div>
+      <div class="name mb1r f18 fb" @click.stop="$emit('goUserInfo')">
+        @{{ props.item.author.nickname }}
+      </div>
       <div class="description">
         {{ props.item.desc }}
       </div>
-<!--      <div class="music" @click.stop="bus.emit('nav','/home/music')">-->
-<!--        <img src="../../assets/img/icon/music.svg" alt="" class="music-image">-->
-<!--        <span>{{ props.item.music.title }}</span>-->
-<!--      </div>-->
+      <!--      <div class="music" @click.stop="bus.emit('nav','/home/music')">-->
+      <!--        <img src="../../assets/img/icon/music.svg" alt="" class="music-image">-->
+      <!--        <span>{{ props.item.music.title }}</span>-->
+      <!--      </div>-->
     </div>
     <div v-else class="comment-status">
       <div class="comment">
         <div class="type-comment">
-          <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar">
+          <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar" />
           <div class="right">
             <p>
               <span class="name">zzzzz</span>
@@ -73,8 +72,8 @@ const state = reactive({
         </div>
         <transition-group name="comment-status" tag="div" class="loveds">
           <div class="type-loved" :key="i" v-for="i in state.test">
-            <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar">
-            <img src="../../assets/img/icon/love.svg" alt="" class="loved">
+            <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar" />
+            <img src="../../assets/img/icon/love.svg" alt="" class="loved" />
           </div>
         </transition-group>
       </div>
@@ -83,7 +82,6 @@ const state = reactive({
 </template>
 
 <style scoped lang="less">
-
 .item-desc {
   position: absolute;
   bottom: 0;
@@ -120,7 +118,7 @@ const state = reactive({
       }
     }
 
-    .live{
+    .live {
       border-radius: 3rem;
       margin-bottom: 10rem;
       padding: 3rem 6rem;
@@ -147,7 +145,6 @@ const state = reactive({
     align-items: center;
 
     .comment {
-
       .type-comment {
         display: flex;
         background: rgb(130, 21, 44);
@@ -172,9 +169,7 @@ const state = reactive({
           .text {
             color: white;
           }
-
         }
-
       }
 
       .loveds {
@@ -186,7 +181,7 @@ const state = reactive({
         position: relative;
         margin-bottom: 20px;
         animation: test 1s;
-        animation-delay: .5s;
+        animation-delay: 0.5s;
 
         .avatar {
           width: 36px;

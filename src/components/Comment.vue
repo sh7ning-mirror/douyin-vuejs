@@ -1,31 +1,33 @@
 <template>
   <from-bottom-dialog
-      :page-id="pageId"
-      :modelValue="modelValue"
-      @update:modelValue="e=>$emit('update:modelValue',e)"
-      @cancel="cancel"
-      :show-heng-gang="false"
-      maskMode="light"
-      :height="height"
-      tag="comment"
-      mode="white">
+    :page-id="pageId"
+    :modelValue="modelValue"
+    @update:modelValue="(e) => $emit('update:modelValue', e)"
+    @cancel="cancel"
+    :show-heng-gang="false"
+    maskMode="light"
+    :height="height"
+    tag="comment"
+    mode="white"
+  >
     <template v-slot:header>
       <div class="title">
-        <dy-back mode="dark" img="close" direction="right" style="opacity: 0;"/>
+        <dy-back mode="dark" img="close" direction="right" style="opacity: 0" />
         <div class="num">{{ formatNumber(comments.length) }}条评论</div>
         <div class="right">
-          <Icon icon="prime:arrow-up-right-and-arrow-down-left-from-center" @click.stop="$no"/>
-          <Icon icon="ic:round-close" @click.stop="cancel"/>
+          <Icon icon="prime:arrow-up-right-and-arrow-down-left-from-center" @click.stop="$no" />
+          <Icon icon="ic:round-close" @click.stop="cancel" />
         </div>
       </div>
     </template>
     <div class="comment">
       <div class="wrapper" v-if="comments.length">
         <div class="items">
-          <div class="item" v-for="item in comments" v-longpress="e => showOptions(item)">
+          <div class="item" :key="i" v-for="(item, i) in comments">
+            <!--            v-longpress="(e) => showOptions(item)"-->
             <div class="main">
               <div class="content">
-                <img :src="_checkImgUrl(item.avatar)" alt="" class="head-image">
+                <img :src="_checkImgUrl(item.avatar)" alt="" class="head-image" />
                 <div class="comment-container">
                   <div class="name">{{ item.nickname }}</div>
                   <div class="detail" :class="item.user_buried && 'gray'">
@@ -33,21 +35,33 @@
                   </div>
                   <div class="time-wrapper">
                     <div class="left">
-                      <div class="time">{{ $time(item.create_time) }}{{
-                          item.ip_location && ` · ${item.ip_location}`
-                        }}
+                      <div class="time">
+                        {{ $time(item.create_time)
+                        }}{{ item.ip_location && ` · ${item.ip_location}` }}
                       </div>
                       <div class="reply-text">回复</div>
                     </div>
                     <div class="right d-flex" style="gap: 10rem">
                       <div class="love" :class="item.user_digged && 'loved'" @click="loved(item)">
-                        <Icon icon="icon-park-solid:like" v-show="item.user_digged" class="love-image"/>
-                        <Icon icon="icon-park-outline:like" v-show="!item.user_digged" class="love-image"/>
+                        <Icon
+                          icon="icon-park-solid:like"
+                          v-show="item.user_digged"
+                          class="love-image"
+                        />
+                        <Icon
+                          icon="icon-park-outline:like"
+                          v-show="!item.user_digged"
+                          class="love-image"
+                        />
                         <span v-if="item.digg_count">{{ _formatNumber(item.digg_count) }}</span>
                       </div>
                       <div class="love" @click="item.user_buried = !item.user_buried">
-                        <Icon v-if="item.user_buried" icon="icon-park-solid:dislike-two" class="love-image"/>
-                        <Icon v-else icon="icon-park-outline:dislike" class="love-image"/>
+                        <Icon
+                          v-if="item.user_buried"
+                          icon="icon-park-solid:dislike-two"
+                          class="love-image"
+                        />
+                        <Icon v-else icon="icon-park-outline:dislike" class="love-image" />
                       </div>
                     </div>
                   </div>
@@ -56,10 +70,10 @@
             </div>
             <div class="replies" v-if="Number(item.sub_comment_count)">
               <template v-if="item.showChildren">
-                <div class="reply" v-for="child in item.children">
+                <div class="reply" :key="i" v-for="(child, i) in item.children">
                   <!--                 v-longpress="e => showOptions(child)"-->
                   <div class="content">
-                    <img :src="_checkImgUrl(child.avatar)" alt="" class="head-image">
+                    <img :src="_checkImgUrl(child.avatar)" alt="" class="head-image" />
                     <div class="comment-container">
                       <div class="name">
                         {{ child.nickname }}
@@ -69,15 +83,27 @@
                       <div class="detail">{{ child.content }}</div>
                       <div class="time-wrapper">
                         <div class="left">
-                          <div class="time">{{ $time(child.create_time) }}{{
-                              child.ip_location && ` · ${item.ip_location}`
-                            }}
+                          <div class="time">
+                            {{ $time(child.create_time)
+                            }}{{ child.ip_location && ` · ${item.ip_location}` }}
                           </div>
                           <div class="reply-text">回复</div>
                         </div>
-                        <div class="love" :class="child.user_digged && 'loved'" @click="loved(item)">
-                          <Icon icon="icon-park-solid:like" v-show="child.user_digged" class="love-image"/>
-                          <Icon icon="icon-park-outline:like" v-show="!child.user_digged" class="love-image"/>
+                        <div
+                          class="love"
+                          :class="child.user_digged && 'loved'"
+                          @click="loved(item)"
+                        >
+                          <Icon
+                            icon="icon-park-solid:like"
+                            v-show="child.user_digged"
+                            class="love-image"
+                          />
+                          <Icon
+                            icon="icon-park-outline:like"
+                            v-show="!child.user_digged"
+                            class="love-image"
+                          />
                           <span>{{ formatNumber(child.digg_count) }}</span>
                         </div>
                       </div>
@@ -85,30 +111,43 @@
                   </div>
                 </div>
               </template>
-              <Loading v-if="loadChildren && loadChildrenItemCId === item.comment_id"
-                       :type="'small'"
-                       :is-full-screen="false"/>
+              <Loading
+                v-if="loadChildren && loadChildrenItemCId === item.comment_id"
+                :type="'small'"
+                :is-full-screen="false"
+              />
               <div class="more" v-else @click="handShowChildren(item)">
                 <div class="gang"></div>
-                <span>展开{{ item.showChildren ? '更多' : `${item.sub_comment_count}条` }}回复</span>
-                <Icon icon="ep:arrow-down-bold"/>
+                <span
+                  >展开{{ item.showChildren ? '更多' : `${item.sub_comment_count}条` }}回复</span
+                >
+                <Icon icon="ep:arrow-down-bold" />
               </div>
             </div>
           </div>
         </div>
-        <no-more/>
+        <no-more />
       </div>
-      <Loading v-else style="position:absolute;"/>
+      <Loading v-else style="position: absolute" />
       <transition name="fade">
-        <Mask v-if="isCall" mode="lightgray" @click="isCall = false"/>
+        <BaseMask v-if="isCall" mode="lightgray" @click="isCall = false" />
       </transition>
       <div class="input-toolbar">
         <transition name="fade">
           <div class="call-friend" v-if="isCall">
-            <div class="friend" v-for="item in friends.all" @click="toggleCall(item)">
-              <img :style="item.select?'opacity: .5;':''" class="avatar" :src="$imgPreview(item.avatar)" alt="">
+            <div class="friend" :key="i" v-for="(item, i) in friends.all" @click="toggleCall(item)">
+              <img
+                :style="item.select ? 'opacity: .5;' : ''"
+                class="avatar"
+                :src="$imgPreview(item.avatar)"
+                alt=""
+              />
               <span>{{ item.name }}</span>
-              <img v-if="item.select" class="checked" src="../assets/img/icon/components/check/check-red-share.png">
+              <img
+                v-if="item.select"
+                class="checked"
+                src="../assets/img/icon/components/check/check-red-share.png"
+              />
             </div>
           </div>
         </transition>
@@ -117,40 +156,34 @@
           <div class="input-wrapper">
             <AutoInput v-model="comment" placeholder="善语结善缘，恶言伤人心"></AutoInput>
             <div class="right">
-              <img src="../assets/img/icon/message/call.png" @click="isCall = !isCall">
-              <img src="../assets/img/icon/message/emoji-black.png" @click="$no">
+              <img src="../assets/img/icon/message/call.png" @click="isCall = !isCall" />
+              <img src="../assets/img/icon/message/emoji-black.png" @click="$no" />
             </div>
           </div>
-          <img v-if="comment" src="../assets/img/icon/message/up.png" @click="send">
+          <img v-if="comment" src="../assets/img/icon/message/up.png" @click="send" />
         </div>
       </div>
-      <ConfirmDialog
-          title="私信给"
-          ok-text="发送"
-          v-model:visible="showPrivateChat"
-      >
-        <Search mode="light" v-model="test" :isShowSearchIcon="false"/>
+      <ConfirmDialog title="私信给" ok-text="发送" v-model:visible="showPrivateChat">
+        <Search mode="light" v-model="test" :isShowSearchIcon="false" />
       </ConfirmDialog>
     </div>
   </from-bottom-dialog>
 </template>
 
 <script>
-import AutoInput from "./AutoInput";
-import ConfirmDialog from "./dialog/ConfirmDialog";
-import {mapState} from "pinia";
-import FromBottomDialog from "./dialog/FromBottomDialog";
-import Loading from "./Loading";
-import Search from "./Search";
-import {$no, _checkImgUrl, _formatNumber, sampleSize} from "@/utils";
-import {useBaseStore} from "@/store/pinia";
-import {videoComments} from "@/api/videos";
-import Popover from "@/pages/login/components/Tooltip.vue";
+import AutoInput from './AutoInput'
+import ConfirmDialog from './dialog/ConfirmDialog'
+import { mapState } from 'pinia'
+import FromBottomDialog from './dialog/FromBottomDialog'
+import Loading from './Loading'
+import Search from './Search'
+import { $no, _checkImgUrl, _formatNumber, sampleSize } from '@/utils'
+import { useBaseStore } from '@/store/pinia'
+import { videoComments } from '@/api/videos'
 
 export default {
-  name: "Comment",
+  name: 'Comment',
   components: {
-    Popover,
     AutoInput,
     ConfirmDialog,
     FromBottomDialog,
@@ -158,7 +191,12 @@ export default {
     Search
   },
   props: {
-    modelValue: false,
+    modelValue: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    },
     videoId: {
       type: String,
       default: null
@@ -170,10 +208,10 @@ export default {
     height: {
       type: String,
       default: 'calc(var(--vh, 1vh) * 70)'
-    },
+    }
   },
   computed: {
-    ...mapState(useBaseStore, ['friends']),
+    ...mapState(useBaseStore, ['friends'])
   },
   watch: {
     modelValue(newVale) {
@@ -190,21 +228,20 @@ export default {
       test: '',
       comments: [],
       options: [
-        {id: 1, name: '私信回复'},
-        {id: 2, name: '复制'},
-        {id: 3, name: '搜一搜'},
-        {id: 4, name: '举报'},
+        { id: 1, name: '私信回复' },
+        { id: 2, name: '复制' },
+        { id: 3, name: '搜一搜' },
+        { id: 4, name: '举报' }
       ],
       selectRow: {},
       showPrivateChat: false,
       isInput: false,
       isCall: false,
       loadChildren: false,
-      loadChildrenItemCId: -1,
+      loadChildrenItemCId: -1
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     _formatNumber,
     _checkImgUrl,
@@ -236,9 +273,9 @@ export default {
       this.isCall = false
     },
     async getData() {
-      let res = await videoComments({id: this.videoId})
+      let res = await videoComments({ id: this.videoId })
       if (res.success) {
-        res.data.map(v => {
+        res.data.map((v) => {
           v.showChildren = false
           v.digg_count = Number(v.digg_count)
         })
@@ -246,8 +283,8 @@ export default {
       }
     },
     cancel() {
-      this.$emit("update:modelValue", false)
-      this.$emit("close")
+      this.$emit('update:modelValue', false)
+      this.$emit('close')
     },
     toggleCall(item) {
       item.select = !item.select
@@ -267,8 +304,7 @@ export default {
       row.user_digged = !row.user_digged
     },
     showOptions(row) {
-      return
-      this.$showSelectDialog(this.options, e => {
+      this.$showSelectDialog(this.options, (e) => {
         if (e.id === 1) {
           this.selectRow = row
           this.showPrivateChat = true
@@ -287,7 +323,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../assets/less/index";
+@import '../assets/less/index';
 
 .title {
   z-index: 2;
@@ -404,7 +440,8 @@ export default {
           span {
             margin-right: 5rem;
           }
-          svg{
+
+          svg {
             font-size: 10rem;
           }
         }
@@ -419,13 +456,11 @@ export default {
           flex: 1;
           margin-right: 20rem;
 
-
           .name {
             color: var(--second-text-color);
             margin-bottom: 5rem;
             display: flex;
             align-items: center;
-
 
             .reply-user {
               margin-left: 5rem;
@@ -482,7 +517,6 @@ export default {
       }
     }
   }
-
 
   @normal-bg-color: rgb(35, 38, 47);
   @chat-bg-color: rgb(105, 143, 244);
@@ -579,11 +613,11 @@ export default {
 
 .comment-enter-active,
 .comment-leave-active {
-  transition: all .15s ease;
+  transition: all 0.15s ease;
 }
 
-.comment-enter-from, .comment-leave-to {
+.comment-enter-from,
+.comment-leave-to {
   transform: translateY(60vh);
 }
-
 </style>

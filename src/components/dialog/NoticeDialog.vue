@@ -3,7 +3,9 @@
     <div class="content" @click.stop="stop">
       <div class="body">
         <div class="title">{{ title }}</div>
-        <div class="subtitle" :class="subtitleColor" v-if="subtitle">{{ subtitle }}</div>
+        <div class="subtitle" :class="subtitleColor" v-if="subtitle">
+          {{ subtitle }}
+        </div>
       </div>
       <div class="footer">
         <div class="cancel" @click.stop="$emit('cancel')">{{ cancelText }}</div>
@@ -13,7 +15,7 @@
 </template>
 <script>
 export default {
-  name: "NoticeDialog",
+  name: 'NoticeDialog',
   props: {
     visible: {
       type: Boolean,
@@ -47,14 +49,14 @@ export default {
   data() {
     return {}
   },
-  methods:{
-    stop(){}
+  methods: {
+    stop() {}
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .NoticeDialog {
   z-index: 10;
@@ -68,7 +70,6 @@ export default {
   justify-content: center;
   align-items: center;
   color: black;
-
 
   .content {
     background: white;
@@ -90,7 +91,7 @@ export default {
         margin-top: 10rem;
         font-size: 13rem;
 
-        &.gray{
+        &.gray {
           color: var(--second-text-color);
         }
       }
@@ -104,15 +105,10 @@ export default {
       border-top: 1px solid whitesmoke;
       font-size: 14rem;
 
-
       .cancel {
         font-weight: bold;
       }
-
     }
-
   }
-
-
 }
 </style>

@@ -1,14 +1,14 @@
 <template>
-  <div id='MyCard'>
+  <div id="MyCard">
     <div class="header">
-      <dy-back mode="light" @click="$back"/>
+      <dy-back mode="light" @click="$back" />
       <!--      todo 差一-->
-      <img class="share" src="../../assets/img/icon/share-white.png" @click="isSharing = true">
+      <img class="share" src="../../assets/img/icon/share-white.png" @click="isSharing = true" />
     </div>
     <div class="content">
       <div class="qrcode">
-        <img class="qrcode-bg" src="../../assets/img/icon/me/code-bg.png" alt="">
-        <img class="avatar" :src="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="">
+        <img class="qrcode-bg" src="../../assets/img/icon/me/code-bg.png" alt="" />
+        <img class="avatar" :src="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" />
       </div>
 
       <span class="name">ZZZZZZZZZZ</span>
@@ -18,36 +18,31 @@
       <!--      <div class="btn" @click="$nav('/scan')">-->
       <div class="btn" @click="$no">
         <div class="wrapper">
-          <img src="../../assets/img/icon/scan.png" alt="">
+          <img src="../../assets/img/icon/scan.png" alt="" />
         </div>
         <span>扫一扫</span>
       </div>
       <div class="btn" @click="$no">
         <div class="wrapper">
-          <img src="../../assets/img/icon/download.png" alt="">
+          <img src="../../assets/img/icon/download.png" alt="" />
         </div>
         <span>保存</span>
       </div>
     </div>
 
-    <Share v-model="isSharing"
-           mode="qrcode"
-           ref="share"
-           page-id="MyCard"
-    />
-
+    <Share v-model="isSharing" mode="qrcode" ref="share" page-id="MyCard" />
   </div>
 </template>
 <script>
-import Share from "../../components/Share";
-import {mapState} from "pinia";
-import {useBaseStore} from "@/store/pinia";
-import {_checkImgUrl} from "@/utils";
+import Share from '../../components/Share'
+import { mapState } from 'pinia'
+import { useBaseStore } from '@/store/pinia'
+import { _checkImgUrl } from '@/utils'
 
 export default {
-  name: "MyCard",
+  name: 'MyCard',
   components: {
-    Share,
+    Share
   },
 
   data() {
@@ -59,30 +54,28 @@ export default {
       shareToFriend: false,
       shareType: -1,
 
-      showDouyinCode: false,
+      showDouyinCode: false
     }
   },
   watch: {
-    shareType(newVal, oldVal) {
+    shareType(newVal) {
       if (newVal === -1) return
       this.showSharePassword = true
       switch (newVal) {
         case 2:
         case 3:
-          return this.okText = '去微信粘贴'
+          return (this.okText = '去微信粘贴')
         case 4:
         case 5:
-          return this.okText = '去QQ粘贴'
+          return (this.okText = '去QQ粘贴')
         case 8:
-          return this.okText = '去微博粘贴'
+          return (this.okText = '去微博粘贴')
       }
     }
   },
-  created() {
-
-  },
+  created() {},
   computed: {
-    ...mapState(useBaseStore,['userinfo'])
+    ...mapState(useBaseStore, ['userinfo'])
   },
   methods: {
     _checkImgUrl,
@@ -90,13 +83,13 @@ export default {
       setTimeout(() => {
         cb()
       }, 100)
-    },
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 #MyCard {
   background: rgb(136, 132, 133);
@@ -126,7 +119,6 @@ export default {
       margin-left: 15rem;
     }
   }
-
 
   .content {
     padding-top: var(--common-header-height);
@@ -163,10 +155,8 @@ export default {
       color: white;
       font-size: 14rem;
       margin-top: 20rem;
-      opacity: .4;
+      opacity: 0.4;
     }
-
-
   }
 
   .footer {
@@ -199,5 +189,4 @@ export default {
     }
   }
 }
-
 </style>

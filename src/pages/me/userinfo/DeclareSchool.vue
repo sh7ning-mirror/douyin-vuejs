@@ -8,17 +8,17 @@
     <div class="content">
       <div class="row">
         <div class="label">学校全称</div>
-        <input type="text" placeholder="请输入学校全称(必填)" v-model="form.name">
+        <input type="text" placeholder="请输入学校全称(必填)" v-model="form.name" />
       </div>
       <div class="row" v-if="type === 1">
         <div class="label">所在城市</div>
-        <input type="text" placeholder="请输入学校所在城市(必填)" v-model="form.location">
+        <input type="text" placeholder="请输入学校所在城市(必填)" v-model="form.location" />
       </div>
       <div class="department-row" v-if="type === 2">
         <div class="label">信息问题</div>
         <div class="right">
           <span>点击选择(必选)</span>
-          <img src="../../../assets/img/icon/back.png" alt="">
+          <img src="../../../assets/img/icon/back.png" alt="" />
         </div>
       </div>
       <div class="notice">感谢你的反馈，我们将尽快核对信息</div>
@@ -28,9 +28,9 @@
 </template>
 
 <script>
-//TODO　院系点击那个弹窗没做
+//TODO 院系点击那个弹窗没做
 export default {
-  name: "DeclareSchool",
+  name: 'DeclareSchool',
   data() {
     return {
       form: {
@@ -51,14 +51,13 @@ export default {
       if (this.type === 2 && !this.form.departmentInfoType) return this.$notice('请选择信息问题')
       this.$notice('申报成功')
       setTimeout(this.$back, 1000)
-    },
-
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .declare-school {
   position: fixed;
@@ -66,7 +65,6 @@ export default {
   bottom: 0;
   right: 0;
   left: 0;
-
 
   .content {
     padding: 70rem 20rem 0 20rem;
@@ -116,8 +114,6 @@ export default {
           width: 12rem;
         }
       }
-
-
     }
 
     .notice {
@@ -139,5 +135,4 @@ export default {
     }
   }
 }
-
 </style>

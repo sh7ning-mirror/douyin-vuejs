@@ -1,32 +1,44 @@
 <template>
   <div id="Music">
     <div class="header">
-      <dy-back mode="light" @click="$back"/>
+      <dy-back mode="light" @click="$back" />
       <transition name="fade">
         <div class="center" v-if="isFixed">
           <span class="f16">{{ music.name }}</span>
         </div>
       </transition>
       <div class="right">
-        <!--        TODO　没有淡入淡出的特效-->
+        <!--        TODO 没有淡入淡出的特效-->
         <template v-if="isFixed">
-          <img class="star" v-if="isCollect" src="../../assets/img/icon/star-yellow.png" @click.stop="toggleCollect()">
-          <img class="star" v-else src="../../assets/img/icon/star-white.png" @click.stop="toggleCollect()">
+          <img
+            class="star"
+            v-if="isCollect"
+            src="../../assets/img/icon/star-yellow.png"
+            @click.stop="toggleCollect()"
+          />
+          <img
+            class="star"
+            v-else
+            src="../../assets/img/icon/star-white.png"
+            @click.stop="toggleCollect()"
+          />
         </template>
         <div class="logo" v-if="!isFixed" @click="$nav('/home/music-rank-list')">抖音音乐榜</div>
-        <img class="share" src="../../assets/img/icon/share-white.png" @click="isSharing = true">
+        <img class="share" src="../../assets/img/icon/share-white.png" @click="isSharing = true" />
       </div>
     </div>
     <div class="content">
-      <Scroll class="Scroll"
-              :fixedHeight="180"
-              @fixed="e => this.isFixed = e"
-              @pulldown="loadData">
+      <Scroll
+        class="Scroll"
+        :fixedHeight="180"
+        @fixed="(e) => (this.isFixed = e)"
+        @pulldown="loadData"
+      >
         <div class="desc">
           <div class="cover-wrapper" @click="togglePlay()">
-            <img class="cover" :src="$imgPreview(music.cover)" alt="">
-            <img v-if="!isPlay" src="../../assets/img/icon/play-white.png" alt="" class="play">
-            <img v-if="isPlay" src="../../assets/img/icon/pause-white.png" alt="" class="play">
+            <img class="cover" :src="$imgPreview(music.cover)" alt="" />
+            <img v-if="!isPlay" src="../../assets/img/icon/play-white.png" alt="" class="play" />
+            <img v-if="isPlay" src="../../assets/img/icon/pause-white.png" alt="" class="play" />
           </div>
           <div class="info">
             <div class="name">{{ music.name }}</div>
@@ -35,74 +47,73 @@
               <div class="peoples">>{{ formatNumber(music.use_count) }} 人使用</div>
             </div>
             <div class="collection" @click.stop="toggleCollect()">
-              <img v-if="isCollect" src="../../assets/img/icon/star-yellow.png">
-              <img v-else src="../../assets/img/icon/star-white.png">
+              <img v-if="isCollect" src="../../assets/img/icon/star-yellow.png" />
+              <img v-else src="../../assets/img/icon/star-white.png" />
               <span>{{ isCollect ? '已' : '' }}收藏</span>
             </div>
           </div>
         </div>
-        <Posters mode="music" :list="videos"/>
-        <Loading :is-full-screen="false" v-if="loading"/>
-        <NoMore v-else/>
+        <Posters mode="music" :list="videos" />
+        <Loading :is-full-screen="false" v-if="loading" />
+        <NoMore v-else />
       </Scroll>
     </div>
     <div class="options">
       <div class="l-button white" @click="$no">
-        <img src="../../assets/img/icon/home/music3.png" alt="">
+        <img src="../../assets/img/icon/home/music3.png" alt="" />
         <span>分享到日常</span>
       </div>
       <div class="l-button primary" @click="$no">
-        <img src="../../assets/img/icon/home/record.png" alt="">
+        <img src="../../assets/img/icon/home/record.png" alt="" />
         <span>拍同款</span>
       </div>
     </div>
 
-    <Share v-model="isSharing"
-           mode="music"
-           ref="share"
-           pageId="Music"
-           @showDouyinCode="showDouyinCode = true"
-           @showShare2WeChatZone="shareType = 2"
-           @share2WeChat="shareType = 3"
-           @share2QQZone="shareType = 4"
-           @share2QQ="shareType = 5"
-           @share2Webo="shareType = 8"
-           @ShareToFriend="delayShowDialog( e => this.shareToFriend = true)"
+    <Share
+      v-model="isSharing"
+      mode="music"
+      ref="share"
+      pageId="Music"
+      @showDouyinCode="showDouyinCode = true"
+      @showShare2WeChatZone="shareType = 2"
+      @share2WeChat="shareType = 3"
+      @share2QQZone="shareType = 4"
+      @share2QQ="shareType = 5"
+      @share2Webo="shareType = 8"
+      @ShareToFriend="delayShowDialog((e) => (this.shareToFriend = true))"
     />
 
-    <DouyinCode v-model="showDouyinCode"/>
+    <DouyinCode v-model="showDouyinCode" />
 
     <ConfirmDialog
-        v-model:visible="showSharePassword"
-        title="你的口令已复制"
-        subtitle="0F.:/ a【风就应该自由要什么归宿】长按复制此条消息，打开抖音搜索，聆听音乐##kwu3VCixHl8##[抖音口令]"
-        :okText="okText"
-        cancelText="不分享了"
-        @ok="shareType = -1"
-        @cancel="shareType = -1"
+      v-model:visible="showSharePassword"
+      title="你的口令已复制"
+      subtitle="0F.:/ a【风就应该自由要什么归宿】长按复制此条消息，打开抖音搜索，聆听音乐##kwu3VCixHl8##[抖音口令]"
+      :okText="okText"
+      cancelText="不分享了"
+      @ok="shareType = -1"
+      @cancel="shareType = -1"
     >
       <template v-slot:header>
-        <img style="width: 100%;" src="../../assets/img/icon/share-password.webp" alt="">
+        <img style="width: 100%" src="../../assets/img/icon/share-password.webp" alt="" />
       </template>
     </ConfirmDialog>
 
-    <ShareToFriend pageId="Music" v-model="shareToFriend"/>
-
+    <ShareToFriend pageId="Music" v-model="shareToFriend" />
   </div>
 </template>
 <script>
-import Posters from "../../components/Posters";
-import Scroll from "../../components/Scroll";
-import Loading from "../../components/Loading";
-import Share from "../../components/Share";
-import DouyinCode from "../../components/DouyinCode";
-import ConfirmDialog from "../../components/dialog/ConfirmDialog";
-import ShareToFriend from "./components/ShareToFriend";
-import resource from "../../assets/data/resource";
-import {myVideo} from "@/api/videos";
+import Posters from '../../components/Posters'
+import Scroll from '../../components/Scroll'
+import Loading from '../../components/Loading'
+import Share from '../../components/Share'
+import DouyinCode from '../../components/DouyinCode'
+import ConfirmDialog from '../../components/dialog/ConfirmDialog'
+import ShareToFriend from './components/ShareToFriend'
+import { myVideo } from '@/api/videos'
 
 export default {
-  name: "Music",
+  name: 'Music',
   components: {
     Scroll,
     Posters,
@@ -140,23 +151,23 @@ export default {
         duration: 60,
         use_count: 37441000,
         is_collect: false,
-        is_play: false,
+        is_play: false
       }
     }
   },
   watch: {
-    shareType(newVal, oldVal) {
+    shareType(newVal) {
       if (newVal === -1) return
       this.showSharePassword = true
       switch (newVal) {
         case 2:
         case 3:
-          return this.okText = '去微信粘贴'
+          return (this.okText = '去微信粘贴')
         case 4:
         case 5:
-          return this.okText = '去QQ粘贴'
+          return (this.okText = '去QQ粘贴')
         case 8:
-          return this.okText = '去微博粘贴'
+          return (this.okText = '去微博粘贴')
       }
     }
   },
@@ -180,7 +191,10 @@ export default {
         this.pageNo++
       }
       this.loading = true
-      let res = await myVideo({pageNo: this.pageNo, pageSize: this.pageSize,})
+      let res = await myVideo({
+        pageNo: this.pageNo,
+        pageSize: this.pageSize
+      })
       this.loading = false
       if (res.code === this.SUCCESS) {
         this.videos = this.videos.concat(res.data.list)
@@ -193,8 +207,8 @@ export default {
         if (!this.audio.src) {
           this.audio.src = this.music.mp3
         }
-        this.audio.play();
-        this.audio.addEventListener('ended', () => this.isPlay = false)
+        this.audio.play()
+        this.audio.addEventListener('ended', () => (this.isPlay = false))
       } else {
         this.stopPlay()
       }
@@ -219,8 +233,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 #Music {
   position: fixed;
@@ -257,7 +270,7 @@ export default {
       align-items: center;
 
       .logo {
-        background: linear-gradient(to bottom, #794CFF 5%, #4C3EFE 50%);
+        background: linear-gradient(to bottom, #794cff 5%, #4c3efe 50%);
         //padding: .2rem 1rem;
         width: 80rem;
         height: 20rem;
@@ -314,7 +327,6 @@ export default {
         flex-direction: column;
         justify-content: space-between;
 
-
         .name {
           font-size: 18rem;
           color: #fff;
@@ -322,7 +334,8 @@ export default {
           margin-bottom: 10rem;
         }
 
-        .user, .peoples {
+        .user,
+        .peoples {
           font-size: 12rem;
           margin-bottom: 5rem;
           color: #999999;
@@ -385,5 +398,4 @@ export default {
     }
   }
 }
-
 </style>

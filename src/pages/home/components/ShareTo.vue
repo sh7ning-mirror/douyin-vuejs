@@ -1,83 +1,83 @@
 <template>
   <from-bottom-dialog
-      page-id="home-index"
-      v-model="showShareDialog"
-      @cancel="cancel"
-      maskMode="light"
-      height="50vh"
-      mode="white">
+    page-id="home-index"
+    v-model="showShareDialog"
+    @cancel="cancel"
+    maskMode="light"
+    height="50vh"
+    mode="white"
+  >
     <div class="option-dialog">
       <div class="buttons">
-        <dy-button v-if="downloading"
-                   class="mb1r"
-                   :border="false"
-                   :progress="progress">
-          <img src="../../../assets/img/icon/components/video/download-gray.png" alt="">
+        <dy-button v-if="downloading" class="mb1r" :border="false" :progress="progress">
+          <img src="../../../assets/img/icon/components/video/download-gray.png" alt="" />
           <span class="second-text-color">下载中 9.2MB/{{ progress }}%</span>
         </dy-button>
 
         <template v-if="canDownload">
           <dy-button type="green" v-if="showShare2WeChatZone" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/wechatzone-white.webp" alt="">
+              <img src="../../../assets/img/icon/components/video/wechatzone-white.webp" alt="" />
             </template>
             发送视频到朋友圈
           </dy-button>
           <dy-button type="green" v-if="showShare2WeChat" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/wechat-white.webp" alt="">
+              <img src="../../../assets/img/icon/components/video/wechat-white.webp" alt="" />
             </template>
             发送视频到微信
           </dy-button>
           <dy-button type="qqzone" v-if="showShare2QQZone" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/qqzone-white.png" alt="">
+              <img src="../../../assets/img/icon/components/video/qqzone-white.png" alt="" />
             </template>
             发送视频到QQ空间
           </dy-button>
           <dy-button type="qq" v-if="showShare2QQ" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/qq-white.webp" alt="">
+              <img src="../../../assets/img/icon/components/video/qq-white.webp" alt="" />
             </template>
             发送视频到QQ
           </dy-button>
           <dy-button type="webo" v-if="showShare2Webo" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/webo-white.webp" alt="">
+              <img src="../../../assets/img/icon/components/video/webo-white.webp" alt="" />
             </template>
             发送视频到微博
           </dy-button>
-          <dy-button v-if="!showDownload" class="mt1r" type="white" @click="$no">复制口令发给好友</dy-button>
+          <dy-button v-if="!showDownload" class="mt1r" type="white" @click="$no"
+            >复制口令发给好友
+          </dy-button>
         </template>
 
         <template v-else>
           <dy-button type="green" v-if="showShare2WeChatZone" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/wechatzone-white.webp" alt="">
+              <img src="../../../assets/img/icon/components/video/wechatzone-white.webp" alt="" />
             </template>
             复制口令发给好友
           </dy-button>
           <dy-button type="green" v-if="showShare2WeChat" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/wechat-white.webp" alt="">
+              <img src="../../../assets/img/icon/components/video/wechat-white.webp" alt="" />
             </template>
             复制口令发给好友
           </dy-button>
           <dy-button type="qqzone" v-if="showShare2QQZone" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/qqzone-white.png" alt="">
+              <img src="../../../assets/img/icon/components/video/qqzone-white.png" alt="" />
             </template>
             复制口令发给好友
           </dy-button>
           <dy-button type="qq" v-if="showShare2QQ" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/qq-white.webp" alt="">
+              <img src="../../../assets/img/icon/components/video/qq-white.webp" alt="" />
             </template>
             复制口令发给好友
           </dy-button>
           <dy-button type="webo" v-if="showShare2Webo" @click="$no">
             <template v-slot:prefix>
-              <img src="../../../assets/img/icon/components/video/webo-white.webp" alt="">
+              <img src="../../../assets/img/icon/components/video/webo-white.webp" alt="" />
             </template>
             复制口令发给好友
           </dy-button>
@@ -90,14 +90,19 @@
           </dy-button>
 
           <dy-button class="mt1r" type="white" @click="$no">
-            <img src="../../../assets/img/icon/components/video/wechat.webp" alt="">
+            <img src="../../../assets/img/icon/components/video/wechat.webp" alt="" />
             发送视频到微信
           </dy-button>
         </template>
       </div>
       <div class="dialog-friends">
-        <div class="dialog-friend" v-for="item in localFriends.all" @click="share(item)">
-          <img :src="$imgPreview(item.avatar)" alt="">
+        <div
+          class="dialog-friend"
+          :key="i"
+          v-for="(item, i) in localFriends.all"
+          @click="share(item)"
+        >
+          <img :src="$imgPreview(item.avatar)" alt="" />
           <div class="right">
             <span>{{ item.name }}</span>
             <div class="share-btn" v-if="!item.select">分享</div>
@@ -105,7 +110,7 @@
           </div>
         </div>
         <div class="more" @click="cancel($nav('/message/share-to-friend'))">
-          <img src="../../../assets/img/icon/components/video/more-dark.png">
+          <img src="../../../assets/img/icon/components/video/more-dark.png" />
           <div class="right">
             <span>更多好友</span>
           </div>
@@ -115,14 +120,14 @@
   </from-bottom-dialog>
 </template>
 <script>
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import {mapState} from "pinia";
-import {useBaseStore} from "@/store/pinia";
+import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
+import { mapState } from 'pinia'
+import { useBaseStore } from '@/store/pinia'
 /*
-* 分享到各种工具
-* */
+ * 分享到各种工具
+ * */
 export default {
-  name: "ShareTo",
+  name: 'ShareTo',
   components: {
     FromBottomDialog
   },
@@ -138,10 +143,10 @@ export default {
     canDownload: {
       type: Boolean,
       default: true
-    },
+    }
   },
   watch: {
-    type(newVal, oldVal) {
+    type(newVal) {
       this.change(newVal)
     },
     showShareDialog() {
@@ -160,37 +165,36 @@ export default {
       showShare2QQZone: false,
       showShare2QQ: false,
       showShare2Webo: false,
-      localFriends: [],
+      localFriends: []
     }
   },
   computed: {
-    ...mapState(useBaseStore, ['friends']),
+    ...mapState(useBaseStore, ['friends'])
   },
-  created() {
-  },
+  created() {},
   methods: {
     async change(newVal) {
       if (newVal === -1) return
       this.showShareDialog = true
       if (this.canDownload) {
         let downloadedVideo = this.$storageGet('downloadedVideo', [])
-        if (!downloadedVideo.find(v => v === this.videoId) && !this.downloading) {
+        if (!downloadedVideo.find((v) => v === this.videoId) && !this.downloading) {
           await this.downloadVideo()
         }
       }
       switch (newVal) {
         case 2:
-          return this.showShare2WeChatZone = true
+          return (this.showShare2WeChatZone = true)
         case 3:
-          return this.showShare2WeChat = true
+          return (this.showShare2WeChat = true)
         case 4:
-          return this.showShare2QQZone = true
+          return (this.showShare2QQZone = true)
         case 5:
-          return this.showShare2QQ = true
+          return (this.showShare2QQ = true)
         case 8:
-          return this.showShare2Webo = true
+          return (this.showShare2Webo = true)
         case 9:
-          return this.showDownload = true
+          return (this.showDownload = true)
       }
     },
     cancel() {
@@ -204,7 +208,7 @@ export default {
       this.$emit('update:type', -1)
     },
     downloadVideo() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         this.progress = 0
         this.downloading = true
         let time = setInterval(() => {
@@ -232,7 +236,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .option-dialog {
   .buttons {

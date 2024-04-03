@@ -1,6 +1,6 @@
 <template>
-  <div class="People" >
-    <img :src="$imgPreview(people.avatar)" alt="" class="head-image pull-left">
+  <div class="People">
+    <img :src="$imgPreview(people.avatar)" alt="" class="head-image pull-left" />
     <div class="content">
       <template v-if="mode === 'normal'">
         <div class="left">
@@ -26,7 +26,7 @@
           </template>
           <!--         关注请求-->
           <template v-if="people.type === RELATE_ENUM.REQUEST_FOLLOW">
-            <div class="l-button " @click.stop="$emit('ignore')">忽略</div>
+            <div class="l-button" @click.stop="$emit('ignore')">忽略</div>
             <div class="l-button red" @click.stop="$emit('agree')">通过</div>
           </template>
         </div>
@@ -35,19 +35,23 @@
       <template v-if="mode === 'search'">
         <div class="left">
           <div class="name">
-            <span v-if="people.name.indexOf(searchKey) > -1">{{ people.name.substr(0, people.name.indexOf(searchKey)) }}<span
-                style="color: yellow">{{
-                searchKey
-              }}</span>{{ people.name.substr(people.name.indexOf(searchKey) + searchKey.length) }}</span>
+            <span v-if="people.name.indexOf(searchKey) > -1"
+              >{{ people.name.substr(0, people.name.indexOf(searchKey))
+              }}<span style="color: yellow">{{ searchKey }}</span
+              >{{ people.name.substr(people.name.indexOf(searchKey) + searchKey.length) }}</span
+            >
             <span v-else>{{ people.name }}</span>
           </div>
-          <div class="name f12">抖音id:
+          <div class="name f12">
+            抖音id:
 
-            <span v-if="people.account.indexOf(searchKey) > -1">{{
-                people.account.substr(0, people.account.indexOf(searchKey))
-              }}<span style="color: yellow">{{
-                  searchKey
-                }}</span>{{ people.account.substr(people.account.indexOf(searchKey) + searchKey.length) }}</span>
+            <span v-if="people.account.indexOf(searchKey) > -1"
+              >{{ people.account.substr(0, people.account.indexOf(searchKey))
+              }}<span style="color: yellow">{{ searchKey }}</span
+              >{{
+                people.account.substr(people.account.indexOf(searchKey) + searchKey.length)
+              }}</span
+            >
             <span v-else>{{ people.account }}</span>
           </div>
         </div>
@@ -60,9 +64,7 @@
             <template v-if="people.type === RELATE_ENUM.REQUEST_FOLLOW">
               发来一个关注请求
             </template>
-            <template v-else>
-              关注了你
-            </template>
+            <template v-else> 关注了你</template>
           </div>
           <div class="detail">07-23</div>
         </div>
@@ -81,7 +83,7 @@
           </template>
           <!--         关注请求-->
           <template v-if="people.type === RELATE_ENUM.REQUEST_FOLLOW">
-            <div class="l-button " @click.stop="$emit('ignore')">忽略</div>
+            <div class="l-button" @click.stop="$emit('ignore')">忽略</div>
             <div class="l-button red" @click.stop="$emit('agree')">通过</div>
           </template>
         </div>
@@ -114,7 +116,11 @@
         </div>
         <div class="right">
           <div class="l-button">发私信</div>
-          <img src="../../../assets/img/icon/menu-white.png" alt="" @click.stop="showPopover = !showPopover">
+          <img
+            src="../../../assets/img/icon/menu-white.png"
+            alt=""
+            @click.stop="showPopover = !showPopover"
+          />
         </div>
       </template>
 
@@ -143,11 +149,11 @@
       <div class="popover" v-if="people.type === 4 && showPopover">
         <div class="arrow"></div>
         <div class="item">
-          <img src="../../../assets/img/icon/feedback-white.png" alt="">
+          <img src="../../../assets/img/icon/feedback-white.png" alt="" />
           <span>设置备注名</span>
         </div>
         <div class="item">
-          <img src="../../../assets/img/icon/people-red.png" alt="">
+          <img src="../../../assets/img/icon/people-red.png" alt="" />
           <span>从朋友中移除</span>
         </div>
       </div>
@@ -156,11 +162,13 @@
 </template>
 <script>
 export default {
-  name: "People",
+  name: 'People',
   props: {
     people: {
       type: Object,
-      default: {}
+      default() {
+        return {}
+      }
     },
     mode: {
       type: String,
@@ -173,18 +181,17 @@ export default {
   },
   data() {
     return {
-      showPopover: false,
+      showPopover: false
     }
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {}
 }
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .scale-enter-active,
 .scale-leave-active {
@@ -267,7 +274,6 @@ export default {
         &.red {
           background: var(--primary-btn-color);
         }
-
       }
 
       img {

@@ -1,14 +1,12 @@
 <template>
   <div class="Share2Friend">
-    <BaseHeader
-        backMode="light"
-        backImg="back" style="z-index: 7;">
+    <BaseHeader backMode="light" backImg="back" style="z-index: 7">
       <template v-slot:center>
         <span class="f16">已加入的群聊</span>
       </template>
       <template v-slot:right>
         <div>
-          <span class="f16" :class="selectFriends.length?'save-yes':'save-no'" @click="save">
+          <span class="f16" :class="selectFriends.length ? 'save-yes' : 'save-no'" @click="save">
             完成{{ selectFriends.length ? `(${selectFriends.length})` : '' }}
           </span>
         </div>
@@ -16,11 +14,18 @@
     </BaseHeader>
     <div class="content">
       <div class="list">
-        <div class="local-row" v-for="item of friends.all" @click="toggleSelect(item);">
-          <Check mode="red" v-model="item.select"/>
-          <img :src="$imgPreview(item.avatar)" alt="">
+        <div
+          class="local-row"
+          :key="i"
+          v-for="(item, i) of friends.all"
+          @click="toggleSelect(item)"
+        >
+          <Check mode="red" v-model="item.select" />
+          <img :src="$imgPreview(item.avatar)" alt="" />
           <div class="desc">
-            <span class="name">{{ item.name.length > 20 ? item.name.substr(0, 20) + '...' : item.name }}</span>
+            <span class="name">{{
+              item.name.length > 20 ? item.name.substr(0, 20) + '...' : item.name
+            }}</span>
             <span class="num">(3)</span>
           </div>
         </div>
@@ -30,13 +35,12 @@
   </div>
 </template>
 <script>
-import Search from "../../components/Search";
-import Check from "../../components/Check";
-import {friends} from "@/api/user";
+import Check from '../../components/Check'
+import { friends } from '@/api/user'
 
 export default {
-  name: "Share2Friend",
-  components: {Search, Check},
+  name: 'Share2Friend',
+  components: { Check },
   props: {},
   computed: {
     // ...mapState(['friends']),
@@ -46,9 +50,9 @@ export default {
       friends: {
         all: {},
         recent: [],
-        eachOther: [],
+        eachOther: []
       },
-      selectFriends: [],
+      selectFriends: []
     }
   },
   created() {
@@ -60,7 +64,7 @@ export default {
       this.$back()
     },
     toggleSelect(item) {
-      let resIndex = this.selectFriends.findIndex(v => v.name === item.name)
+      let resIndex = this.selectFriends.findIndex((v) => v.name === item.name)
       if (resIndex !== -1) {
         item.select = false
         this.selectFriends.splice(resIndex, 1)
@@ -74,18 +78,18 @@ export default {
       if (res.code === this.SUCCESS) {
         this.friends = res.data
         this.friends.all = this.friends.all.sort((a, b) => {
-          if (a.pinyin < b.pinyin) return -1;
-          if (a.pinyin > b.pinyin) return 1;
-          return 0;
+          if (a.pinyin < b.pinyin) return -1
+          if (a.pinyin > b.pinyin) return 1
+          return 0
         })
       }
-    },
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .Share2Friend {
   position: fixed;
@@ -101,7 +105,6 @@ export default {
     padding-top: 60rem;
   }
 
-
   .save-yes {
     color: var(--primary-btn-color);
   }
@@ -111,7 +114,6 @@ export default {
   }
 
   .list {
-
     .local-row {
       display: flex;
       align-items: center;
@@ -142,6 +144,5 @@ export default {
       }
     }
   }
-
 }
 </style>

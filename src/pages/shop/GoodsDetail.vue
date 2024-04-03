@@ -1,39 +1,32 @@
 <template>
-  <div class="goods-detail base-page"
-       ref="page"
-       @scroll="scroll"
-  >
+  <div class="goods-detail base-page" ref="page" @scroll="scroll">
     <header ref="header">
       <div class="top">
-        <Icon
-            @click="$back()"
-            icon="material-symbols-light:arrow-back-ios-new"/>
+        <Icon @click="$back()" icon="material-symbols-light:arrow-back-ios-new" />
         <div class="right">
           <div class="search">
-            <Icon icon="jam:search"/>
+            <Icon icon="jam:search" />
             <div class="placeholder">多功能电源插座</div>
           </div>
           <div class="option">
-            <Icon icon="jam:search"/>
-            <Icon icon="mynaui:star"/>
-            <Icon icon="ph:share-fat"/>
+            <Icon icon="jam:search" />
+            <Icon icon="mynaui:star" />
+            <Icon icon="ph:share-fat" />
           </div>
         </div>
       </div>
     </header>
     <header class="shadow" ref="headerShadow">
       <div class="top">
-        <Icon
-            @click="$back()"
-            icon="material-symbols-light:arrow-back-ios-new"/>
+        <Icon @click="$back()" icon="material-symbols-light:arrow-back-ios-new" />
         <div class="right">
           <div class="search">
-            <Icon icon="jam:search"/>
+            <Icon icon="jam:search" />
             <div class="placeholder">多功能电源插座</div>
           </div>
           <div class="option">
-            <Icon icon="mynaui:star"/>
-            <Icon icon="ph:share-fat"/>
+            <Icon icon="mynaui:star" />
+            <Icon icon="ph:share-fat" />
           </div>
         </div>
       </div>
@@ -55,8 +48,8 @@
 
     <div class="slide-imgs">
       <SlideHorizontal v-model:index="state.index">
-        <SlideItem v-for="item in state.detail.imgs">
-          <img v-lazy="_checkImgUrl('goods/'+item)" alt=""/>
+        <SlideItem v-for="(item, i) in state.detail.imgs" :key="i">
+          <img v-lazy="_checkImgUrl('goods/' + item)" alt="" />
         </SlideItem>
       </SlideHorizontal>
       <div class="index">{{ state.index + 1 }}/{{ state.detail.imgs.length }}</div>
@@ -87,7 +80,7 @@
           <div class="label">保障</div>
           <div class="desc">
             假一赔四·运费险·极速退款
-            <Icon class="arrow" icon="mingcute:right-line"/>
+            <Icon class="arrow" icon="mingcute:right-line" />
           </div>
         </div>
         <div class="item">
@@ -104,32 +97,34 @@
                 <div class="count">共3种规格可选</div>
               </div>
             </div>
-            <Icon class="arrow" icon="mingcute:right-line"/>
+            <Icon class="arrow" icon="mingcute:right-line" />
           </div>
         </div>
         <div class="item">
           <div class="label">物流</div>
-          <div class="desc" style="display:block;">
-            <div style="display:flex;gap: 5rem">
+          <div class="desc" style="display: block">
+            <div style="display: flex; gap: 5rem">
               <span>发货 四川成都</span>
               <span style="color: #dedede">|</span>
               <span>免运费</span>
             </div>
             <div class="flex space-between mb1r mt1r">
               <div>48小时内发货</div>
-              <Icon class="arrow" icon="mingcute:right-line"/>
+              <Icon class="arrow" icon="mingcute:right-line" />
             </div>
             <div class="flex space-between mt1r">
               <div class="gray">送至 四川省成都市</div>
-              <Icon class="arrow" icon="mingcute:right-line"/>
+              <Icon class="arrow" icon="mingcute:right-line" />
             </div>
           </div>
         </div>
         <div class="item mb0r">
           <div class="label">参数</div>
           <div class="desc">
-            <div class="ellipsis">优惠新人券 立减4新人券立减4新人券立减4新人券 立减4新人券 立减4</div>
-            <Icon class="arrow" icon="mingcute:right-line"/>
+            <div class="ellipsis">
+              优惠新人券 立减4新人券立减4新人券立减4新人券 立减4新人券 立减4
+            </div>
+            <Icon class="arrow" icon="mingcute:right-line" />
           </div>
         </div>
       </div>
@@ -137,7 +132,7 @@
       <div class="card comments">
         <header>
           <span>商品评论(507)</span>
-          <Icon class="arrow" icon="mingcute:right-line"/>
+          <Icon class="arrow" icon="mingcute:right-line" />
         </header>
         <div class="tags">
           <div class="tag">物美价廉 <span class="gray">29</span></div>
@@ -147,43 +142,35 @@
         </div>
         <div class="comment">
           <header>
-            <img :src="_checkImgUrl('2S9bbgb-Sf2kIdSTxoeTw.png')" alt="" class="avatar">
+            <img :src="_checkImgUrl('2S9bbgb-Sf2kIdSTxoeTw.png')" alt="" class="avatar" />
             <span class="gray">花***栽</span>
           </header>
           <div class="w">
             <div class="left">
-              <div class="d">
-                东西不错质量也很好 性价比很高 良心商家就冲这图必须给好评
-              </div>
-              <div class="c2">
-                china款/超值【买る双+送2双】共5双
-              </div>
+              <div class="d">东西不错质量也很好 性价比很高 良心商家就冲这图必须给好评</div>
+              <div class="c2">china款/超值【买る双+送2双】共5双</div>
             </div>
-            <img :src="_checkImgUrl('NYEfuYS-LVZ620UYgQNAM.png')" alt="" class="avatar">
+            <img :src="_checkImgUrl('NYEfuYS-LVZ620UYgQNAM.png')" alt="" class="avatar" />
           </div>
         </div>
         <div class="comment">
           <header>
-            <img :src="_checkImgUrl('9Tx6cZkUOoHqPkbETUZ5Y.png')" alt="" class="avatar">
+            <img :src="_checkImgUrl('9Tx6cZkUOoHqPkbETUZ5Y.png')" alt="" class="avatar" />
             <span class="gray">花***栽</span>
           </header>
           <div class="w">
             <div class="left">
-              <div class="d">
-                东西不错质量也很好 性价比很高 良心商家就冲这图必须给好评
-              </div>
-              <div class="c2">
-                china款/超值【买る双+送2双】共5双
-              </div>
+              <div class="d">东西不错质量也很好 性价比很高 良心商家就冲这图必须给好评</div>
+              <div class="c2">china款/超值【买る双+送2双】共5双</div>
             </div>
-            <img :src="_checkImgUrl('2b2rpive_RVzDrYgo-F9K.png')" alt="" class="avatar">
+            <img :src="_checkImgUrl('2b2rpive_RVzDrYgo-F9K.png')" alt="" class="avatar" />
           </div>
         </div>
       </div>
 
       <div class="card shop">
         <header>
-          <img :src="_checkImgUrl('LJ-8p2jF3HydBD5j28PgQ.png')" alt="" class="avatar">
+          <img :src="_checkImgUrl('LJ-8p2jF3HydBD5j28PgQ.png')" alt="" class="avatar" />
           <div class="right">
             <div class="l">
               <div class="name">店铺名</div>
@@ -220,12 +207,12 @@
             <span class="left">店铺推荐</span>
             <div class="right">
               <span class="gray">查看全部</span>
-              <Icon class="arrow" icon="mingcute:right-line"/>
+              <Icon class="arrow" icon="mingcute:right-line" />
             </div>
           </header>
           <div class="wrap">
             <div class="item">
-              <img :src="_checkImgUrl('/goods/g6-0.jpg')" alt="" class="avatar">
+              <img :src="_checkImgUrl('/goods/g6-0.jpg')" alt="" class="avatar" />
               <div class="name">小米电视6 65" OLED 65英寸</div>
               <div class="price">
                 <span class="symbol">￥</span>
@@ -234,7 +221,7 @@
               </div>
             </div>
             <div class="item">
-              <img :src="_checkImgUrl('/goods/g1-0.jpg')" alt="" class="avatar">
+              <img :src="_checkImgUrl('/goods/g1-0.jpg')" alt="" class="avatar" />
               <div class="name">红白撞色条纹软糯针织上衣女2022年秋季新款甜美减龄短款毛衣开衫</div>
               <div class="price">
                 <span class="symbol">￥</span>
@@ -243,7 +230,7 @@
               </div>
             </div>
             <div class="item">
-              <img :src="_checkImgUrl('/goods/g2-0.webp')" alt="" class="avatar">
+              <img :src="_checkImgUrl('/goods/g2-0.webp')" alt="" class="avatar" />
               <div class="name">森马t恤男2023男士纯棉上衣白色情侣装凉感短袖打底衫纯色体恤潮</div>
               <div class="price">
                 <span class="symbol">￥</span>
@@ -252,7 +239,7 @@
               </div>
             </div>
             <div class="item">
-              <img :src="_checkImgUrl('/goods/g3-0.jpg')" alt="" class="avatar">
+              <img :src="_checkImgUrl('/goods/g3-0.jpg')" alt="" class="avatar" />
               <div class="name">ins潮牌长袖t恤男宽松纯色内搭上衣潮牌百搭秋冬季潮流帅气打底衫</div>
               <div class="price">
                 <span class="symbol">￥</span>
@@ -273,19 +260,28 @@
       </header>
 
       <div class="imgs">
-        <img v-lazy="_checkImgUrl('goods/'+i)" alt="" class="avatar" v-for="i in state.detail.imgs">
+        <img
+          v-lazy="_checkImgUrl('goods/' + i)"
+          alt=""
+          class="avatar"
+          :key="j"
+          v-for="(i, j) in state.detail.imgs"
+        />
       </div>
     </div>
 
     <div class="p">
       <div class="card other-desc">
-        <div class="item"
-             :class="activeIndexs.includes(i) && 'active'"
-             @click="toggle(i)"
-             v-for="(item,i) in 3">
+        <div
+          class="item"
+          :class="activeIndexs.includes(i) && 'active'"
+          @click="toggle(i)"
+          :key="i"
+          v-for="(item, i) in 3"
+        >
           <header>
             <div class="l">价格说明</div>
-            <Icon class="arrow" icon="mingcute:right-line"/>
+            <Icon class="arrow" icon="mingcute:right-line" />
           </header>
           <div class="text">
             价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明价格说明
@@ -294,26 +290,22 @@
       </div>
 
       <div class="other-recommend">
-        <header>
-          你可以还会喜欢
-        </header>
+        <header>你可以还会喜欢</header>
 
-        <ScrollList
-            class="Scroll"
-            :api="recommendedShop"
-        >
-          <template v-slot="{list}">
+        <ScrollList class="Scroll" :api="recommendedShop">
+          <template v-slot="{ list }">
             <WaterfallList :list="list">
-              <template v-slot="{item}">
-                <div class="goods"
-                     @click="nav('/shop/detail',{},item)">
+              <template v-slot="{ item }">
+                <div class="goods" @click="nav('/shop/detail', {}, item)">
                   <div class="item">
-                    <img class="poster" v-lazy="_checkImgUrl('goods/'+item.cover)"/>
+                    <img class="poster" v-lazy="_checkImgUrl('goods/' + item.cover)" />
                     <div class="bottom">
                       <div class="desc">
                         {{ item.name }}
                       </div>
-                      <div class="discounts" v-if="item.discount">{{ item.discount }}</div>
+                      <div class="discounts" v-if="item.discount">
+                        {{ item.discount }}
+                      </div>
                       <div class="info">
                         <div class="price">
                           ￥
@@ -321,9 +313,7 @@
                         </div>
                         <div class="num">已售{{ item.sold }}件</div>
                       </div>
-                      <div class="low" v-if="item.isLowPrice">
-                        近30天低价
-                      </div>
+                      <div class="low" v-if="item.isLowPrice">近30天低价</div>
                     </div>
                   </div>
                 </div>
@@ -331,22 +321,21 @@
             </WaterfallList>
           </template>
         </ScrollList>
-
       </div>
     </div>
 
     <div class="toolbar">
       <div class="options">
         <div class="option">
-          <Icon icon="iconoir:shop-window"/>
+          <Icon icon="iconoir:shop-window" />
           <div class="text">进店</div>
         </div>
         <div class="option">
-          <Icon icon="icon-park-outline:message-emoji"/>
+          <Icon icon="icon-park-outline:message-emoji" />
           <div class="text">客服</div>
         </div>
         <div class="option">
-          <Icon icon="icon-park-outline:shopping"/>
+          <Icon icon="icon-park-outline:shopping" />
           <div class="text">购物车</div>
         </div>
       </div>
@@ -359,15 +348,15 @@
 </template>
 
 <script setup>
-import SlideHorizontal from "@/components/slide/SlideHorizontal.vue";
-import SlideItem from "@/components/slide/SlideItem.vue";
-import {onMounted, onUnmounted, reactive, ref} from "vue";
-import {useNav} from "@/utils/hooks/useNav";
-import {_checkImgUrl} from "@/utils";
-import {useBaseStore} from "@/store/pinia";
-import {recommendedShop} from "@/api/user";
-import WaterfallList from "@/components/WaterfallList.vue";
-import ScrollList from "@/components/ScrollList.vue";
+import SlideHorizontal from '@/components/slide/SlideHorizontal.vue'
+import SlideItem from '@/components/slide/SlideItem.vue'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
+import { useNav } from '@/utils/hooks/useNav'
+import { _checkImgUrl } from '@/utils'
+import { useBaseStore } from '@/store/pinia'
+import { recommendedShop } from '@/api/user'
+import WaterfallList from '@/components/WaterfallList.vue'
+import ScrollList from '@/components/ScrollList.vue'
 
 defineOptions({
   name: 'GoodsDetail'
@@ -401,7 +390,7 @@ const state = reactive({
 })
 
 function toggle(i) {
-  let rIndex = activeIndexs.value.findIndex(v => v === i)
+  let rIndex = activeIndexs.value.findIndex((v) => v === i)
   if (rIndex > -1) {
     activeIndexs.value.splice(rIndex, 1)
   } else {
@@ -420,7 +409,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="less">
-@import "@/assets/less/index.less";
+@import '@/assets/less/index.less';
 
 .goods-detail {
   background: #f5f5f5;
@@ -654,7 +643,6 @@ onUnmounted(() => {
         color: gray;
       }
     }
-
 
     .desc-wrapper {
       .item {
@@ -929,7 +917,6 @@ onUnmounted(() => {
               }
             }
           }
-
         }
       }
     }
@@ -1150,10 +1137,7 @@ onUnmounted(() => {
           background: rgb(255, 233, 237);
         }
       }
-
     }
-
   }
 }
-
 </style>

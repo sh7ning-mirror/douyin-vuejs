@@ -6,7 +6,7 @@
       </template>
       <template v-slot:right>
         <div>
-          <span class="f16" :class="isChanged?'save-yes':'save-no'" @click="save">保存</span>
+          <span class="f16" :class="isChanged ? 'save-yes' : 'save-no'" @click="save">保存</span>
         </div>
       </template>
     </BaseHeader>
@@ -15,21 +15,21 @@
         <div class="left">学校</div>
         <div class="right">
           <span>{{ isEmpty(localSchool.name) }}</span>
-          <dy-back scale='1' direction="right"></dy-back>
+          <dy-back scale="1" direction="right"></dy-back>
         </div>
       </div>
       <div class="row" @click="checkGo('/me/choose-department')">
         <div class="left">院系</div>
         <div class="right">
           <span>{{ isEmpty(localSchool.department) }}</span>
-          <dy-back scale='1' direction="right"></dy-back>
+          <dy-back scale="1" direction="right"></dy-back>
         </div>
       </div>
       <div class="row" @click="showJoinTimeDialog">
         <div class="left">入学时间</div>
         <div class="right">
           <span>{{ isEmpty(localSchool.joinTime) }}</span>
-          <dy-back scale='1' direction="right"></dy-back>
+          <dy-back scale="1" direction="right"></dy-back>
           <div v-show="false" id="trigger1"></div>
         </div>
       </div>
@@ -37,14 +37,14 @@
         <div class="left">学历</div>
         <div class="right">
           <span>{{ isEmpty(localSchool.education) }}</span>
-          <dy-back scale='1' direction="right"></dy-back>
+          <dy-back scale="1" direction="right"></dy-back>
         </div>
       </div>
-      <div class="row" @click="$nav('/me/display-type',{displayType : localSchool.displayType})">
+      <div class="row" @click="$nav('/me/display-type', { displayType: localSchool.displayType })">
         <div class="left">展示范围</div>
         <div class="right">
           <span>{{ displayType }}</span>
-          <dy-back scale='1' direction="right"></dy-back>
+          <dy-back scale="1" direction="right"></dy-back>
         </div>
       </div>
     </div>
@@ -52,28 +52,28 @@
 </template>
 
 <script>
-import {mapState} from 'pinia'
+import { mapState } from 'pinia'
 import enums from '../../../utils/enums'
-import {inject} from "vue";
-import MobileSelect from "../../../components/mobile-select/mobile-select";
-import {useBaseStore} from "@/store/pinia";
+import { inject } from 'vue'
+import MobileSelect from '../../../components/mobile-select/mobile-select'
+import { useBaseStore } from '@/store/pinia'
 
 //TODO 年份选择器没做
 export default {
-  name: "AddSchool",
+  name: 'AddSchool',
   setup() {
     const baseStore = useBaseStore()
-    return {baseStore}
+    return { baseStore }
   },
   data() {
     return {
       mitt: inject('mitt'),
       localSchool: this.$clone(this.baseStore.userinfo.school),
       educationList: [
-        {id: 1, name: '专科'},
-        {id: 2, name: '本科'},
-        {id: 3, name: '硕士'},
-        {id: 4, name: '博士'},
+        { id: 1, name: '专科' },
+        { id: 2, name: '本科' },
+        { id: 3, name: '硕士' },
+        { id: 4, name: '博士' }
       ]
     }
   },
@@ -97,26 +97,27 @@ export default {
       if (this.school.department !== this.localSchool.department) return true
       if (this.school.joinTime !== this.localSchool.joinTime) return true
       if (this.school.education !== this.localSchool.education) return true
-      return this.school.displayType !== this.localSchool.displayType;
+      return this.school.displayType !== this.localSchool.displayType
     },
     displayType() {
       if (this.localSchool.displayType === enums.DISPLAY_TYPE.ALL) return '公开可见'
       if (this.localSchool.displayType === enums.DISPLAY_TYPE.SCHOOL) return '校友可见'
       if (this.localSchool.displayType === enums.DISPLAY_TYPE.ME) return '仅自己可见'
+      return ''
     },
     school() {
       return this.userinfo.school
-    },
+    }
   },
   methods: {
     showJoinTimeDialog() {
       new MobileSelect({
-        trigger: "#trigger1",
-        title: "学历",
+        trigger: '#trigger1',
+        title: '学历',
         wheels: [
           {
-            data: Array.apply(null, {length: 50}).map((v, i) => new Date().getFullYear() - i)
-          },
+            data: Array.apply(null, { length: 50 }).map((v, i) => new Date().getFullYear() - i)
+          }
         ],
         callback: (indexArr, data) => {
           localStorage.setItem('changeJoinTime', data[0])
@@ -125,7 +126,7 @@ export default {
       }).show()
     },
     showEducationDialog() {
-      this.$showSelectDialog(this.educationList, e => {
+      this.$showSelectDialog(this.educationList, (e) => {
         localStorage.setItem('changeEducation', e.name)
         this.localSchool.education = e.name
       })
@@ -140,10 +141,14 @@ export default {
     },
     back() {
       if (this.isChanged) {
-        this.$showSimpleConfirmDialog('学校信息30天内只允许修改一次，是否保存修改', this.save, () => {
-          localStorage.clear()
-          this.$back()
-        })
+        this.$showSimpleConfirmDialog(
+          '学校信息30天内只允许修改一次，是否保存修改',
+          this.save,
+          () => {
+            localStorage.clear()
+            this.$back()
+          }
+        )
       } else {
         localStorage.clear()
         this.$back()
@@ -152,7 +157,7 @@ export default {
     async save() {
       if (!this.isChanged) return
       this.$showLoading()
-      let data = {...this.userinfo, ...{school: this.localSchool}}
+      let data = { ...this.userinfo, ...{ school: this.localSchool } }
       this.baseStore.setUserinfo(data)
       await this.$sleep(500)
       this.$hideLoading()
@@ -165,7 +170,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .school {
   position: fixed;
@@ -177,7 +182,6 @@ export default {
 
   .content {
     padding-top: 60rem;
-
   }
 }
 
@@ -188,6 +192,4 @@ export default {
 .save-no {
   color: var(--disable-primary-btn-color);
 }
-
-
 </style>

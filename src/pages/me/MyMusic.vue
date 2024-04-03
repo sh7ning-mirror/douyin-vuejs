@@ -1,35 +1,41 @@
 <template>
   <div class="MyMusic">
     <div class="header">
-      <dy-back class="back" mode="light" img="back" @click="$back"/>
+      <dy-back class="back" mode="light" img="back" @click="$back" />
       <IndicatorLight
-          name="myMusicList"
-          :tabTexts="['猜你爱听','我的收藏']"
-          v-model:active-index="slideIndex">
+        name="myMusicList"
+        :tabTexts="['猜你爱听', '我的收藏']"
+        v-model:active-index="slideIndex"
+      >
       </IndicatorLight>
-      <dy-back style="opacity: 0;" mode="light" img="back"/>
+      <dy-back style="opacity: 0" mode="light" img="back" />
     </div>
     <SlideHorizontal name="myMusicList" v-model:index="slideIndex">
       <SlideItem>
-        <GuessMusic :list="guessMusic"/>
+        <GuessMusic :list="guessMusic" />
       </SlideItem>
-      <SlideItem style="overflow: auto;">
-        <Loading style="left: 150%;" v-if="loading"/>
+      <SlideItem style="overflow: auto">
+        <Loading style="left: 150%" v-if="loading" />
         <div v-else class="my-collect">
           <div class="wrapper">
             <div class="play-all">
               <div class="left">
-                <img src="../../assets/img/icon/me/play-all.webp" alt="">
+                <img src="../../assets/img/icon/me/play-all.webp" alt="" />
                 <span>播放全部</span>
                 <span class="num">(2)</span>
               </div>
-              <img class="menu" src="../../assets/img/icon/menu-white.png" alt="">
+              <img class="menu" src="../../assets/img/icon/menu-white.png" alt="" />
             </div>
             <div class="collect-list">
-              <div class="item" v-for="(item,index) in collectMusic" @click="page2PlayMusic(item)">
+              <div
+                class="item"
+                :key="index"
+                v-for="(item, index) in collectMusic"
+                @click="page2PlayMusic(item)"
+              >
                 <div class="left">
                   <div class="cover-wrapper">
-                    <img v-lazy="$imgPreview(item.cover)" alt="" class="cover">
+                    <img v-lazy="$imgPreview(item.cover)" alt="" class="cover" />
                   </div>
                   <div class="desc">
                     <span class="name">{{ item.name }}</span>
@@ -41,8 +47,11 @@
                   </div>
                 </div>
                 <div class="right">
-                  <img v-if="page2SlideIndex === index" class="playing-icon"
-                       src="../../assets/img/icon/me/pinlv.gif">
+                  <img
+                    v-if="page2SlideIndex === index"
+                    class="playing-icon"
+                    src="../../assets/img/icon/me/pinlv.gif"
+                  />
                 </div>
               </div>
             </div>
@@ -54,10 +63,15 @@
               </div>
             </div>
             <div class="recommend-list">
-              <div class="item" v-for="(item,index) in recommendMusic" @click="page2PlayMusic(item)">
+              <div
+                class="item"
+                :key="index"
+                v-for="(item, index) in recommendMusic"
+                @click="page2PlayMusic(item)"
+              >
                 <div class="left">
                   <div class="cover-wrapper">
-                    <img v-lazy="$imgPreview(item.cover)" alt="" class="cover">
+                    <img v-lazy="$imgPreview(item.cover)" alt="" class="cover" />
                   </div>
                   <div class="desc">
                     <span class="name">{{ item.name }}</span>
@@ -69,13 +83,22 @@
                   </div>
                 </div>
                 <div class="right">
-                  <img v-if="page2SlideIndex - collectMusic.length === index" class="playing-icon"
-                       src="../../assets/img/icon/me/pinlv.gif">
+                  <img
+                    v-if="page2SlideIndex - collectMusic.length === index"
+                    class="playing-icon"
+                    src="../../assets/img/icon/me/pinlv.gif"
+                  />
                   <div class="collect-icon">
-                    <img src="../../assets/img/icon/star-white.png" v-show="!item.isCollect"
-                         @click.stop="item.isCollect = !item.isCollect">
-                    <img src="../../assets/img/icon/star-yellow.png" v-show="item.isCollect"
-                         @click.stop="item.isCollect = !item.isCollect">
+                    <img
+                      src="../../assets/img/icon/star-white.png"
+                      v-show="!item.isCollect"
+                      @click.stop="item.isCollect = !item.isCollect"
+                    />
+                    <img
+                      src="../../assets/img/icon/star-yellow.png"
+                      v-show="item.isCollect"
+                      @click.stop="item.isCollect = !item.isCollect"
+                    />
                   </div>
                 </div>
               </div>
@@ -85,14 +108,29 @@
             <div v-if="isShowFloatPlay" class="playing" @click="isShowCollectDialog = true">
               <div class="playing-wrapper">
                 <div class="cover-wrapper">
-                  <img v-lazy="$imgPreview(currentMusic.cover)" alt="" class="cover">
+                  <img v-lazy="$imgPreview(currentMusic.cover)" alt="" class="cover" />
                 </div>
                 <div class="name">{{ currentMusic.name }}</div>
-                <img v-show="page2IsPlay" @click.stop="togglePage2Play" class="option"
-                     src="../../assets/img/icon/me/float-pause-one.png" alt="">
-                <img v-show="!page2IsPlay" @click.stop="togglePage2Play" class="option"
-                     src="../../assets/img/icon/me/float-play.png" alt="">
-                <img @click.stop="$no" class="menu-list" src="../../assets/img/icon/me/music-list.png" alt="">
+                <img
+                  v-show="page2IsPlay"
+                  @click.stop="togglePage2Play"
+                  class="option"
+                  src="../../assets/img/icon/me/float-pause-one.png"
+                  alt=""
+                />
+                <img
+                  v-show="!page2IsPlay"
+                  @click.stop="togglePage2Play"
+                  class="option"
+                  src="../../assets/img/icon/me/float-play.png"
+                  alt=""
+                />
+                <img
+                  @click.stop="$no"
+                  class="menu-list"
+                  src="../../assets/img/icon/me/music-list.png"
+                  alt=""
+                />
               </div>
             </div>
           </transition>
@@ -102,34 +140,34 @@
     <transition name="my-collect-dialog">
       <div class="my-collect-dialog" v-show="isShowCollectDialog">
         <div class="dialog-header">
-          <dy-back class="close" mode="light" img="back" @click="isShowCollectDialog = false"/>
+          <dy-back class="close" mode="light" img="back" @click="isShowCollectDialog = false" />
           <span>我的收藏</span>
-          <dy-back style="opacity: 0;" mode="light" img="back"/>
+          <dy-back style="opacity: 0" mode="light" img="back" />
         </div>
-        <CollectMusic ref="CollectMusic" :list="page2Music" v-model:page2SlideIndex="page2SlideIndex"/>
+        <CollectMusic
+          ref="CollectMusic"
+          :list="page2Music"
+          v-model:page2SlideIndex="page2SlideIndex"
+        />
       </div>
     </transition>
   </div>
 </template>
 <script>
-import {mapState} from "pinia";
-import Switches from "../message/components/swtich/switches";
-import SlideItemMusic from "./components/SlideItemMusic";
-import IndicatorLight from "../../components/slide/IndicatorLight";
-import FromBottomDialog from "../../components/dialog/FromBottomDialog";
-import GuessMusic from "./components/GuessMusic";
-import CollectMusic from "./components/CollectMusic";
-import Loading from "../../components/Loading";
-import {userCollect} from "@/api/user";
-import {useBaseStore} from "@/store/pinia";
+import { mapState } from 'pinia'
+import Switches from '../message/components/swtich/switches'
+import IndicatorLight from '../../components/slide/IndicatorLight'
+import GuessMusic from './components/GuessMusic'
+import CollectMusic from './components/CollectMusic'
+import Loading from '../../components/Loading'
+import { userCollect } from '@/api/user'
+import { useBaseStore } from '@/store/pinia'
 
 //TODO 两个page页面的播放冲突未做
 export default {
-  name: "MyMusic",
+  name: 'MyMusic',
   components: {
-    FromBottomDialog,
     Switches,
-    SlideItemMusic,
     IndicatorLight,
     GuessMusic,
     CollectMusic,
@@ -147,7 +185,7 @@ export default {
         duration: 60,
         use_count: 37441000,
         is_collect: false,
-        is_play: false,
+        is_play: false
       },
       collectMusic: [],
       recommendMusic: [],
@@ -160,11 +198,11 @@ export default {
       isCollect: false,
 
       page2SlideIndex: -1,
-      page2IsPlay: false,
+      page2IsPlay: false
     }
   },
   computed: {
-    ...mapState(useBaseStore,['bodyWidth']),
+    ...mapState(useBaseStore, ['bodyWidth']),
     page2Music() {
       return this.collectMusic.concat(this.recommendMusic)
     }
@@ -185,7 +223,7 @@ export default {
       this.currentMusic = item
       this.isShowFloatPlay = true
       this.page2IsPlay = true
-      this.page2SlideIndex = this.page2Music.findIndex(v => v.name === item.name)
+      this.page2SlideIndex = this.page2Music.findIndex((v) => v.name === item.name)
       this.isShowCollectDialog = true
       this.$refs.CollectMusic.play(this.page2SlideIndex)
     },
@@ -197,13 +235,13 @@ export default {
         this.collectMusic = res.data.music.list.slice(0, 2)
         this.guessMusic = this.recommendMusic = res.data.music.list.slice(2, -1)
       }
-    },
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .MyMusic {
   position: fixed;
@@ -234,7 +272,6 @@ export default {
     .indicator-ctn {
       width: 60vw;
     }
-
   }
 
   .my-collect {
@@ -275,7 +312,8 @@ export default {
       }
     }
 
-    .collect-list, .recommend-list {
+    .collect-list,
+    .recommend-list {
       .item {
         color: white;
         display: flex;
@@ -313,7 +351,8 @@ export default {
               max-width: 40vw;
             }
 
-            .author, .desc-bottom {
+            .author,
+            .desc-bottom {
               font-size: 12rem;
               color: var(--second-text-color);
             }
@@ -353,7 +392,6 @@ export default {
             }
           }
         }
-
       }
     }
 
@@ -374,7 +412,6 @@ export default {
           color: var(--second-text-color);
           margin-right: 10rem;
         }
-
       }
     }
 
@@ -413,7 +450,6 @@ export default {
       .name {
         margin: 0 10rem;
         flex: 1;
-
       }
 
       .option {

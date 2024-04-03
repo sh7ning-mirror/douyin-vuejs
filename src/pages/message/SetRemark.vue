@@ -6,16 +6,22 @@
       </template>
       <template v-slot:right>
         <div>
-          <span class="f16" :class="isChanged?'save-yes':'save-no'" @click="save">保存</span>
+          <span class="f16" :class="isChanged ? 'save-yes' : 'save-no'" @click="save">保存</span>
         </div>
       </template>
     </BaseHeader>
 
     <div class="content">
       <div class="notice">备注名</div>
-      <div class="input-ctn" style="margin-bottom: 1rem;">
-        <input type="text" v-model="remark" placeholder="请输入备注名">
-        <img v-if="remark.length" class="close" src="../../assets/img/icon/close.svg" alt="" @click="remark = ''">
+      <div class="input-ctn" style="margin-bottom: 1rem">
+        <input type="text" v-model="remark" placeholder="请输入备注名" />
+        <img
+          v-if="remark.length"
+          class="close"
+          src="../../assets/img/icon/close.svg"
+          alt=""
+          @click="remark = ''"
+        />
       </div>
       <div class="num">{{ remark.length }}/20</div>
     </div>
@@ -23,22 +29,20 @@
 </template>
 
 <script>
-
 export default {
-  name: "SetRemark",
+  name: 'SetRemark',
   data() {
     return {
       remark: '',
-      oldRemark: '',
+      oldRemark: ''
     }
   },
   computed: {
     isChanged() {
-      return this.remark !== this.oldRemark;
-    },
+      return this.remark !== this.oldRemark
+    }
   },
-  created() {
-  },
+  created() {},
   methods: {
     back() {
       if (this.isChanged) {
@@ -53,14 +57,13 @@ export default {
       await this.$sleep(500)
       this.$hideLoading()
       this.$back()
-    },
-
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .edit-item {
   position: fixed;
@@ -81,7 +84,8 @@ export default {
     padding: 20rem;
     padding-top: 70rem;
 
-    .notice, .num {
+    .notice,
+    .num {
       font-size: 12rem;
       color: var(--second-text-color);
     }

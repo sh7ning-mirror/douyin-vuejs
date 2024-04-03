@@ -7,12 +7,27 @@
     </BaseHeader>
     <div class="content">
       <div class="list">
-        <div class="item" v-for="(item,index) in list" @click="togglePlay(item,list)">
+        <div
+          class="item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="togglePlay(item, list)"
+        >
           <div class="music">
             <div class="cover-wrapper">
-              <img v-lazy="$imgPreview(item.cover)" alt="" class="cover">
-              <img v-if="!item.is_play" src="@/assets/img/icon/play-white.png" alt="" class="play">
-              <img v-if="item.is_play" src="@/assets/img/icon/pause-white.png" alt="" class="play">
+              <img v-lazy="$imgPreview(item.cover)" alt="" class="cover" />
+              <img
+                v-if="!item.is_play"
+                src="@/assets/img/icon/play-white.png"
+                alt=""
+                class="play"
+              />
+              <img
+                v-if="item.is_play"
+                src="@/assets/img/icon/pause-white.png"
+                alt=""
+                class="play"
+              />
             </div>
             <div class="desc">
               <span class="name">{{ item.name }}</span>
@@ -23,21 +38,35 @@
             </div>
           </div>
           <div class="option">
-            <img src="@/assets/img/icon/menu2-white.png" alt="" @click.stop="$nav('/home/music', item)">
+            <img
+              src="@/assets/img/icon/menu2-white.png"
+              alt=""
+              @click.stop="$nav('/home/music', item)"
+            />
           </div>
         </div>
       </div>
-      <Loading v-if="loading" :is-full-screen="false"/>
-      <no-more v-else class="mb7r"/>
+      <Loading v-if="loading" :is-full-screen="false" />
+      <no-more v-else class="mb7r" />
     </div>
     <div class="float-play-music" v-if="currentItem">
-      <div class="process" :style="{width : process + 'px'}"></div>
+      <div class="process" :style="{ width: process + 'px' }"></div>
       <div class="music-wrapper">
         <div class="music">
-          <div class="cover-wrapper"  @click="togglePlay(currentItem,list)">
-            <img v-lazy="$imgPreview(currentItem.cover)" alt="" class="cover">
-            <img v-if="!currentItem.is_play" src="@/assets/img/icon/play-white.png" alt="" class="play">
-            <img v-if="currentItem.is_play" src="@/assets/img/icon/pause-white.png" alt="" class="play">
+          <div class="cover-wrapper" @click="togglePlay(currentItem, list)">
+            <img v-lazy="$imgPreview(currentItem.cover)" alt="" class="cover" />
+            <img
+              v-if="!currentItem.is_play"
+              src="@/assets/img/icon/play-white.png"
+              alt=""
+              class="play"
+            />
+            <img
+              v-if="currentItem.is_play"
+              src="@/assets/img/icon/pause-white.png"
+              alt=""
+              class="play"
+            />
           </div>
           <div class="desc">
             <span class="name">{{ currentItem.name }}</span>
@@ -54,12 +83,12 @@
   </div>
 </template>
 <script>
-import {mapState} from "pinia";
-import {userCollect} from "@/api/user";
-import {useBaseStore} from "@/store/pinia";
+import { mapState } from 'pinia'
+import { userCollect } from '@/api/user'
+import { useBaseStore } from '@/store/pinia'
 
 export default {
-  name: "MusicCollect",
+  name: 'MusicCollect',
   components: {},
   props: {},
   data() {
@@ -69,21 +98,21 @@ export default {
       audio: new Audio(),
       currentItem: null,
       step: null,
-      process: 0,
+      process: 0
     }
   },
   computed: {
-    ...mapState(useBaseStore,['bodyWidth'])
+    ...mapState(useBaseStore, ['bodyWidth'])
   },
   created() {
     this.getData()
   },
   mounted() {
-    this.audio.addEventListener('loadedmetadata', e => {
+    this.audio.addEventListener('loadedmetadata', () => {
       this.currentItem.duration = this.audio.duration
       this.step = this.bodyWidth / Math.floor(this.audio.duration)
     })
-    this.audio.addEventListener('timeupdate', e => {
+    this.audio.addEventListener('timeupdate', (e) => {
       this.process = Math.ceil(e.target.currentTime) * this.step
     })
   },
@@ -97,7 +126,7 @@ export default {
       }
     },
     togglePlay(item, list) {
-      list.map(v => {
+      list.map((v) => {
         if (v.name !== item.name) {
           v.is_play = false
         }
@@ -115,8 +144,8 @@ export default {
           this.audio.src = item.mp3
           this.audio.currentTime = 0
         }
-        this.audio.play();
-        this.audio.addEventListener('ended', () => item.is_play = false)
+        this.audio.play()
+        this.audio.addEventListener('ended', () => (item.is_play = false))
       } else {
         this.stopPlay()
       }
@@ -130,13 +159,11 @@ export default {
   },
   unmounted() {
     this.stopPlay()
-  },
+  }
 }
 </script>
 
 <style scoped lang="less">
-
-
 .MusicCollect {
   position: fixed;
   left: 0;
@@ -195,7 +222,8 @@ export default {
               max-width: 40vw;
             }
 
-            .author, .desc-bottom {
+            .author,
+            .desc-bottom {
               font-size: 12rem;
               color: var(--second-text-color);
             }
@@ -218,7 +246,6 @@ export default {
             margin-left: 20rem;
           }
         }
-
       }
     }
   }
@@ -286,7 +313,8 @@ export default {
             max-width: 40vw;
           }
 
-          .author, .desc-bottom {
+          .author,
+          .desc-bottom {
             font-size: 12rem;
             color: var(--second-text-color);
           }

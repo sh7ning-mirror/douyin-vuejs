@@ -1,19 +1,18 @@
 <template>
   <label :class="classObject">
-        <span class="vue-switcher__label" v-if="shouldShowLabel">
-            <span v-if="label" v-text="label"></span>
-            <span v-if="!label && modelValue" v-text="textEnabled"></span>
-            <span v-if="!label && !modelValue" v-text="textDisabled"></span>
-        </span>
+    <span class="vue-switcher__label" v-if="shouldShowLabel">
+      <span v-if="label" v-text="label"></span>
+      <span v-if="!label && modelValue" v-text="textEnabled"></span>
+      <span v-if="!label && !modelValue" v-text="textDisabled"></span>
+    </span>
 
-    <input type="checkbox" :disabled="disabled" @change="trigger" :checked="modelValue">
+    <input type="checkbox" :disabled="disabled" @change="trigger" :checked="modelValue" />
 
     <div></div>
   </label>
 </template>
 
 <script>
-
 export default {
   name: 'switches',
 
@@ -68,8 +67,7 @@ export default {
 
   computed: {
     classObject() {
-
-      const {color, modelValue, theme, typeBold, disabled} = this;
+      const { color, modelValue, theme, typeBold, disabled } = this
 
       return {
         'vue-switcher': true,
@@ -78,17 +76,15 @@ export default {
         ['vue-switcher--bold']: typeBold,
         ['vue-switcher--bold--unchecked']: typeBold && !modelValue,
         [`vue-switcher-theme--${theme}`]: color,
-        [`vue-switcher-color--${color}`]: color,
-      };
-
+        [`vue-switcher-color--${color}`]: color
+      }
     },
 
     shouldShowLabel() {
-      return this.label !== '' || this.textEnabled !== '' || this.textDisabled !== '';
+      return this.label !== '' || this.textEnabled !== '' || this.textDisabled !== ''
     }
   }
 }
-
 </script>
 
 <style src="./switches.less" lang="less"></style>

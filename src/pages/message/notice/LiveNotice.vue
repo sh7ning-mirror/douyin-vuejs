@@ -5,39 +5,34 @@
         <span class="f16">直播通知</span>
       </template>
       <template v-slot:right>
-        <span class="f14" @click="$nav('/message/notice-setting',{ type : 'LIVE' })">通知设置</span>
+        <span class="f14" @click="$nav('/message/notice-setting', { type: 'LIVE' })">通知设置</span>
       </template>
     </BaseHeader>
-    <Loading v-if="loading"/>
+    <Loading v-if="loading" />
     <div class="content" v-else>
       <Scroll ref="mainScroll">
         <div class="list">
-          <NoMore/>
-          <div class="item" v-for="item in list" @click="goDetail(item)">
-            <div class="title">{{ item.title }}
-            </div>
+          <NoMore />
+          <div class="item" :key="i" v-for="(item, i) in list" @click="goDetail(item)">
+            <div class="title">{{ item.title }}</div>
             <div class="time">{{ item.time }}</div>
             <div class="content-text">{{ item.content }}</div>
           </div>
         </div>
       </Scroll>
-
     </div>
   </div>
 </template>
 <script>
-import {nextTick} from "vue";
-import Mask from "../../../components/Mask";
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import Scroll from "../../../components/Scroll";
-import BasePage from "../../BasePage";
+import { nextTick } from 'vue'
+import Scroll from '../../../components/Scroll'
+import BasePage from '../../BasePage'
 
 export default {
   extends: BasePage,
-  name: "LiveNotice",
+  name: 'LiveNotice',
   components: {
-    Scroll,
-    FromBottomDialog
+    Scroll
   },
   data() {
     return {
@@ -51,8 +46,9 @@ export default {
         {
           title: '举报结果通知',
           time: '2021-10-12 12:12',
-          content: '你举报的【五五开】的直播内容，我们将对主播进行重点观察，并进一步判定，若发现违规立刻处理，感谢你的监督'
-        },
+          content:
+            '你举报的【五五开】的直播内容，我们将对主播进行重点观察，并进一步判定，若发现违规立刻处理，感谢你的监督'
+        }
       ]
     }
   },
@@ -80,8 +76,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-
-
 #TaskNotice {
   position: fixed;
   left: 0;
@@ -108,7 +102,6 @@ export default {
         background: var(--msg-subpage-card-bg);
         border-radius: 5rem;
         margin-bottom: 20rem;
-
 
         .title {
           display: flex;

@@ -1,5 +1,3 @@
-import globalMethods from './index'
-
 export default class Dom {
   els = []
 
@@ -11,18 +9,18 @@ export default class Dom {
       this.els.push(arg)
     }
     if (typeof arg === 'function') {
-      document.addEventListener("DOMContentLoaded", arg);
+      document.addEventListener('DOMContentLoaded', arg)
     }
     return this
   }
 
   addClass(class1) {
     if (typeof class1 === 'string') {
-      this.els.forEach(el => {
+      this.els.forEach((el) => {
         el.classList.add(class1)
       })
     } else {
-      this.els.forEach(el => {
+      this.els.forEach((el) => {
         el.classList.add(...class1)
       })
     }
@@ -30,12 +28,11 @@ export default class Dom {
   }
 
   replaceClass(class1, class2) {
-    this.els.forEach(el => {
+    this.els.forEach((el) => {
       el.classList.replace(class1, class2)
     })
     return this
   }
-
 
   find(tag) {
     let els = []
@@ -51,15 +48,15 @@ export default class Dom {
   }
 
   create(template) {
-    let tempNode = document.createElement('div');
-    tempNode.innerHTML = template.trim();
+    let tempNode = document.createElement('div')
+    tempNode.innerHTML = template.trim()
     this.els = [tempNode.firstChild]
-    return this;
+    return this
   }
 
   append(that) {
-    this.els.forEach(el => {
-      that.els.forEach(v => {
+    this.els.forEach((el) => {
+      that.els.forEach((v) => {
         el.appendChild(v)
       })
     })
@@ -67,7 +64,7 @@ export default class Dom {
   }
 
   remove() {
-    this.els.forEach(el => {
+    this.els.forEach((el) => {
       el.parentNode.removeChild(el)
     })
     return this
@@ -88,16 +85,15 @@ export default class Dom {
         // return this.els[0].style[args[0]]
       } else {
         //情况三：设置多个样式
-        Object.keys(args[0]).map(key => {
-            this.els.forEach(el => {
-              el.style[key] = this.getStyleValue(key, args[0][key])
-            })
-          }
-        )
+        Object.keys(args[0]).map((key) => {
+          this.els.forEach((el) => {
+            el.style[key] = this.getStyleValue(key, args[0][key])
+          })
+        })
       }
     } else {
       //情况二，设置一对css样式
-      this.els.forEach(el => {
+      this.els.forEach((el) => {
         el.style[args[0]] = this.getStyleValue(args[0], args[1])
       })
     }
@@ -105,23 +101,23 @@ export default class Dom {
   }
 
   on(eventName, fn) {
-    let eventArray = eventName.split(" ");
-    this.els.forEach(el => {
-      eventArray.map(event => {
-        el.addEventListener(event, fn);
+    let eventArray = eventName.split(' ')
+    this.els.forEach((el) => {
+      eventArray.map((event) => {
+        el.addEventListener(event, fn)
       })
     })
-    return this;
+    return this
   }
 
   trigger(eventName) {
-    let eventArray = eventName.split(" ");
-    this.els.forEach(el => {
-      eventArray.map(event => {
-        el.dispatchEvent(new Event(event));
+    let eventArray = eventName.split(' ')
+    this.els.forEach((el) => {
+      eventArray.map((event) => {
+        el.dispatchEvent(new Event(event))
       })
     })
-    return this;
+    return this
   }
 
   getWidth() {
@@ -133,13 +129,8 @@ export default class Dom {
   }
 
   getStyleValue(key, value) {
-    let whiteList = [
-      'top',
-      'left',
-      'right',
-      'bottom',
-    ]
-    if (whiteList.find(v => v === key)) {
+    let whiteList = ['top', 'left', 'right', 'bottom']
+    if (whiteList.find((v) => v === key)) {
       if (typeof value === 'number') {
         return value + 'px'
       }

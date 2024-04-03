@@ -1,22 +1,23 @@
 <template>
   <!--  <transition name="from-bottom"> -->
   <transition
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @after-enter="afterEnter"
-      @before-leave="beforeLeave"
-      @leave="leave"
-      @after-leave="afterLeave"
-      :css="false"
+    @before-enter="beforeEnter"
+    @enter="enter"
+    @after-enter="afterEnter"
+    @before-leave="beforeLeave"
+    @leave="leave"
+    @after-leave="afterLeave"
+    :css="false"
   >
-    <div ref="dialog"
-         class="FromBottomDialog"
-         v-if="modelValue"
-         :class="[mode,showHengGang ? '' : 'no-heng-gang']"
-         :style="{'max-height':height}"
-         @touchstart="start"
-         @touchmove="move"
-         @touchend="end"
+    <div
+      ref="dialog"
+      class="FromBottomDialog"
+      v-if="modelValue"
+      :class="[mode, showHengGang ? '' : 'no-heng-gang']"
+      :style="{ 'max-height': height }"
+      @touchstart="start"
+      @touchmove="move"
+      @touchend="end"
     >
       <slot name="header"></slot>
       <div class="heng-gang" :class="mode" v-if="showHengGang">
@@ -27,11 +28,11 @@
   </transition>
 </template>
 <script>
-import Dom from "../../utils/dom";
-import bus, {EVENT_KEY} from "@/utils/bus";
+import Dom from '../../utils/dom'
+import bus, { EVENT_KEY } from '@/utils/bus'
 
 export default {
-  name: "FromBottomDialog",
+  name: 'FromBottomDialog',
   props: {
     modelValue: {
       type: Boolean,
@@ -81,7 +82,7 @@ export default {
 
         let maskTemplate = `<div class="Mask fade-in ${this.maskMode}"></div>`
         let mask = new Dom().create(maskTemplate)
-        mask.on('click', e => {
+        mask.on('click', (e) => {
           this.$stopPropagation(e)
           this.hide(false)
         })
@@ -97,7 +98,7 @@ export default {
           mask.remove()
         }, 250)
       }
-    },
+    }
   },
   data() {
     return {
@@ -109,8 +110,7 @@ export default {
     }
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {
     beforeEnter(el) {
       this.$setCss(el, 'transition-duration', `250ms`)
@@ -126,8 +126,7 @@ export default {
         done()
       }, 250)
     },
-    afterEnter() {
-    },
+    afterEnter() {},
     beforeLeave(el) {
       this.$setCss(el, 'transition-duration', `250ms`)
       this.$setCss(el, 'transform', `translate3d(0,0,0)`)
@@ -138,8 +137,7 @@ export default {
       this.$setCss(el, 'transform', `translate3d(0,${maxHeight},0)`)
       setTimeout(done, 250)
     },
-    afterLeave() {
-    },
+    afterLeave() {},
 
     hide(val = false) {
       this.$emit('update:modelValue', val)
@@ -155,11 +153,14 @@ export default {
       if (this.$refs.dialog.scrollTop !== 0) return
       this.moveYDistance = e.touches[0].pageY - this.startLocationY
       if (this.moveYDistance > 0) {
-        bus.emit(EVENT_KEY.DIALOG_MOVE, {tag: this.tag, e: this.moveYDistance})
+        bus.emit(EVENT_KEY.DIALOG_MOVE, {
+          tag: this.tag,
+          e: this.moveYDistance
+        })
         this.$setCss(this.$refs.dialog, 'transform', `translate3d(0,${this.moveYDistance}px,0)`)
       }
     },
-    end(e) {
+    end() {
       //点击
       if (Date.now() - this.startTime < 150 && Math.abs(this.moveYDistance) < 30) {
         return
@@ -170,11 +171,11 @@ export default {
       this.$setCss(this.$refs.dialog, 'transition-duration', `250ms`)
       if (Math.abs(this.moveYDistance) > clientHeight / 2) {
         this.$setCss(this.$refs.dialog, 'transform', `translate3d(0,${clientHeight}px,0)`)
-        bus.emit(EVENT_KEY.DIALOG_END, {tag: this.tag, isClose: true})
+        bus.emit(EVENT_KEY.DIALOG_END, { tag: this.tag, isClose: true })
         setTimeout(this.hide, 250)
       } else {
         this.$setCss(this.$refs.dialog, 'transform', `translate3d(0,0,0)`)
-        bus.emit(EVENT_KEY.DIALOG_END, {tag: this.tag, isClose: false})
+        bus.emit(EVENT_KEY.DIALOG_END, { tag: this.tag, isClose: false })
         setTimeout(() => {
           this.$setCss(this.$refs.dialog, 'transform', 'none')
           // this.$setCss(this.$refs.dialog, 'transition-duration', `0ms`)
@@ -187,7 +188,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .FromBottomDialog {
   z-index: 9;
@@ -199,7 +200,7 @@ export default {
   left: 0;
   box-sizing: border-box;
   border-radius: v-bind(borderRadius);
-  transition: all .3s;
+  transition: all 0.3s;
 
   &.dark {
     background: var(--main-bg);

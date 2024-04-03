@@ -1,7 +1,7 @@
 export default {
   baseUrl: 'https://dy.ttentau.top/imgs/',
   imgPath: '/imgs/',
-  filePreview: 'http://192.168.0.103/static/uploads/',
+  filePreview: 'http://192.168.0.103/static/uploads/'
 }
 const BASE_URL_MAP = {
   DEV: '',

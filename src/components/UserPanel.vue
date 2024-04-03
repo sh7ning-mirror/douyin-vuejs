@@ -1,57 +1,83 @@
 <template>
-  <div id="UserPanel"
-       @scroll="scroll"
-       ref="page">
-    <div ref="float" class="float" :class="state.floatFixed?'fixed':''">
+  <div id="UserPanel" @scroll="scroll" ref="page">
+    <div ref="float" class="float" :class="state.floatFixed ? 'fixed' : ''">
       <div class="left">
-        <Icon @click="$emit('back')" class="icon" icon="eva:arrow-ios-back-fill"/>
+        <Icon @click="$emit('back')" class="icon" icon="eva:arrow-ios-back-fill" />
         <transition name="fade">
           <div class="float-user" v-if="state.floatFixed">
-            <img v-lazy="_checkImgUrl(props.currentItem.author.avatar_168x168.url_list[0])" class="avatar"/>
-            <img v-if="!props.currentItem.author.follow_status" src="@/assets/img/icon/add-light.png" alt=""
-                 class="add">
-            <span @click="followButton">{{ props.currentItem.author.follow_status ? '私信' : '关注' }}</span>
+            <img
+              v-lazy="_checkImgUrl(props.currentItem.author.avatar_168x168.url_list[0])"
+              class="avatar"
+            />
+            <img
+              v-if="!props.currentItem.author.follow_status"
+              src="@/assets/img/icon/add-light.png"
+              alt=""
+              class="add"
+            />
+            <span @click="followButton">{{
+              props.currentItem.author.follow_status ? '私信' : '关注'
+            }}</span>
           </div>
         </transition>
       </div>
       <div class="right">
         <transition name="fade">
           <div class="request" v-if="!state.floatFixed && props.currentItem.author.is_follow">
-            <img @click="$nav('/me/request-update')" src="@/assets/img/icon/me/finger-right.png" alt="">
+            <img
+              @click="$nav('/me/request-update')"
+              src="@/assets/img/icon/me/finger-right.png"
+              alt=""
+            />
             <span>求更新</span>
           </div>
         </transition>
-        <Icon class="icon" icon="ion:search" @click.stop="$no()"/>
-        <Icon class="icon" icon="ri:more-line" @click.stop="$emit('showFollowSetting')"/>
+        <Icon class="icon" icon="ion:search" @click.stop="$no()" />
+        <Icon class="icon" icon="ri:more-line" @click.stop="$emit('showFollowSetting')" />
       </div>
     </div>
-    <div class="main"
-         ref="main"
-         @touchstart="touchStart"
-         @touchmove="touchMove"
-         @touchend="touchEnd">
+    <div
+      class="main"
+      ref="main"
+      @touchstart="touchStart"
+      @touchmove="touchMove"
+      @touchend="touchEnd"
+    >
       <!--   src="@/assets/img/header-bg.png"   -->
       <header>
         <img
-            :style="{opacity:props.currentItem.author.cover_url[0].url_list.length?1:0}"
-            ref="cover"
-            :src="_checkImgUrl(props.currentItem.author.cover_url[0].url_list[0])"
-            @click="state.previewImg = _checkImgUrl(props.currentItem.author.cover_url[0].url_list[0])"
-            alt=""
-            class="cover">
+          :style="{
+            opacity: props.currentItem.author.cover_url[0].url_list.length ? 1 : 0
+          }"
+          ref="cover"
+          :src="_checkImgUrl(props.currentItem.author.cover_url[0].url_list[0])"
+          @click="
+            state.previewImg = _checkImgUrl(props.currentItem.author.cover_url[0].url_list[0])
+          "
+          alt=""
+          class="cover"
+        />
         <div class="avatar-wrapper">
-          <img v-lazy="_checkImgUrl(props.currentItem.author.avatar_168x168.url_list[0])" class="avatar"
-               @click="state.previewImg = _checkImgUrl(props.currentItem.author.avatar_300x300.url_list[0])">
+          <img
+            v-lazy="_checkImgUrl(props.currentItem.author.avatar_168x168.url_list[0])"
+            class="avatar"
+            @click="
+              state.previewImg = _checkImgUrl(props.currentItem.author.avatar_300x300.url_list[0])
+            "
+          />
           <div class="description">
             <div class="name f22">{{ props.currentItem.author.nickname }}</div>
-            <div class="certification" v-if="props.currentItem.author.certification ">
-              <img src="@/assets/img/icon/me/certification.webp">
+            <div class="certification" v-if="props.currentItem.author.certification">
+              <img src="@/assets/img/icon/me/certification.webp" />
               {{ props.currentItem.author.certification }}
             </div>
             <div class="number" v-else>
               <span>抖音号：{{ _getUserDouyinId(props.currentItem) }}</span>
-              <img src="@/assets/img/icon/me/copy.png" alt=""
-                   @click.stop="Utils.copy(_getUserDouyinId(props.currentItem))">
+              <img
+                src="@/assets/img/icon/me/copy.png"
+                alt=""
+                @click.stop="Utils.copy(_getUserDouyinId(props.currentItem))"
+              />
             </div>
           </div>
         </div>
@@ -59,15 +85,21 @@
       <div class="info">
         <div class="heat">
           <div class="text">
-            <span class="num">{{ Utils.formatNumber(props.currentItem.author.total_favorited) }}</span>
+            <span class="num">{{
+              Utils.formatNumber(props.currentItem.author.total_favorited)
+            }}</span>
             <span>获赞</span>
           </div>
           <div class="text">
-            <span class="num">{{ Utils.formatNumber(props.currentItem.author.following_count) }}</span>
+            <span class="num">{{
+              Utils.formatNumber(props.currentItem.author.following_count)
+            }}</span>
             <span>关注</span>
           </div>
           <div class="text">
-            <span class="num">{{ Utils.formatNumber(props.currentItem.author.mplatform_followers_count) }}</span>
+            <span class="num">{{
+              Utils.formatNumber(props.currentItem.author.mplatform_followers_count)
+            }}</span>
             <span>粉丝</span>
           </div>
         </div>
@@ -77,16 +109,27 @@
         </div>
         <div class="more">
           <div class="age item" v-if="props.currentItem.author.user_age !== -1">
-            <img v-if="props.currentItem.author.gender == 1" src="@/assets/img/icon/me/man.png" alt="">
-            <img v-if="props.currentItem.author.gender == 2" src="@/assets/img/icon/me/woman.png" alt="">
+            <img
+              v-if="props.currentItem.author.gender == 1"
+              src="@/assets/img/icon/me/man.png"
+              alt=""
+            />
+            <img
+              v-if="props.currentItem.author.gender == 2"
+              src="@/assets/img/icon/me/woman.png"
+              alt=""
+            />
             <span>{{ props.currentItem.author.user_age }}岁</span>
           </div>
           <div class="item" v-if="props.currentItem.author.ip_location">
             {{ props.currentItem.author.ip_location }}
           </div>
-          <div class="item" v-if="props.currentItem.author.province || props.currentItem.author.city">
+          <div
+            class="item"
+            v-if="props.currentItem.author.province || props.currentItem.author.city"
+          >
             {{ props.currentItem.author.province }}
-            <template v-if="props.currentItem.author.province &&  props.currentItem.author.city">
+            <template v-if="props.currentItem.author.province && props.currentItem.author.city">
               ·
             </template>
             {{ props.currentItem.author.city }}
@@ -98,8 +141,8 @@
       </div>
       <div class="other">
         <div class="scroll-x" @touchmove="stop">
-          <div class="item" v-for="item in props.currentItem.author.card_entries">
-            <img :src="_checkImgUrl(item.icon_dark.url_list[0])" alt="">
+          <div class="item" :key="i" v-for="(item, i) in props.currentItem.author.card_entries">
+            <img :src="_checkImgUrl(item.icon_dark.url_list[0])" alt="" />
             <div class="right">
               <div class="top">{{ item.title }}</div>
               <div class="bottom">{{ item.sub_title }}</div>
@@ -110,16 +153,19 @@
 
       <div class="my-buttons">
         <div class="follow-display">
-          <div class="follow-wrapper"
-               :class="props.currentItem.author.follow_status ? 'follow-wrapper-followed' : ''">
+          <div
+            class="follow-wrapper"
+            :class="props.currentItem.author.follow_status ? 'follow-wrapper-followed' : ''"
+          >
+            <!--            eslint-disable-next-line vue/no-mutating-props-->
             <div class="no-follow" @click="props.currentItem.author.follow_status = 1">
-              <img src="@/assets/img/icon/add-white.png" alt="">
+              <img src="@/assets/img/icon/add-white.png" alt="" />
               <span>关注</span>
             </div>
             <div class="followed">
               <div class="l-button" @click="$emit('showFollowSetting2')">
                 <span>已关注</span>
-                <Icon icon="bxs:down-arrow" class="arrow"/>
+                <Icon icon="bxs:down-arrow" class="arrow" />
               </div>
               <div class="l-button" @click="$nav('/message/chat')">
                 <span>私信</span>
@@ -127,24 +173,34 @@
             </div>
           </div>
         </div>
-        <div class="option"
-             :class="state.isShowRecommend?'option-recommend':''"
-             @click="state.isShowRecommend = !state.isShowRecommend">
-          <img v-if="state.loadings.showRecommend" class="loading" src="@/assets/img/icon/loading-gray.png"
-               alt="">
-          <Icon icon="bxs:down-arrow" v-else class="arrow"/>
+        <div
+          class="option"
+          :class="state.isShowRecommend ? 'option-recommend' : ''"
+          @click="state.isShowRecommend = !state.isShowRecommend"
+        >
+          <img
+            v-if="state.loadings.showRecommend"
+            class="loading"
+            src="@/assets/img/icon/loading-gray.png"
+            alt=""
+          />
+          <Icon icon="bxs:down-arrow" v-else class="arrow" />
         </div>
       </div>
 
-      <div class="recommend" :class="{hidden:!state.isShowRecommend}">
+      <div class="recommend" :class="{ hidden: !state.isShowRecommend }">
         <div class="title">
           <span>你可能感兴趣</span>
-          <img src="@/assets/img/icon/about-gray.png">
+          <img src="@/assets/img/icon/about-gray.png" />
         </div>
-        <div class="friends"
-             @touchmove="stop">
-          <div class="friend" v-for="item in baseStore.friends.all">
-            <img :style="item.select?'opacity: .5;':''" class="avatar" :src="_checkImgUrl(item.avatar)" alt="">
+        <div class="friends" @touchmove="stop">
+          <div class="friend" :key="i" v-for="(item, i) in baseStore.friends.all">
+            <img
+              :style="item.select ? 'opacity: .5;' : ''"
+              class="avatar"
+              :src="_checkImgUrl(item.avatar)"
+              alt=""
+            />
             <span class="name">{{ item.name }}</span>
             <span class="tips">可能感兴趣的人</span>
             <dy-button type="primary">关注</dy-button>
@@ -163,28 +219,28 @@
 
       <div class="total" ref="total">
         作品 {{ props.currentItem.author.aweme_count }}
-        <img class="arrow" src="@/assets/img/icon/arrow-up-white.png" alt="">
+        <img class="arrow" src="@/assets/img/icon/arrow-up-white.png" alt="" />
       </div>
       <div class="videos">
-        <Posters v-if="props.currentItem.aweme_list.length"
-                 :list="props.currentItem.aweme_list"
+        <Posters
+          v-if="props.currentItem.aweme_list.length"
+          :list="props.currentItem.aweme_list"
         ></Posters>
-        <Loading :isFullScreen="false" v-else/>
+        <Loading :isFullScreen="false" v-else />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {reactive, ref, watch} from "vue";
-import Utils, {$no, _checkImgUrl, _getUserDouyinId} from "@/utils";
-import {useNav} from "@/utils/hooks/useNav";
+import { reactive, ref, watch } from 'vue'
+import Utils, { $no, _checkImgUrl, _getUserDouyinId } from '@/utils'
+import { useNav } from '@/utils/hooks/useNav'
 import Posters from '@/components/Posters'
-import {DefaultUser} from "@/utils/const_var";
-import Loading from "@/components/Loading.vue";
-import {FILE_URL} from "@/config";
-import {useBaseStore} from "@/store/pinia";
-import {userinfo, userVideoList} from "@/api/user";
+import { DefaultUser } from '@/utils/const_var'
+import Loading from '@/components/Loading.vue'
+import { useBaseStore } from '@/store/pinia'
+import { userVideoList } from '@/api/user'
 
 const $nav = useNav()
 const baseStore = useBaseStore()
@@ -192,14 +248,18 @@ const emit = defineEmits(['update:currentItem', 'back'])
 const props = defineProps({
   currentItem: {
     type: Object,
-    default: {
-      author: DefaultUser,
-      aweme_list: [],
+    default() {
+      return {
+        author: DefaultUser,
+        aweme_list: []
+      }
     }
   },
   active: {
     type: Boolean,
-    default: false
+    default() {
+      return false
+    }
   }
 })
 const main = ref(null)
@@ -208,7 +268,7 @@ const cover = ref(null)
 const total = ref(null)
 
 const state = reactive({
-  isShowRecommend: false,//是否显示推荐
+  isShowRecommend: false, //是否显示推荐
   previewImg: '',
   floatFixed: false,
   showFollowSetting: false,
@@ -219,8 +279,8 @@ const state = reactive({
     showRecommend: false
   },
   acceleration: 1.2,
-  start: {x: 0, y: 0, time: 0},
-  move: {x: 0, y: 0},
+  start: { x: 0, y: 0, time: 0 },
+  move: { x: 0, y: 0 },
   isTop: false,
   coverHeight: 220,
   //能移动的高度
@@ -230,44 +290,43 @@ const state = reactive({
   uid: null
 })
 
-watch(() => props.active,
-    async (newVal) => {
-      if (newVal && !props.currentItem.aweme_list.length) {
-        // console.log('props.currentItem',props.currentItem)
-        let id = _getUserDouyinId(props.currentItem)
-        let r = await userVideoList({id})
-        if (r.success) {
-          setTimeout(() => {
-            r.data = r.data.map(a => {
-              a.author = props.currentItem.author
-              return a
-            })
-            emit('update:currentItem', Object.assign(props.currentItem, {aweme_list: r.data}))
-          }, 300)
-        }
+watch(
+  () => props.active,
+  async (newVal) => {
+    if (newVal && !props.currentItem.aweme_list.length) {
+      // console.log('props.currentItem',props.currentItem)
+      let id = _getUserDouyinId(props.currentItem)
+      let r = await userVideoList({ id })
+      if (r.success) {
+        setTimeout(() => {
+          r.data = r.data.map((a) => {
+            a.author = props.currentItem.author
+            return a
+          })
+          emit('update:currentItem', Object.assign(props.currentItem, { aweme_list: r.data }))
+        }, 300)
       }
-    })
+    }
+  }
+)
 
-watch(() => props.currentItem.author.uid,
-    async (newVal) => {
-      if (props.currentItem.author.uid !== state.uid) {
-        state.uid = props.currentItem.author.uid
-        emit('update:currentItem', Object.assign(props.currentItem, {aweme_list: []}))
-      }
-    })
-
+watch(
+  () => props.currentItem.author.uid,
+  async () => {
+    if (props.currentItem.author.uid !== state.uid) {
+      state.uid = props.currentItem.author.uid
+      emit('update:currentItem', Object.assign(props.currentItem, { aweme_list: [] }))
+    }
+  }
+)
 
 function stop(e) {
   e.stopPropagation()
 }
 
-function followButton() {
-}
+function followButton() {}
 
-function back() {
-}
-
-function scroll(e) {
+function scroll() {
   // console.log('scroll', page.value.scrollTop)
   let scrollTop = page.value.scrollTop
   let totalY = total.value.getBoundingClientRect().y
@@ -302,28 +361,26 @@ function touchMove(e) {
 
   // console.log('touchMove', page.value.scrollTop)
   //todo 有空了加个，越滑越紧的效果
-  if (state.isTop && !isNext && (document.body.clientHeight / 4 > state.move.y)) {
+  if (state.isTop && !isNext && document.body.clientHeight / 4 > state.move.y) {
     // if (state.isTop && !isNext) {
     let scrollHeight = state.move.y
     cover.value.style.height = `calc(${state.coverHeight}rem + ${scrollHeight}px)`
   }
 }
 
-function touchEnd(e) {
+function touchEnd() {
   if (state.isTop) {
     state.isTop = false
     cover.value.style.transition = 'all .3s'
     cover.value.style.height = `calc(${state.coverHeight}rem)`
   }
   let endTime = Date.now()
-  state.isAutoScaleCover = (endTime - state.start.time) < 100
+  state.isAutoScaleCover = endTime - state.start.time < 100
   // console.log('touchEnd')
 }
-
 </script>
 
 <style scoped lang="less">
-
 .fade1-enter-active,
 .fade1-leave-active {
   transition: all 0.3s ease;
@@ -555,7 +612,8 @@ function touchEnd(e) {
           color: white;
           margin-left: 15rem;
 
-          .number, .certification {
+          .number,
+          .certification {
             display: flex;
             align-items: center;
 
@@ -649,8 +707,6 @@ function touchEnd(e) {
           }
         }
       }
-
-
     }
 
     .other {
@@ -711,7 +767,7 @@ function touchEnd(e) {
           width: 200%;
           display: flex;
           flex-wrap: nowrap;
-          transition: all .3s ease;
+          transition: all 0.3s ease;
 
           &.follow-wrapper-followed {
             transform: translate3d(-50%, 0, 0);
@@ -785,26 +841,26 @@ function touchEnd(e) {
         @width: 12rem;
         width: @width;
         height: @width;
-        animation: rotate .6s linear infinite;
+        animation: rotate 0.6s linear infinite;
 
         @keyframes rotate {
           from {
-            transform: rotate(0deg)
+            transform: rotate(0deg);
           }
           to {
-            transform: rotate(360deg)
+            transform: rotate(360deg);
           }
         }
       }
 
       .arrow {
-        transition: transform .3s ease;
+        transition: transform 0.3s ease;
         font-size: 13rem;
       }
     }
 
     .recommend {
-      transition: all .3s ease;
+      transition: all 0.3s ease;
       height: 250rem;
       overflow: hidden;
 
@@ -908,7 +964,6 @@ function touchEnd(e) {
         height: 12rem;
       }
     }
-
   }
 
   .float {
@@ -922,8 +977,7 @@ function touchEnd(e) {
     height: 52rem;
     padding: 0 15rem;
     background: transparent;
-    transition: all .2s;
-
+    transition: all 0.2s;
 
     &.fixed {
       background: var(--main-bg);
@@ -991,7 +1045,6 @@ function touchEnd(e) {
           width: 18rem;
         }
       }
-
     }
   }
 }

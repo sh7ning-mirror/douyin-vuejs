@@ -3,37 +3,37 @@
     <div class="DouyinCode" v-if="modelValue">
       <div class="content">
         <div class="video-poster">
-          <img :src="_checkImgUrl(item.video.cover.url_list[0])" class="poster">
+          <img :src="_checkImgUrl(item.video.cover.url_list[0])" class="poster" />
         </div>
         <div class="desc">
           <div class="left">
-            <div class="user">@{{item.author.nickname}}</div>
-            <div class="title">{{item.desc}}</div>
+            <div class="user">@{{ item.author.nickname }}</div>
+            <div class="title">{{ item.desc }}</div>
           </div>
-          <img class="code" src="../assets/img/icon/components/video/douyin-code.jpg" alt="">
+          <img class="code" src="../assets/img/icon/components/video/douyin-code.jpg" alt="" />
         </div>
       </div>
       <div class="toolbar">
         <div class="title">分享到</div>
-        <div class="shares ">
+        <div class="shares">
           <div class="share-to" @click="$no">
-            <img src="../assets/img/icon/components/video/toqq.webp" alt="">
+            <img src="../assets/img/icon/components/video/toqq.webp" alt="" />
             <span>QQ好友</span>
           </div>
           <div class="share-to" @click="$no">
-            <img src="../assets/img/icon/components/video/tozone.webp" alt="">
+            <img src="../assets/img/icon/components/video/tozone.webp" alt="" />
             <span>QQ空间</span>
           </div>
           <div class="share-to" @click="$no">
-            <img src="../assets/img/icon/components/video/towechatchat.webp" alt="">
+            <img src="../assets/img/icon/components/video/towechatchat.webp" alt="" />
             <span>微信好友</span>
           </div>
           <div class="share-to" @click="$no">
-            <img src="../assets/img/icon/components/video/towechat.webp" alt="">
+            <img src="../assets/img/icon/components/video/towechat.webp" alt="" />
             <span>朋友圈</span>
           </div>
           <div class="share-to" @click="$no">
-            <img src="../assets/img/icon/components/video/todownload.webp" alt="">
+            <img src="../assets/img/icon/components/video/todownload.webp" alt="" />
             <span>保存到相册</span>
           </div>
         </div>
@@ -43,20 +43,24 @@
   </transition>
 </template>
 <script>
-import {_checkImgUrl} from "@/utils";
+import { _checkImgUrl } from '@/utils'
 
 export default {
-  name: "DouyinCode",
+  name: 'DouyinCode',
   props: {
-    item:{},
-    modelValue: false
+    item: {},
+    modelValue: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    }
   },
   data() {
     return {}
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {
     _checkImgUrl,
     cancel() {
@@ -67,7 +71,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../assets/less/index";
+@import '../assets/less/index';
 
 .DouyinCode {
   position: fixed;
@@ -109,6 +113,7 @@ export default {
           -webkit-line-clamp: 1; //显示的行
         }
       }
+
       .code {
         width: 60rem;
       }
@@ -149,7 +154,6 @@ export default {
       padding-left: 20rem;
 
       .share-to {
-
         img {
           width: @icon-width;
           height: @icon-width;
@@ -169,11 +173,10 @@ export default {
     .cancel {
       font-size: 16rem;
       background: rgb(38, 38, 38);
-      color: rgba(white,.8);
+      color: rgba(white, 0.8);
       padding: 15rem;
       text-align: center;
     }
-
   }
 }
 </style>

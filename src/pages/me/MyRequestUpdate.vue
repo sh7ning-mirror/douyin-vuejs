@@ -8,12 +8,12 @@
     <div class="content">
       <div class="request">
         <div class="list">
-          <div class="item" v-for="item in friends.all">
+          <div class="item" :key="i" v-for="(item, i) in friends.all">
             <div class="left">
-              <img :src='$imgPreview(item.avatar)'>
+              <img :src="$imgPreview(item.avatar)" />
               <span class="name">{{ item.name }}</span>
             </div>
-            <span class="time">{{ $dateFormat(item.lastLoginTime,'D') }}</span>
+            <span class="time">{{ $dateFormat(item.lastLoginTime, 'D') }}</span>
           </div>
         </div>
       </div>
@@ -21,27 +21,25 @@
   </div>
 </template>
 <script>
-import {mapState} from "pinia";
-import FromBottomDialog from "../../components/dialog/FromBottomDialog";
-import {useBaseStore} from "@/store/pinia";
+import { mapState } from 'pinia'
+import { useBaseStore } from '@/store/pinia'
 
 export default {
-  name: "MyRequestUpdate",
-  components: {FromBottomDialog},
+  name: 'MyRequestUpdate',
+  components: {},
   data() {
     return {}
   },
   computed: {
-    ...mapState(useBaseStore, ['friends']),
+    ...mapState(useBaseStore, ['friends'])
   },
-  created() {
-  },
+  created() {},
   methods: {}
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .RequestUpdate {
   position: fixed;
@@ -56,10 +54,8 @@ export default {
   .content {
     padding: 60rem 15rem 60rem 15rem;
 
-
     .request {
       .list {
-
         .item {
           padding: 10rem 0;
 
@@ -80,14 +76,13 @@ export default {
             }
           }
 
-          .time{
+          .time {
             font-size: 12rem;
             color: var(--second-text-color);
           }
         }
       }
     }
-
   }
 }
 </style>

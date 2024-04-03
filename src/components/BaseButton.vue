@@ -1,17 +1,20 @@
 <template>
-  <div class="button" :class="class1"
-       :style="{'border-radius':radius+'rem'}"
-       @click.capture.stop="check">
-    <img v-show="loading" src="../assets/img/icon/loading-white.png" alt="">
+  <div
+    class="button"
+    :class="class1"
+    :style="{ 'border-radius': radius + 'rem' }"
+    @click.capture.stop="check"
+  >
+    <img v-show="loading" src="../assets/img/icon/loading-white.png" alt="" />
     <slot name="prefix"></slot>
     <slot v-if="showText"></slot>
     <slot name="suffix"></slot>
-    <div :style="{width: progress +'%'}" v-if="$props.progress" class="progress"></div>
+    <div :style="{ width: progress + '%' }" v-if="$props.progress" class="progress"></div>
   </div>
 </template>
 <script>
 export default {
-  name: "BaseButton",
+  name: 'BaseButton',
   props: {
     loading: {
       type: Boolean,
@@ -48,7 +51,7 @@ export default {
     },
     radius: {
       type: String,
-      default: '3',
+      default: '3'
     }
   },
   data() {
@@ -71,8 +74,7 @@ export default {
       return true
     }
   },
-  created() {
-  },
+  created() {},
   methods: {
     check() {
       if (this.disabled) return
@@ -84,7 +86,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../assets/less/index";
+@import '../assets/less/index';
 
 .button {
   color: white;
@@ -110,7 +112,7 @@ export default {
   img {
     height: 16rem;
     margin-right: 5rem;
-    animation: animal .8s infinite linear;
+    animation: animal 0.8s infinite linear;
 
     @keyframes animal {
       0% {
@@ -132,7 +134,7 @@ export default {
   }
 
   &.dark2 {
-    background: rgb(36,36,36);
+    background: rgb(36, 36, 36);
     color: #fff;
   }
 
@@ -177,22 +179,21 @@ export default {
     }
 
     &.green {
-      opacity: .8;
+      opacity: 0.8;
     }
 
     &.qqzone {
-      opacity: .8;
+      opacity: 0.8;
     }
 
     &.qq {
-      opacity: .8;
+      opacity: 0.8;
     }
 
     &.webo {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
-
 
   &.no-active {
     &:active {

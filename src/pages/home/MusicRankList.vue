@@ -1,66 +1,105 @@
 <template>
   <div class="MusicRankList" @scroll="scroll">
-    <dy-back
-        mode="light"
-        img="back"
-        @click="$back()"
-        class="fixed-back"
-        direction="left"/>
+    <dy-back mode="light" img="back" @click="$back()" class="fixed-back" direction="left" />
     <div class="fixed-header" :style="fixedStyle">
       <span class="f16">抖音音乐榜</span>
     </div>
     <!--    indicator没有像me页面那样做，应该那样做-->
     <div class="content">
       <div class="l-header">
-        <img src="../../assets/img/icon/music-rank-list.webp" alt="">
+        <img src="../../assets/img/icon/music-rank-list.webp" alt="" />
         <div class="update-time">更新于：{{ $dateFormat(updateTime, 'D') }}</div>
       </div>
       <Indicator
-          name="musicRankList"
-          tabStyleWidth="33%"
-          :tabTexts="['热歌榜','飙升樘','原创榜']"
-          v-model:active-index="contentIndex">
+        name="musicRankList"
+        tabStyleWidth="33%"
+        :tabTexts="['热歌榜', '飙升樘', '原创榜']"
+        v-model:active-index="contentIndex"
+      >
       </Indicator>
-      <SlideHorizontal
-          name="musicRankList"
-          v-model:index="contentIndex">
+      <SlideHorizontal name="musicRankList" v-model:index="contentIndex">
         <SlideItem>
           <div class="list">
-            <div class="item" v-for="(item,index) in hotList" @click="togglePlay(item,hotList)">
+            <div
+              class="item"
+              :key="index"
+              v-for="(item, index) in hotList"
+              @click="togglePlay(item, hotList)"
+            >
               <div class="top">
                 <div class="rank-wrapper">
-                  <img v-if="index === 0" src="../../assets/img/icon/rank1.webp" alt="" class="rank">
-                  <img v-else-if="index === 1" src="../../assets/img/icon/rank2.webp" alt="" class="rank">
-                  <img v-else-if="index === 2" src="../../assets/img/icon/rank3.webp" alt="" class="rank">
+                  <img
+                    v-if="index === 0"
+                    src="../../assets/img/icon/rank1.webp"
+                    alt=""
+                    class="rank"
+                  />
+                  <img
+                    v-else-if="index === 1"
+                    src="../../assets/img/icon/rank2.webp"
+                    alt=""
+                    class="rank"
+                  />
+                  <img
+                    v-else-if="index === 2"
+                    src="../../assets/img/icon/rank3.webp"
+                    alt=""
+                    class="rank"
+                  />
                   <div v-else class="rank">{{ index + 1 }}</div>
                 </div>
                 <div class="right">
                   <div class="music">
                     <div class="cover-wrapper">
-                      <img v-lazy="$imgPreview(item.cover)" alt="" class="cover">
-                      <img v-if="!item.is_play" src="../../assets/img/icon/play-white.png" alt="" class="play">
-                      <img v-if="item.is_play" src="../../assets/img/icon/pause-white.png" alt="" class="play">
+                      <img v-lazy="$imgPreview(item.cover)" alt="" class="cover" />
+                      <img
+                        v-if="!item.is_play"
+                        src="../../assets/img/icon/play-white.png"
+                        alt=""
+                        class="play"
+                      />
+                      <img
+                        v-if="item.is_play"
+                        src="../../assets/img/icon/pause-white.png"
+                        alt=""
+                        class="play"
+                      />
                     </div>
                     <div class="desc">
                       <span class="name">{{ item.name }}</span>
                       <div class="author">{{ item.author }}</div>
                       <div class="desc-bottom">
-                        <div class="duration">{{ $duration(item.duration) }}</div>
+                        <div class="duration">
+                          {{ $duration(item.duration) }}
+                        </div>
                         <div class="use_count">{{ formatNumber(item.use_count) }}人使用</div>
                       </div>
                     </div>
                   </div>
                   <div class="option">
-                    <img v-if="item.is_collect" src="../../assets/img/icon/star-yellow.png" alt=""
-                         @click.stop="toggleCollect(item)">
-                    <img v-else src="../../assets/img/icon/star-white.png" alt="" @click.stop="toggleCollect(item)">
-                    <img src="../../assets/img/icon/menu2-white.png" alt="" @click.stop="$nav('/home/music')">
+                    <img
+                      v-if="item.is_collect"
+                      src="../../assets/img/icon/star-yellow.png"
+                      alt=""
+                      @click.stop="toggleCollect(item)"
+                    />
+                    <img
+                      v-else
+                      src="../../assets/img/icon/star-white.png"
+                      alt=""
+                      @click.stop="toggleCollect(item)"
+                    />
+                    <img
+                      src="../../assets/img/icon/menu2-white.png"
+                      alt=""
+                      @click.stop="$nav('/home/music')"
+                    />
                   </div>
                 </div>
               </div>
               <div class="bottom" v-if="item.is_collect">
                 <div class="left">
-                  <img src="../../assets/img/music-cover/2.jpg" alt="" class="avatar">
+                  <img src="../../assets/img/music-cover/2.jpg" alt="" class="avatar" />
                   <div class="desc">
                     <div class="name">{{ item.author }}</div>
                     <div class="follow_count">粉丝：83.4w</div>
@@ -74,41 +113,86 @@
         </SlideItem>
         <SlideItem>
           <div class="list">
-            <div class="item" v-for="(item,index) in hotList" @click="togglePlay(item,hotList)">
+            <div
+              class="item"
+              :key="index"
+              v-for="(item, index) in hotList"
+              @click="togglePlay(item, hotList)"
+            >
               <div class="top">
                 <div class="rank-wrapper">
-                  <img v-if="index === 0" src="../../assets/img/icon/rank1.webp" alt="" class="rank">
-                  <img v-else-if="index === 1" src="../../assets/img/icon/rank2.webp" alt="" class="rank">
-                  <img v-else-if="index === 2" src="../../assets/img/icon/rank3.webp" alt="" class="rank">
+                  <img
+                    v-if="index === 0"
+                    src="../../assets/img/icon/rank1.webp"
+                    alt=""
+                    class="rank"
+                  />
+                  <img
+                    v-else-if="index === 1"
+                    src="../../assets/img/icon/rank2.webp"
+                    alt=""
+                    class="rank"
+                  />
+                  <img
+                    v-else-if="index === 2"
+                    src="../../assets/img/icon/rank3.webp"
+                    alt=""
+                    class="rank"
+                  />
                   <div v-else class="rank">{{ index + 1 }}</div>
                 </div>
                 <div class="right">
                   <div class="music">
                     <div class="cover-wrapper">
-                      <img v-lazy="$imgPreview(item.cover)" alt="" class="cover">
-                      <img v-if="!item.is_play" src="../../assets/img/icon/play-white.png" alt="" class="play">
-                      <img v-if="item.is_play" src="../../assets/img/icon/pause-white.png" alt="" class="play">
+                      <img v-lazy="$imgPreview(item.cover)" alt="" class="cover" />
+                      <img
+                        v-if="!item.is_play"
+                        src="../../assets/img/icon/play-white.png"
+                        alt=""
+                        class="play"
+                      />
+                      <img
+                        v-if="item.is_play"
+                        src="../../assets/img/icon/pause-white.png"
+                        alt=""
+                        class="play"
+                      />
                     </div>
                     <div class="desc">
                       <span class="name">{{ item.name }}</span>
                       <div class="author">{{ item.author }}</div>
                       <div class="desc-bottom">
-                        <div class="duration">{{ $duration(item.duration) }}</div>
+                        <div class="duration">
+                          {{ $duration(item.duration) }}
+                        </div>
                         <div class="use_count">{{ formatNumber(item.use_count) }}人使用</div>
                       </div>
                     </div>
                   </div>
                   <div class="option">
-                    <img v-if="item.is_collect" src="../../assets/img/icon/star-yellow.png" alt=""
-                         @click.stop="toggleCollect(item)">
-                    <img v-else src="../../assets/img/icon/star-white.png" alt="" @click.stop="toggleCollect(item)">
-                    <img src="../../assets/img/icon/menu2-white.png" alt="" @click.stop="$nav('/home/music')">
+                    <img
+                      v-if="item.is_collect"
+                      src="../../assets/img/icon/star-yellow.png"
+                      alt=""
+                      @click.stop="toggleCollect(item)"
+                    />
+                    <img
+                      v-else
+                      src="../../assets/img/icon/star-white.png"
+                      alt=""
+                      @click.stop="toggleCollect(item)"
+                    />
+                    <img
+                      src="../../assets/img/icon/menu2-white.png"
+                      alt=""
+                      @click.stop="$nav('/home/music')"
+                    />
                   </div>
                 </div>
               </div>
               <div class="bottom" v-if="item.is_collect">
                 <div class="left">
-                  <img src="../../assets/img/music-cover/2.jpg" alt="" class="avatar">
+                  <img src="../../assets/img/music-cover/2.jpg" alt="" class="avatar" />
                   <div class="desc">
                     <div class="name">{{ item.author }}</div>
                     <div class="follow_count">粉丝：83.4w</div>
@@ -122,41 +206,86 @@
         </SlideItem>
         <SlideItem>
           <div class="list">
-            <div class="item" v-for="(item,index) in hotList" @click="togglePlay(item,hotList)">
+            <div
+              class="item"
+              :key="index"
+              v-for="(item, index) in hotList"
+              @click="togglePlay(item, hotList)"
+            >
               <div class="top">
                 <div class="rank-wrapper">
-                  <img v-if="index === 0" src="../../assets/img/icon/rank1.webp" alt="" class="rank">
-                  <img v-else-if="index === 1" src="../../assets/img/icon/rank2.webp" alt="" class="rank">
-                  <img v-else-if="index === 2" src="../../assets/img/icon/rank3.webp" alt="" class="rank">
+                  <img
+                    v-if="index === 0"
+                    src="../../assets/img/icon/rank1.webp"
+                    alt=""
+                    class="rank"
+                  />
+                  <img
+                    v-else-if="index === 1"
+                    src="../../assets/img/icon/rank2.webp"
+                    alt=""
+                    class="rank"
+                  />
+                  <img
+                    v-else-if="index === 2"
+                    src="../../assets/img/icon/rank3.webp"
+                    alt=""
+                    class="rank"
+                  />
                   <div v-else class="rank">{{ index + 1 }}</div>
                 </div>
                 <div class="right">
                   <div class="music">
                     <div class="cover-wrapper">
-                      <img v-lazy="$imgPreview(item.cover)" alt="" class="cover">
-                      <img v-if="!item.is_play" src="../../assets/img/icon/play-white.png" alt="" class="play">
-                      <img v-if="item.is_play" src="../../assets/img/icon/pause-white.png" alt="" class="play">
+                      <img v-lazy="$imgPreview(item.cover)" alt="" class="cover" />
+                      <img
+                        v-if="!item.is_play"
+                        src="../../assets/img/icon/play-white.png"
+                        alt=""
+                        class="play"
+                      />
+                      <img
+                        v-if="item.is_play"
+                        src="../../assets/img/icon/pause-white.png"
+                        alt=""
+                        class="play"
+                      />
                     </div>
                     <div class="desc">
                       <span class="name">{{ item.name }}</span>
                       <div class="author">{{ item.author }}</div>
                       <div class="desc-bottom">
-                        <div class="duration">{{ $duration(item.duration) }}</div>
+                        <div class="duration">
+                          {{ $duration(item.duration) }}
+                        </div>
                         <div class="use_count">{{ formatNumber(item.use_count) }}人使用</div>
                       </div>
                     </div>
                   </div>
                   <div class="option">
-                    <img v-if="item.is_collect" src="../../assets/img/icon/star-yellow.png" alt=""
-                         @click.stop="toggleCollect(item)">
-                    <img v-else src="../../assets/img/icon/star-white.png" alt="" @click.stop="toggleCollect(item)">
-                    <img src="../../assets/img/icon/menu2-white.png" alt="" @click.stop="$nav('/home/music')">
+                    <img
+                      v-if="item.is_collect"
+                      src="../../assets/img/icon/star-yellow.png"
+                      alt=""
+                      @click.stop="toggleCollect(item)"
+                    />
+                    <img
+                      v-else
+                      src="../../assets/img/icon/star-white.png"
+                      alt=""
+                      @click.stop="toggleCollect(item)"
+                    />
+                    <img
+                      src="../../assets/img/icon/menu2-white.png"
+                      alt=""
+                      @click.stop="$nav('/home/music')"
+                    />
                   </div>
                 </div>
               </div>
               <div class="bottom" v-if="item.is_collect">
                 <div class="left">
-                  <img src="../../assets/img/music-cover/2.jpg" alt="" class="avatar">
+                  <img src="../../assets/img/music-cover/2.jpg" alt="" class="avatar" />
                   <div class="desc">
                     <div class="name">{{ item.author }}</div>
                     <div class="follow_count">粉丝：83.4w</div>
@@ -174,7 +303,7 @@
 </template>
 <script>
 export default {
-  name: "MusicRankList",
+  name: 'MusicRankList',
   components: {},
   data() {
     return {
@@ -182,13 +311,13 @@ export default {
       hotList: [
         {
           name: '龙卷风',
-          "mp3": "http://im5.tongbu.com/rings/singerring/zt_uunGo_1/5605.mp3",
+          mp3: 'http://im5.tongbu.com/rings/singerring/zt_uunGo_1/5605.mp3',
           cover: new URL('../../assets/img/music-cover/1.jpg', import.meta.url).href,
           author: '周杰伦',
           duration: 99,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '爱在西元前',
@@ -198,7 +327,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '蜗牛',
@@ -208,7 +337,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '半岛铁盒',
@@ -218,7 +347,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '轨迹',
@@ -228,7 +357,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '七里香',
@@ -238,7 +367,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '发如雪',
@@ -248,7 +377,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '霍元甲',
@@ -258,7 +387,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '千里之外(周杰伦/费玉清)',
@@ -268,7 +397,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '菊花台',
@@ -278,7 +407,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '不能说的秘密',
@@ -288,7 +417,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '牛仔很忙',
@@ -298,7 +427,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '给我一首歌的时间',
@@ -308,7 +437,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '烟花易冷',
@@ -318,7 +447,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '惊叹号',
@@ -328,7 +457,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '明明就',
@@ -338,7 +467,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '算什么男人',
@@ -348,7 +477,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '告白气球',
@@ -358,8 +487,8 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
-        },
+          is_play: false
+        }
       ],
       updateTime: Date.now(),
       audio: new Audio(),
@@ -390,7 +519,7 @@ export default {
       }
     },
     togglePlay(item, list) {
-      list.map(v => {
+      list.map((v) => {
         if (v.name !== item.name) {
           v.is_play = false
         }
@@ -400,8 +529,8 @@ export default {
         this.audio.pause()
         this.audio.src = item.mp3
         this.audio.currentTime = 0
-        this.audio.play();
-        this.audio.addEventListener('ended', () => item.is_play = false)
+        this.audio.play()
+        this.audio.addEventListener('ended', () => (item.is_play = false))
       } else {
         this.stopPlay()
       }
@@ -422,7 +551,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .MusicRankList {
   position: fixed;
@@ -463,7 +592,7 @@ export default {
 
     .update-time {
       position: absolute;
-      background: rgba(172, 107, 251, .5);
+      background: rgba(172, 107, 251, 0.5);
       bottom: 20rem;
       border-radius: 1rem;
       padding: 2rem 30rem;
@@ -543,7 +672,8 @@ export default {
                   max-width: 40vw;
                 }
 
-                .author, .desc-bottom {
+                .author,
+                .desc-bottom {
                   font-size: 12rem;
                   color: var(--second-text-color);
                 }
@@ -577,7 +707,6 @@ export default {
                 margin-left: 20rem;
               }
             }
-
           }
         }
 

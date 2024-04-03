@@ -1,37 +1,42 @@
 <template>
   <SlideItem class="slide-item-class">
-    <div class="sub-type"
-         :class="state.subTypeIsTop?'top':''"
-         ref="subTypeRef">
+    <div class="sub-type" :class="state.subTypeIsTop ? 'top' : ''" ref="subTypeRef">
       <div class="card" @touchmove.capture="stop">
-        <div class="nav-item" v-for="i in store.users">
-          <img :src="_checkImgUrl(i.avatar_168x168.url_list[0])" alt="">
+        <div class="nav-item" @click="goLive(i)" :key="j" v-for="(i, j) in store.users">
+          <img :src="_checkImgUrl(i.avatar_168x168.url_list[0])" alt="" />
           <span>{{ i.nickname }}</span>
         </div>
       </div>
     </div>
-    <div class="sub-type-notice"
-         v-if="state.subType===-1 && !state.subTypeVisible"
-         @click.stop="showSubType">{{store.users.length}}个直播
+    <div
+      class="sub-type-notice"
+      v-if="state.subType === -1 && !state.subTypeVisible"
+      @click.stop="showSubType"
+    >
+      {{ store.users.length }}个直播
     </div>
     <SlideList
-        :cbs="{isLive:true}"
-        :active="props.active"
-        :style="{background: 'black',marginTop:state.subTypeVisible?state.subTypeHeight:0}"
-        :api="recommendedVideo"
-        @touchstart="pageClick"
+      :cbs="{ isLive: true }"
+      :active="props.active"
+      uniqueId="uniqueId2"
+      :style="{
+        background: 'black',
+        marginTop: state.subTypeVisible ? state.subTypeHeight : 0
+      }"
+      :api="recommendedVideo"
+      @touchstart="pageClick"
     />
   </SlideItem>
 </template>
 
 <script setup lang="jsx">
 import SlideItem from '@/components/slide/SlideItem.vue'
-import {onMounted, onUnmounted, reactive, ref} from "vue";
-import bus, {EVENT_KEY} from "@/utils/bus";
-import Utils, {_checkImgUrl} from "@/utils";
-import SlideList from './SlideList.vue';
-import {recommendedVideo} from "@/api/videos";
-import {useBaseStore} from "@/store/pinia";
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
+import bus, { EVENT_KEY } from '@/utils/bus'
+import Utils, { _checkImgUrl } from '@/utils'
+import SlideList from './SlideList.vue'
+import { recommendedVideo } from '@/api/videos'
+import { useBaseStore } from '@/store/pinia'
 
 const store = useBaseStore()
 const props = defineProps({
@@ -52,39 +57,41 @@ const state = reactive({
   subTypeVisible: false,
   subTypeHeight: '0',
   //用于改变zindex的层级到上层，反正比slide高就行。不然摸不到subType.
-  subTypeIsTop: false,
+  subTypeIsTop: false
 })
-
 
 function showSubType(e) {
   Utils.$stopPropagation(e)
-  console.log('subTypeRef',)
+  console.log('subTypeRef')
   state.subTypeHeight = subTypeRef.value.getBoundingClientRect().height + 'px'
   state.subTypeVisible = true
-  setTimeout(() => state.subTypeIsTop = true, 300)
-  bus.emit(EVENT_KEY.OPEN_SUB_TYPE,)
+  setTimeout(() => (state.subTypeIsTop = true), 300)
+  bus.emit(EVENT_KEY.OPEN_SUB_TYPE)
 }
 
 function pageClick(e) {
   // console.log('pageClick')
   if (state.subTypeVisible) {
     state.subTypeIsTop = state.subTypeVisible = false
-    bus.emit(EVENT_KEY.CLOSE_SUB_TYPE,)
+    bus.emit(EVENT_KEY.CLOSE_SUB_TYPE)
     Utils.$stopPropagation(e)
   }
+}
+
+function goLive(item) {
+  bus.emit(EVENT_KEY.NAV, {
+    path: '/home/live',
+    query: { id: item.id }
+  })
 }
 
 onMounted(() => {
   // getData()
 })
-onUnmounted(() => {
-})
-
+onUnmounted(() => {})
 </script>
 
 <style scoped lang="less">
-
-
 .slide-item-class {
   position: relative;
 
@@ -103,7 +110,7 @@ onUnmounted(() => {
       margin-top: var(--common-header-height);
       padding: 20rem 5rem;
       width: 100%;
-      background: rgba(black, .4);
+      background: rgba(black, 0.4);
       box-sizing: border-box;
       display: flex;
       overflow: auto;
@@ -138,7 +145,7 @@ onUnmounted(() => {
 
   .sub-type-notice {
     position: absolute;
-    background: rgba(black, .4);
+    background: rgba(black, 0.4);
     top: 100rem;
     left: 50%;
     transform: translateX(-50%);

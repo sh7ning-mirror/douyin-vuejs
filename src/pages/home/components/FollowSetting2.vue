@@ -1,13 +1,14 @@
 <template>
   <from-bottom-dialog
-      page-id="home-index"
-      :modelValue="modelValue"
-      @update:modelValue="e=>$emit('update:modelValue',e)"
-      :show-heng-gang="false"
-      maskMode="dark"
-      @cancel="cancel()"
-      height="330rem"
-      mode="light">
+    page-id="home-index"
+    :modelValue="modelValue"
+    @update:modelValue="(e) => $emit('update:modelValue', e)"
+    :show-heng-gang="false"
+    maskMode="dark"
+    @cancel="cancel()"
+    height="330rem"
+    mode="light"
+  >
     <div class="follow-setting-dialog">
       <div class="dialog-header">
         <div class="title-wrapper">
@@ -17,7 +18,6 @@
         <dy-back mode="dark" img="close" direction="right" @click="cancel()"></dy-back>
       </div>
       <div class="l-rows">
-
         <div class="l-row">
           <div class="left">不让TA看</div>
           <div class="right">
@@ -30,10 +30,10 @@
             <switches v-model="switches1" theme="bootstrap" color="success"></switches>
           </div>
         </div>
-        <div class="l-row" @click="cancel(e => $emit('cancelFollow'))">
+        <div class="l-row" @click="cancel((e) => $emit('cancelFollow'))">
           <div class="left">取消关注</div>
           <div class="right">
-            <img src="../../../assets/img/icon/components/follow/reduce.png" alt="">
+            <img src="../../../assets/img/icon/components/follow/reduce.png" alt="" />
           </div>
         </div>
       </div>
@@ -41,14 +41,13 @@
   </from-bottom-dialog>
 </template>
 <script>
-
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import Switches from "../../message/components/swtich/switches";
-import {DefaultUser} from "@/utils/const_var";
-import {_getUserDouyinId} from "@/utils";
+import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
+import Switches from '../../message/components/swtich/switches'
+import { DefaultUser } from '@/utils/const_var'
+import { _getUserDouyinId } from '@/utils'
 
 export default {
-  name: "FollowSetting",
+  name: 'FollowSetting',
   components: {
     FromBottomDialog,
     Switches
@@ -56,35 +55,41 @@ export default {
   props: {
     currentItem: {
       type: Object,
-      default: {
-        user: DefaultUser,
-        isRequest: false,
-        post: [],
+      default() {
+        return {
+          user: DefaultUser,
+          isRequest: false,
+          post: []
+        }
       }
     },
-    modelValue: false
+    modelValue: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    }
   },
   data() {
     return {
       switches1: false,
-      switches2: false,
+      switches2: false
     }
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {
-     _getUserDouyinId,
+    _getUserDouyinId,
     cancel(cb) {
       this.$emit('update:modelValue', false)
       cb && cb()
-    },
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .follow-setting-dialog {
   padding: 15rem;
@@ -176,5 +181,4 @@ export default {
     }
   }
 }
-
 </style>

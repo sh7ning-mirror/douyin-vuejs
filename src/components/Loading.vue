@@ -1,15 +1,12 @@
 <template>
-  <div class="Loading" :class="[
-      isFullScreen?'full':'inline',
-      type
-  ]">
+  <div class="Loading" :class="[isFullScreen ? 'full' : 'inline', type]">
     <div class="circle blue"></div>
     <div class="circle red"></div>
   </div>
 </template>
 <script>
 export default {
-  name: "Loading",
+  name: 'Loading',
   props: {
     isFullScreen: {
       type: Boolean,
@@ -24,10 +21,9 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../assets/less/index";
+@import '../assets/less/index';
 
 .Loading {
-
   &.inline {
     width: 100%;
     height: 40rem;
@@ -35,7 +31,6 @@ export default {
     justify-content: center;
     align-items: center;
   }
-
 
   &.small {
     .circle {
@@ -63,12 +58,12 @@ export default {
 
   .blue {
     background: cadetblue;
-    animation: anim-blue .4s ease-in-out 0s infinite alternate;
+    animation: anim-blue 0.4s ease-in-out 0s infinite alternate;
   }
 
   .red {
     background: var(--primary-btn-color);
-    animation: anim-red .4s ease-in-out 0s infinite alternate;
+    animation: anim-red 0.4s ease-in-out 0s infinite alternate;
   }
 
   @keyframes anim-blue {
@@ -78,7 +73,6 @@ export default {
     to {
       transform: translate3d(10rem, 0, 0) scale(1.2);
     }
-
   }
   @keyframes anim-red {
     from {
@@ -89,5 +83,4 @@ export default {
     }
   }
 }
-
 </style>

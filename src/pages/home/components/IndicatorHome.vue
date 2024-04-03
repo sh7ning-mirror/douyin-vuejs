@@ -1,65 +1,74 @@
 <template>
-  <div class="indicator-home" :class="{isLight}">
+  <div class="indicator-home" :class="{ isLight }">
     <transition name="fade">
       <div class="mask" v-if="open" @click="open = false"></div>
     </transition>
     <div class="notice" :style="noticeStyle"><span>下拉刷新内容</span></div>
     <div class="toolbar" ref="toolbar" :style="toolbarStyle">
       <Icon
-          icon="tabler:menu-deep"
-          class="search"
-          @click="$emit('showSlidebar')"
-          style="transform: rotateY(180deg)"/>
+        icon="tabler:menu-deep"
+        class="search"
+        @click="$emit('showSlidebar')"
+        style="transform: rotateY(180deg)"
+      />
       <div class="tab-ctn">
         <div class="tabs" ref="tabs">
           <div class="tab" :class="tabOneClass" @click.stop="change(0)">
             <span>热点</span>
-            <img v-show="index === 0" src="../../../assets/img/icon/arrow-up-white.png" class="tab1-img">
+            <img
+              v-show="index === 0"
+              src="../../../assets/img/icon/arrow-up-white.png"
+              class="tab1-img"
+            />
           </div>
-          <div class="tab" :class="{active:index === 1}" @click.stop="change(1)">
+          <div class="tab" :class="{ active: index === 1 }" @click.stop="change(1)">
             <span>长视频</span>
           </div>
-          <div class="tab" :class="{active:index === 2}" @click.stop="change(2)">
+          <div class="tab" :class="{ active: index === 2 }" @click.stop="change(2)">
             <span>关注</span>
-            <img src="../../../assets/img/icon/live.webp" class="tab2-img">
+            <img src="../../../assets/img/icon/live.webp" class="tab2-img" />
           </div>
-          <div class="tab" :class="{active:index === 3}" @click.stop="change(3)"><span>经验</span>
+          <div class="tab" :class="{ active: index === 3 }" @click.stop="change(3)">
+            <span>经验</span>
           </div>
-          <div class="tab" :class="{active:index === 4}" @click.stop="change(4)"><span>推荐</span>
+          <div class="tab" :class="{ active: index === 4 }" @click.stop="change(4)">
+            <span>推荐</span>
           </div>
         </div>
         <div class="indicator" ref="indicator"></div>
       </div>
-      <Icon v-hide="loading"
-            icon="ion:search"
-            class="search"
-            @click="$nav('/home/search')"/>
+      <Icon v-hide="loading" icon="ion:search" class="search" @click="$nav('/home/search')" />
     </div>
-    <div class="toggle-type" :class="{open}">
-      <div class="l-button" :class="{active:type === 0}" @click="toggleType(0)">
+    <div class="toggle-type" :class="{ open }">
+      <div class="l-button" :class="{ active: type === 0 }" @click="toggleType(0)">
         <span>同城</span>
-        <img v-if="type === 0" src="../../../assets/img/icon/switch.png" alt="">
+        <img v-if="type === 0" src="../../../assets/img/icon/switch.png" alt="" />
       </div>
-      <div class="l-button" :class="{active:type === 1}" @click="toggleType(1)">学习</div>
-      <div class="l-button" :class="{active:type === 2}" @click="toggleType(2)">热点</div>
+      <div class="l-button" :class="{ active: type === 1 }" @click="toggleType(1)">学习</div>
+      <div class="l-button" :class="{ active: type === 2 }" @click="toggleType(2)">热点</div>
     </div>
 
-    <Loading :style="loadingStyle" class="loading" style="width: 40rem;" :is-full-screen="false"/>
+    <Loading :style="loadingStyle" class="loading" style="width: 40rem" :is-full-screen="false" />
   </div>
 </template>
 <script>
-import Loading from "../../../components/Loading.vue";
-import bus from "../../../utils/bus";
-import {mapState} from "pinia";
-import {useBaseStore} from "@/store/pinia";
+import Loading from '../../../components/Loading.vue'
+import bus from '../../../utils/bus'
+import { mapState } from 'pinia'
+import { useBaseStore } from '@/store/pinia'
 
 export default {
-  name: "IndicatorHome",
+  name: 'IndicatorHome',
   components: {
-    Loading,
+    Loading
   },
   props: {
-    loading: false,
+    loading: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    },
     //用于和slidList绑定，因为一个页面可能有多个slidList，但只有一个indicator组件
     name: {
       type: String,
@@ -76,7 +85,7 @@ export default {
   },
   setup() {
     const baseStore = useBaseStore()
-    return {baseStore}
+    return { baseStore }
   },
   data() {
     return {
@@ -91,14 +100,18 @@ export default {
   computed: {
     ...mapState(useBaseStore, ['judgeValue', 'homeRefresh']),
     tabOneClass() {
-      return {active: this.index === 0, open: this.open}
+      return { active: this.index === 0, open: this.open }
     },
     transform() {
       return `translate3d(0, ${this.moveY - this.judgeValue > this.homeRefresh ? this.homeRefresh : this.moveY - this.judgeValue}px, 0)`
     },
     toolbarStyle() {
       if (this.loading) {
-        return {opacity: 1, 'transition-duration': '300ms', transform: `translate3d(0, 0, 0)`,}
+        return {
+          opacity: 1,
+          'transition-duration': '300ms',
+          transform: `translate3d(0, 0, 0)`
+        }
       }
       if (this.moveY) {
         return {
@@ -106,45 +119,49 @@ export default {
           transform: this.transform
         }
       }
-      return {opacity: 1, 'transition-duration': '300ms', transform: `translate3d(0, 0, 0)`,}
+      return {
+        opacity: 1,
+        'transition-duration': '300ms',
+        transform: `translate3d(0, 0, 0)`
+      }
     },
     noticeStyle() {
       if (this.loading) {
-        return {opacity: 0,}
+        return { opacity: 0 }
       }
       if (this.moveY) {
         return {
-          opacity: (this.moveY - this.judgeValue) / (this.homeRefresh / 2) - .5,
+          opacity: (this.moveY - this.judgeValue) / (this.homeRefresh / 2) - 0.5,
           transform: this.transform
         }
       }
-      return {opacity: 0,}
+      return { opacity: 0 }
     },
     loadingStyle() {
       if (this.loading) {
-        return {opacity: 1, 'transition-duration': '300ms',}
+        return { opacity: 1, 'transition-duration': '300ms' }
       }
       if (this.moveY) {
         return {
-          opacity: (this.moveY - this.judgeValue) / (this.homeRefresh / 2) - .5,
+          opacity: (this.moveY - this.judgeValue) / (this.homeRefresh / 2) - 0.5,
           transform: this.transform
         }
       }
+      return {}
     }
   },
-  created() {
-  },
+  created() {},
   mounted() {
     this.initTabs()
     bus.on(this.name + '-moveX', this.move)
-    bus.on(this.name + '-moveY', e => {
+    bus.on(this.name + '-moveY', (e) => {
       this.moveY = e
     })
     bus.on(this.name + '-end', this.end)
   },
   unmounted() {
     bus.off(this.name + '-moveX', this.move)
-    bus.off(this.name + '-moveY',)
+    bus.off(this.name + '-moveY')
     bus.off(this.name + '-end', this.end)
   },
 
@@ -173,7 +190,10 @@ export default {
         let item = tabs.children[i]
         let tabWidth = this.$getCss(item, 'width')
         this.lefts.push(
-            item.getBoundingClientRect().x - tabs.children[0].getBoundingClientRect().x + (tabWidth * 0.5 - indicatorWidth / 2))
+          item.getBoundingClientRect().x -
+            tabs.children[0].getBoundingClientRect().x +
+            (tabWidth * 0.5 - indicatorWidth / 2)
+        )
       }
       this.indicatorSpace = this.lefts[1] - this.lefts[0]
       this.$setCss(this.indicatorRef, 'transition-duration', `300ms`)
@@ -181,9 +201,11 @@ export default {
     },
     move(e) {
       this.$setCss(this.indicatorRef, 'transition-duration', `0ms`)
-      this.$setCss(this.indicatorRef, 'left',
-          this.lefts[this.index] -
-          e / (this.baseStore.bodyWidth / this.indicatorSpace) + 'px')
+      this.$setCss(
+        this.indicatorRef,
+        'left',
+        this.lefts[this.index] - e / (this.baseStore.bodyWidth / this.indicatorSpace) + 'px'
+      )
     },
     end(index) {
       this.moveY = 0
@@ -193,13 +215,11 @@ export default {
         this.$setCss(this.indicatorRef, 'transition-duration', `0ms`)
       }, 300)
     }
-  },
+  }
 }
 </script>
 
 <style scoped lang="less">
-
-
 .indicator-home {
   position: absolute;
   font-size: 16rem;
@@ -209,7 +229,7 @@ export default {
   width: 100%;
   color: white;
   height: var(--home-header-height);
-  transition: all .3s;
+  transition: all 0.3s;
   font-weight: bold;
 
   .notice {
@@ -251,8 +271,8 @@ export default {
         justify-content: space-between;
 
         .tab {
-          transition: color .3s;
-          color: rgba(white, .7);
+          transition: color 0.3s;
+          color: rgba(white, 0.7);
           position: relative;
           font-size: 17rem;
 
@@ -262,7 +282,7 @@ export default {
             width: @width;
             height: @width;
             margin-left: 4rem;
-            transition: all .3s;
+            transition: all 0.3s;
             margin-top: 7rem;
           }
 
@@ -319,7 +339,7 @@ export default {
     box-sizing: border-box;
     font-size: 12rem;
     top: -@height;
-    transition: all .3s;
+    transition: all 0.3s;
     opacity: 0;
 
     &.open {
@@ -337,7 +357,7 @@ export default {
       justify-content: center;
       border-radius: 20rem;
       color: rgb(157, 161, 170);
-      transition: all .3s;
+      transition: all 0.3s;
 
       &.active {
         background: rgb(57, 57, 65);
@@ -351,7 +371,6 @@ export default {
         margin-left: 8rem;
       }
     }
-
   }
 
   .mask {
@@ -362,5 +381,4 @@ export default {
     background: #00000066;
   }
 }
-
 </style>

@@ -1,35 +1,32 @@
 <template>
   <div id="Community">
-    <ScrollList class="Scroll"
-                v-if="state.show"
-                :api="recommendedPost"
-    >
-      <template v-slot="{list}">
+    <ScrollList class="Scroll" v-if="state.show" :api="recommendedPost">
+      <template v-slot="{ list }">
         <div class="search" @click="nav('/home/search')">
           <div class="left">
-            <Icon class="icon" icon="ion:search" @click.stop="$no()"/>
+            <Icon class="icon" icon="ion:search" @click.stop="$no()" />
             <span>壁纸</span>
           </div>
           <div class="right">搜索</div>
         </div>
         <WaterfallList :list="list" class="list">
-          <template v-slot="{item}">
-            <div class="card"
-                 @click="e=>test(e,item)"
-            >
-              <img class="poster" v-lazy="_checkImgUrl(item.note_card?.cover?.url_default)"/>
+          <template v-slot="{ item }">
+            <div class="card" @click="(e) => test(e, item)">
+              <img class="poster" v-lazy="_checkImgUrl(item.note_card?.cover?.url_default)" />
               <div class="bottom">
                 <div class="title">
                   {{ item.note_card?.display_title }}
                 </div>
                 <div class="b2">
                   <div class="user">
-                    <img class="avatar" :src="_checkImgUrl(item.note_card?.user?.avatar)"/>
+                    <img class="avatar" :src="_checkImgUrl(item.note_card?.user?.avatar)" />
                     <div class="name">{{ item.note_card?.user?.nickname }}</div>
                   </div>
                   <div class="star">
-                    <Icon icon="solar:heart-linear"/>
-                    <div class="num">{{ item.note_card?.interact_info?.liked_count }}</div>
+                    <Icon icon="solar:heart-linear" />
+                    <div class="num">
+                      {{ item.note_card?.interact_info?.liked_count }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -42,23 +39,24 @@
     <teleport to="body">
       <div class="shadow">
         <div class="wrap"></div>
-        <AlbumDetail :detail="state.current" @close="close"/>
+        <AlbumDetail :detail="state.current" @close="close" />
       </div>
     </teleport>
   </div>
 </template>
 
 <script setup>
-import {reactive, ref, watch} from "vue";
-import {$no, _checkImgUrl, cloneDeep} from "@/utils";
-import {recommendedPost} from "@/api/user";
-import {useNav} from "@/utils/hooks/useNav";
-import {Icon} from "@iconify/vue";
-import WaterfallList from "@/components/WaterfallList.vue";
-import ScrollList from "@/components/ScrollList.vue";
-import {useBaseStore} from "@/store/pinia";
-import AlbumDetail from "@/pages/other/AlbumDetail.vue";
-import Mock from "mockjs";
+import { reactive, ref, watch } from 'vue'
+import { $no, _checkImgUrl, cloneDeep } from '@/utils'
+import { recommendedPost } from '@/api/user'
+import { useNav } from '@/utils/hooks/useNav'
+import { Icon } from '@iconify/vue'
+import WaterfallList from '@/components/WaterfallList.vue'
+import ScrollList from '@/components/ScrollList.vue'
+import { useBaseStore } from '@/store/pinia'
+import AlbumDetail from '@/pages/other/AlbumDetail.vue'
+import Mock from 'mockjs'
+import $ from 'jquery'
 
 //@click="nav('album-detail',{},item)"
 
@@ -74,26 +72,30 @@ const props = defineProps({
 const state = reactive({
   show: false,
   current: {
-    "id": "",
-    "note_card": {
-      "interact_info": {},
-      "cover": {},
-      "image_list": [],
-      "display_title": "",
-      "user": {},
+    id: '',
+    note_card: {
+      interact_info: {},
+      cover: {},
+      image_list: [],
+      display_title: '',
+      user: {},
       comment_list: [],
       createTime: ''
     }
   },
-  d: false,
+  d: false
 })
 let rect = ref({})
 
-watch(() => props.active, n => {
-  if (n && !state.show) {
-    state.show = true
-  }
-}, {immediate: true})
+watch(
+  () => props.active,
+  (n) => {
+    if (n && !state.show) {
+      state.show = true
+    }
+  },
+  { immediate: true }
+)
 
 function close() {
   let s = $('.shadow ')
@@ -127,10 +129,12 @@ function close() {
 
 function test(e, item) {
   let data = Mock.mock({
-    'comment_list|3-50': [{
-      name: '@cname',
-      text: '@cparagraph(3)'
-    }]
+    'comment_list|3-50': [
+      {
+        name: '@cname',
+        text: '@cparagraph(3)'
+      }
+    ]
   })
   item.note_card.comment_list = data.comment_list
   item.note_card.createTime = Mock.Random.date('MM-dd')
@@ -191,7 +195,6 @@ function test(e, item) {
 </script>
 
 <style scoped lang="less">
-
 #Community {
   font-size: 14rem;
   color: white;
@@ -199,7 +202,9 @@ function test(e, item) {
   background: rgb(21, 23, 36);
 
   .Scroll {
-    height: calc(var(--vh, 1vh) * 100 - var(--home-header-height) - var(--footer-height)) !important;
+    height: calc(
+      var(--vh, 1vh) * 100 - var(--home-header-height) - var(--footer-height)
+    ) !important;
   }
 
   @p: 1rem;
@@ -233,7 +238,6 @@ function test(e, item) {
     margin-left: 2vw;
     width: 96vw;
   }
-
 }
 
 .card {
@@ -296,7 +300,7 @@ function test(e, item) {
   left: 0;
   top: -200vh;
   width: 100vw;
-  transition: all .3s;
+  transition: all 0.3s;
   overflow: hidden;
   z-index: -100;
 
@@ -305,5 +309,4 @@ function test(e, item) {
     z-index: 9999;
   }
 }
-
 </style>

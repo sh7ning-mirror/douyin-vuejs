@@ -1,71 +1,70 @@
 <template>
-  <div id="Message" ref="app" :class="createChatDialog?'disable-scroll':''">
+  <div id="Message" ref="app" :class="createChatDialog ? 'disable-scroll' : ''">
     <div class="no-search" v-show="!searching">
       <header>
-        <Icon @click="createChatDialog = true" icon="formkit:add"/>
-        <Icon icon="tabler:camera-selfie"/>
-        <Icon @click="searching = true" icon="tabler:search"/>
+        <Icon @click="createChatDialog = true" icon="formkit:add" />
+        <Icon icon="tabler:camera-selfie" />
+        <Icon @click="searching = true" icon="tabler:search" />
       </header>
 
       <Scroll ref="mainScroll">
-        <div class="friends  pl1r ">
-          <div class="friend pr1r pl1r"
-               @click="$nav('/message/chat')"
-               v-for="(item,index) in friends.all">
-            <div class="avatar" :class="index%2===0?'on-line':''">
-              <img :src="$imgPreview(item.avatar)" alt="">
+        <div class="friends pl1r">
+          <div
+            class="friend pr1r pl1r"
+            @click="$nav('/message/chat')"
+            :key="index"
+            v-for="(item, index) in friends.all"
+          >
+            <div class="avatar" :class="index % 2 === 0 ? 'on-line' : ''">
+              <img :src="$imgPreview(item.avatar)" alt="" />
             </div>
             <span>{{ item.name }}</span>
           </div>
           <div class="friend pr10p">
-            <img src="../../assets/img/icon/message/setting.png" alt="">
+            <img src="../../assets/img/icon/message/setting.png" alt="" />
             <span class="ml1r">状态设置</span>
           </div>
         </div>
         <div class="line mt2r"></div>
-        <div class="messages ">
+        <div class="messages">
           <!--      粉丝-->
           <div class="message" @click="$nav('/message/fans')">
             <div class="avatar">
-              <img src="../../assets/img/icon/msg-icon1.png" alt="" class="head-image">
+              <img src="../../assets/img/icon/msg-icon1.png" alt="" class="head-image" />
             </div>
             <div class="content">
               <div class="left">
                 <div class="name">
                   <span>新朋友</span>
                 </div>
-                <div class="detail">
-                  xxx 关注了你
-                </div>
+                <div class="detail">xxx 关注了你</div>
               </div>
               <div class="right">
-                <dy-back class="arrow" mode="gray" img="back" direction="right"/>
+                <dy-back class="arrow" mode="gray" img="back" direction="right" />
               </div>
             </div>
           </div>
           <!--      互动消息-->
           <div class="message" @click="$nav('/message/all')">
             <div class="avatar">
-              <img src="../../assets/img/icon/msg-icon2.png" alt="" class="head-image">
+              <img src="../../assets/img/icon/msg-icon2.png" alt="" class="head-image" />
             </div>
             <div class="content">
               <div class="left">
                 <div class="name">
                   <span>互动消息</span>
                 </div>
-                <div class="detail">
-                  xxx 赞了你的评论
-                </div>
+                <div class="detail">xxx 赞了你的评论</div>
               </div>
               <div class="right">
-                <dy-back class="arrow" mode="gray" img="back" direction="right"/>
+                <dy-back class="arrow" mode="gray" img="back" direction="right" />
               </div>
             </div>
           </div>
           <!--      消息-->
           <div class="message" @click="$nav('/message/chat')">
             <div class="avatar on-line">
-              <img src="../../assets/img/icon/avatar/2.png" alt="" class="head-image">
+              <img src="../../assets/img/icon/avatar/2.png" alt="" class="head-image" />
             </div>
             <div class="content">
               <div class="left">
@@ -89,7 +88,7 @@
           <!--      抖音小助手-->
           <div class="message" @click="$nav('/message/douyin-helper')">
             <div class="avatar">
-              <img src="../../assets/img/icon/msg-icon5.webp" alt="" class="head-image">
+              <img src="../../assets/img/icon/msg-icon5.webp" alt="" class="head-image" />
             </div>
             <div class="content">
               <div class="left">
@@ -111,7 +110,7 @@
           <!--      系统通知-->
           <div class="message" @click="$nav('/message/system-notice')">
             <div class="avatar">
-              <img src="../../assets/img/icon/msg-icon4.png" alt="" class="head-image">
+              <img src="../../assets/img/icon/msg-icon4.png" alt="" class="head-image" />
             </div>
             <div class="content">
               <div class="left">
@@ -133,7 +132,7 @@
           <!--      求更新-->
           <div class="message" @click="$nav('/me/request-update')">
             <div class="avatar">
-              <img src="../../assets/img/icon/msg-icon7.webp" alt="" class="head-image">
+              <img src="../../assets/img/icon/msg-icon7.webp" alt="" class="head-image" />
             </div>
             <div class="content">
               <div class="left">
@@ -155,7 +154,7 @@
           <!--      任务通知-->
           <div class="message" @click="$nav('/message/task-notice')">
             <div class="avatar">
-              <img src="../../assets/img/icon/msg-icon6.webp" alt="" class="head-image">
+              <img src="../../assets/img/icon/msg-icon6.webp" alt="" class="head-image" />
             </div>
             <div class="content">
               <div class="left">
@@ -177,7 +176,7 @@
           <!--      直播通知-->
           <div class="message" @click="$nav('/message/live-notice')">
             <div class="avatar">
-              <img src="../../assets/img/icon/msg-icon8.webp" alt="" class="head-image">
+              <img src="../../assets/img/icon/msg-icon8.webp" alt="" class="head-image" />
             </div>
             <div class="content">
               <div class="left">
@@ -199,7 +198,7 @@
           <!--      钱包通知-->
           <div class="message" @click="$nav('/message/money-notice')">
             <div class="avatar">
-              <img src="../../assets/img/icon/msg-icon9.webp" alt="" class="head-image">
+              <img src="../../assets/img/icon/msg-icon9.webp" alt="" class="head-image" />
             </div>
             <div class="content">
               <div class="left">
@@ -219,8 +218,7 @@
             </div>
           </div>
 
-
-          <NoMore/>
+          <NoMore />
 
           <!--      模板-->
           <!--      <div class="message">-->
@@ -250,37 +248,46 @@
       </Scroll>
       <from-bottom-dialog page-id="Message" v-model="createChatDialog">
         <div class="create-chat-wrapper" v-show="!showJoinedChat">
-          <Search :isShowRightText="isShowRightText"
-                  @click="isShowRightText = true"
-                  @notice="isShowRightText = false;"
-                  @clear="isShowRightText = false"
-                  class="ml2r mr2r" placeholder="搜索用户" v-model="createChatSearchKey"></Search>
+          <Search
+            :isShowRightText="isShowRightText"
+            @click="isShowRightText = true"
+            @notice="isShowRightText = false"
+            @clear="isShowRightText = false"
+            class="ml2r mr2r"
+            placeholder="搜索用户"
+            v-model="createChatSearchKey"
+          ></Search>
           <template v-if="createChatSearchKey">
             <div class="search-result" v-if="searchFriends.length">
-              <div class="search-result-item" v-for="item in searchFriends"
-                   @click="item.select = !item.select;createChatSearchKey = ''">
-                <img class="left" src="../../assets/img/icon/head-image.jpeg" alt="">
+              <div
+                class="search-result-item"
+                :key="i"
+                v-for="(item, i) in searchFriends"
+                @click="handleClick(item)"
+              >
+                <img class="left" src="../../assets/img/icon/head-image.jpeg" alt="" />
                 <div class="right">
                   <div class="info">
                     <span class="name">{{ item.name }}</span>
                     <span class="account">{{ item.account ? '抖音号:' + item.account : '' }}</span>
                   </div>
-                  <img v-if="item.select" src="../../assets/img/icon/message/checked.png" alt="">
-                  <img v-if="!item.select" src="../../assets/img/icon/message/no-check2.png" alt=""></div>
+                  <img v-if="item.select" src="../../assets/img/icon/message/checked.png" alt="" />
+                  <img
+                    v-if="!item.select"
+                    src="../../assets/img/icon/message/no-check2.png"
+                    alt=""
+                  />
+                </div>
               </div>
             </div>
             <div class="no-result" v-else>
-              <div class="notice-h1">
-                搜索结果为空
-              </div>
-              <div class="notice-h2">
-                没有搜索到相关的联系人
-              </div>
+              <div class="notice-h1">搜索结果为空</div>
+              <div class="notice-h2">没有搜索到相关的联系人</div>
             </div>
           </template>
           <template v-else>
             <div class="joined-chat" @click="showJoinedChat = true">
-              <img class="left" src="../../assets/img/icon/people-gray.png" alt="">
+              <img class="left" src="../../assets/img/icon/people-gray.png" alt="" />
               <div class="right">
                 <span>已加入的群聊</span>
                 <dy-back direction="right" mode="light"></dy-back>
@@ -288,19 +295,22 @@
             </div>
             <div class="friend-list">
               <div class="index">Z</div>
-              <div class="friend-item" v-for="item in friends.all" @click="item.select = !item.select">
-                <img class="left" :src="$imgPreview(item.avatar)" alt="">
+              <div
+                class="friend-item"
+                :key="i"
+                v-for="(item, i) in friends.all"
+                @click="item.select = !item.select"
+              >
+                <img class="left" :src="$imgPreview(item.avatar)" alt="" />
                 <div class="right">
                   <span>{{ item.name }}</span>
-                  <Check mode="red" style="height: 20rem;width: 20rem;" v-model="item.select"/>
+                  <Check mode="red" style="height: 20rem; width: 20rem" v-model="item.select" />
                 </div>
               </div>
             </div>
           </template>
           <div class="btn-wrapper">
-            <div class="btn" :class="selectFriends ? 'primary' : ''">
-              发起聊天
-            </div>
+            <div class="btn" :class="selectFriends ? 'primary' : ''">发起聊天</div>
           </div>
         </div>
         <div class="joined-chat-wrapper" v-show="showJoinedChat">
@@ -311,11 +321,13 @@
           </div>
 
           <div class="chat-list">
-            <div class="chat-item" v-for="item in 15">
-              <img class="left" src="../../assets/img/icon/head-image.jpeg" alt="">
+            <div class="chat-item" :key="i" v-for="(item, i) in 15">
+              <img class="left" src="../../assets/img/icon/head-image.jpeg" alt="" />
               <div class="right">
                 <div class="title">
-                  <div class="name">{{ text.length > 20 ? text.substr(0, 20) + '...' : text }}</div>
+                  <div class="name">
+                    {{ text.length > 20 ? text.substr(0, 20) + '...' : text }}
+                  </div>
                   <div class="num">(3)</div>
                 </div>
                 <dy-back direction="right" mode="light"></dy-back>
@@ -330,68 +342,79 @@
         <div class="recommend-dialog" v-if="isShowRecommend">
           <div class="dialog-content">
             <div class="dialog-header">
-              <img style="opacity: 0;" src="../../assets/img/icon/components/gray-close-full2.png" alt="">
+              <img
+                style="opacity: 0"
+                src="../../assets/img/icon/components/gray-close-full2.png"
+                alt=""
+              />
               <div class="title">
                 <span>朋友推荐</span>
-                <img src="../../assets/img/icon/about-gray.png" alt="">
+                <img src="../../assets/img/icon/about-gray.png" alt="" />
               </div>
-              <img @click="isShowRecommend = false" src="../../assets/img/icon/components/gray-close-full2.png" alt="">
+              <img
+                @click="isShowRecommend = false"
+                src="../../assets/img/icon/components/gray-close-full2.png"
+                alt=""
+              />
             </div>
             <div class="dialog-body">
-              <Scroll
-                  ref="scroll"
-                  @pulldown="loadRecommendData">
-                <Peoples v-model:list="recommend"
-                         :loading="loading"
-                         mode="recommend"/>
-                <Loading :is-full-screen="false" v-if="loading"/>
-                <NoMore v-else/>
+              <Scroll ref="scroll" @pulldown="loadRecommendData">
+                <Peoples v-model:list="recommend" :loading="loading" mode="recommend" />
+                <Loading :is-full-screen="false" v-if="loading" />
+                <NoMore v-else />
               </Scroll>
             </div>
           </div>
-          <Mask/>
+          <BaseMask />
         </div>
       </transition>
-      <Footer v-bind:init-tab="4"/>
+      <BaseFooter v-bind:init-tab="4" />
     </div>
 
     <div class="searching" v-show="searching">
-      <Search v-model="searchKey"
-              right-text="取消"
-              right-text-color="white"
-              @notice="searching = false"
-              :isShowRightText="true"/>
+      <Search
+        v-model="searchKey"
+        right-text="取消"
+        right-text-color="white"
+        @notice="searching = false"
+        :isShowRightText="true"
+      />
       <div class="more-chat">
         <template v-if="searchKey">
           <div class="sub-title" v-if="searchFriendsAll.length">
             <span>联系人</span>
-            <div class="right" v-if="searchFriendsAll.length > 3" @click="$nav('/message/more-search',{key:searchKey})">
+            <div
+              class="right"
+              v-if="searchFriendsAll.length > 3"
+              @click="$nav('/message/more-search', { key: searchKey })"
+            >
               <span>更多联系人</span>
-              <dy-back mode="gray" img="back" scale=".6" direction="right"/>
+              <dy-back mode="gray" img="back" scale=".6" direction="right" />
             </div>
           </div>
-          <People v-for="(item,index) in searchFriendsAll.slice(0,3)"
-                  :key="item.id"
-                  mode="search"
-                  :searchKey="searchKey"
-                  :people="item"/>
-          <div class="goto-search-page" @click="$nav('/home/search',{key:searchKey})">
-            <img class="icon" src="../../assets/img/icon/search-light.png" alt="">
+          <People
+            v-for="item in searchFriendsAll.slice(0, 3)"
+            :key="item.id"
+            mode="search"
+            :searchKey="searchKey"
+            :people="item"
+          />
+          <div class="goto-search-page" @click="$nav('/home/search', { key: searchKey })">
+            <img class="icon" src="../../assets/img/icon/search-light.png" alt="" />
             <div class="right">
               <div class="left">
-                <span>搜索 <span style="color: yellow">{{ searchKey }}</span></span>
+                <span
+                  >搜索 <span style="color: yellow">{{ searchKey }}</span></span
+                >
                 <span class="second-text-color f12">视频、用户、音乐、话题、地点等</span>
               </div>
-              <dy-back mode="gray" img="back" direction="right" scale=".7"/>
+              <dy-back mode="gray" img="back" direction="right" scale=".7" />
             </div>
           </div>
-
         </template>
         <template v-else>
           <div class="sub-title">更多聊天</div>
-          <People v-for="(item,index) in moreChat"
-                  :key="item.id"
-                  :people="item"/>
+          <People v-for="item in moreChat" :key="item.id" :people="item" />
         </template>
       </div>
     </div>
@@ -399,25 +422,21 @@
 </template>
 
 <script>
-import Footer from '../../components/Footer.vue'
-import Search from "../../components/Search";
+import Search from '../../components/Search'
 import FromBottomDialog from '../../components/dialog/FromBottomDialog'
-import Check from "../../components/Check";
-import {mapState} from "pinia";
-import Peoples from "../people/components/Peoples";
-import Mask from "../../components/Mask";
-import Scroll from "../../components/Scroll";
-import People from "../people/components/People";
-import BasePage from "../BasePage";
-import {useBaseStore} from "@/store/pinia";
+import Check from '../../components/Check'
+import { mapState } from 'pinia'
+import Peoples from '../people/components/Peoples'
+import Scroll from '../../components/Scroll'
+import People from '../people/components/People'
+import BasePage from '../BasePage'
+import { useBaseStore } from '@/store/pinia'
 
 export default {
   extends: BasePage,
-  name: "Message",
+  name: 'Message',
   components: {
     Scroll,
-    Mask,
-    Footer,
     Search,
     FromBottomDialog,
     Check,
@@ -443,10 +462,10 @@ export default {
   computed: {
     ...mapState(useBaseStore, ['friends', 'userinfo']),
     selectFriends() {
-      return this.friends.all.filter(v => v.select).length
+      return this.friends.all.filter((v) => v.select).length
     },
     searchFriendsAll() {
-      return this.friends.all.filter(v => {
+      return this.friends.all.filter((v) => {
         return v.name.search(this.searchKey) !== -1 || v.account.search(this.searchKey) !== -1
       })
     }
@@ -454,10 +473,10 @@ export default {
   watch: {
     createChatSearchKey(newVal) {
       if (newVal) {
-        //TODO　搜索时仅仅判断是否包含了对应字符串，抖音做了拼音判断的
-        this.searchFriends = this.friends.all.filter(v => {
+        //TODO 搜索时仅仅判断是否包含了对应字符串，抖音做了拼音判断的
+        this.searchFriends = this.friends.all.filter((v) => {
           if (v.name.includes(newVal)) return true
-          return v.account.includes(newVal);
+          return v.account.includes(newVal)
         })
       } else {
         this.searchFriends = []
@@ -467,7 +486,7 @@ export default {
   created() {
     console.log('create')
     this.recommend = this.$clone(this.friends.all)
-    this.recommend.map(v => {
+    this.recommend.map((v) => {
       v.type = -2
     })
     this.moreChat = this.$clone(this.friends.all.slice(0, 3))
@@ -478,13 +497,17 @@ export default {
     }, 1000)
   },
   methods: {
+    handleClick(item) {
+      item.select = !item.select
+      this.createChatSearchKey = ''
+    },
     async loadRecommendData() {
       if (this.loading) return
       this.loading = true
       await this.$sleep(500)
       this.loading = false
       let temp = this.$clone(this.friends.all)
-      temp.map(v => {
+      temp.map((v) => {
         v.type = -2
       })
       this.recommend = this.recommend.concat(temp)
@@ -493,7 +516,7 @@ export default {
 }
 </script>
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 #Message {
   position: fixed;
@@ -681,7 +704,6 @@ export default {
           font-size: 14rem;
           color: var(--second-text-color);
         }
-
       }
     }
 
@@ -781,7 +803,6 @@ export default {
             height: 30rem;
             border-radius: 50%;
             margin-bottom: 6rem;
-
           }
         }
 
@@ -807,9 +828,7 @@ export default {
             bottom: 0;
             right: 0;
           }
-
         }
-
 
         span {
           width: 64rem;
@@ -826,7 +845,6 @@ export default {
     }
 
     .messages {
-
       .message {
         display: flex;
         align-items: center;
@@ -982,7 +1000,6 @@ export default {
           & > img {
             width: 20rem;
           }
-
         }
 
         .dialog-body {
@@ -1061,7 +1078,6 @@ export default {
           }
         }
       }
-
     }
   }
 }

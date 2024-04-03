@@ -1,49 +1,69 @@
 <template>
-  <div class="call-float"
-       v-if="isSmall"
-       :style="callFloatStyle"
-       @touchmove="touchmove"
-       @touchend="touchend"
-       @click="isSmall = false">
-    <img src="@/assets/img/icon/message/chat/call-float.png" alt="">
+  <div
+    class="call-float"
+    v-if="isSmall"
+    :style="callFloatStyle"
+    @touchmove="touchmove"
+    @touchend="touchend"
+    @click="isSmall = false"
+  >
+    <img src="@/assets/img/icon/message/chat/call-float.png" alt="" />
     <span>呼叫中</span>
   </div>
 
   <transition name="scale">
-    <div class="audio-call"
-         :style="isSmall ? callFloatStyle : {zIndex:10}"
-         :class="isSmall?'small':''"
-         v-if="isShowAudioCall">
+    <div
+      class="audio-call"
+      :style="isSmall ? callFloatStyle : { zIndex: 10 }"
+      :class="isSmall ? 'small' : ''"
+      v-if="isShowAudioCall"
+    >
       <div class="float">
         <div class="header">
           <div class="left">
-            <img @click="isSmall = true" src="@/assets/img/icon/message/chat/narrow.png" alt="">
+            <img @click="isSmall = true" src="@/assets/img/icon/message/chat/narrow.png" alt="" />
           </div>
           <span class="center">等待对方接听...</span>
           <div class="right">
             <div class="option">
-              <img v-show="!isOpenCamera" @click="isOpenCamera = !isOpenCamera"
-                   src="@/assets/img/icon/message/chat/disabled-camera.png" alt="">
-              <img v-show="isOpenCamera" @click="isOpenCamera = !isOpenCamera"
-                   src="@/assets/img/icon/message/chat/able-camera.png" alt="">
+              <img
+                v-show="!isOpenCamera"
+                @click="isOpenCamera = !isOpenCamera"
+                src="@/assets/img/icon/message/chat/disabled-camera.png"
+                alt=""
+              />
+              <img
+                v-show="isOpenCamera"
+                @click="isOpenCamera = !isOpenCamera"
+                src="@/assets/img/icon/message/chat/able-camera.png"
+                alt=""
+              />
               <span>摄像头</span>
             </div>
             <div class="option" v-if="isExpand">
-              <img v-show="!isOpenAudio" @click="isOpenAudio = !isOpenAudio"
-                   src="@/assets/img/icon/message/chat/disabled-volume.png" alt="">
-              <img v-show="isOpenAudio" @click="isOpenAudio = !isOpenAudio"
-                   src="@/assets/img/icon/message/chat/able-volume.png" alt="">
+              <img
+                v-show="!isOpenAudio"
+                @click="isOpenAudio = !isOpenAudio"
+                src="@/assets/img/icon/message/chat/disabled-volume.png"
+                alt=""
+              />
+              <img
+                v-show="isOpenAudio"
+                @click="isOpenAudio = !isOpenAudio"
+                src="@/assets/img/icon/message/chat/able-volume.png"
+                alt=""
+              />
               <span>免提</span>
             </div>
             <div class="option">
-              <dy-back mode="light" @click="isExpand = !isExpand" img="back" class="shrink"/>
+              <dy-back mode="light" @click="isExpand = !isExpand" img="back" class="shrink" />
               <!--              <img src="@/assets/img/icon/message/chat/narrow.png" alt="">-->
             </div>
           </div>
         </div>
-        <img src="@/assets/img/icon/avatar/2.png" alt="" class="big-avatar">
+        <img src="@/assets/img/icon/avatar/2.png" alt="" class="big-avatar" />
         <div class="footer">
-          <img @click="isShowAudioCall = false" src="@/assets/img/icon/message/chat/call-end.png">
+          <img @click="isShowAudioCall = false" src="@/assets/img/icon/message/chat/call-end.png" />
           <span>挂断</span>
         </div>
       </div>
@@ -51,13 +71,18 @@
   </transition>
 </template>
 <script>
-import {inject} from "vue";
+import { inject } from 'vue'
 
 export default {
-  name: "Call",
+  name: 'Call',
   components: {},
   props: {
-    modelValue: false
+    modelValue: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    }
   },
   data() {
     return {
@@ -71,7 +96,7 @@ export default {
       isSmall: false,
       isShowAudioCall: false,
       height: 0,
-      width: 0,
+      width: 0
     }
   },
   computed: {
@@ -79,7 +104,7 @@ export default {
       return {
         'transition-duration': this.callFloatTransitionTime + 'ms',
         left: this.callFloatLeft + 'px',
-        top: this.callFloatTop + 'px',
+        top: this.callFloatTop + 'px'
       }
     }
   },
@@ -91,22 +116,21 @@ export default {
       }
     }
   },
-  created() {
-  },
+  created() {},
   methods: {
     touchmove(e) {
       this.callFloatTransitionTime = 0
       this.callFloatLeft = e.touches[0].pageX - 35
       this.callFloatTop = e.touches[0].pageY - 40
     },
-    touchend(e) {
+    touchend() {
       this.callFloatTransitionTime = 300
       if (this.callFloatLeft < this.width / 2) {
         this.callFloatLeft = 15
       } else {
         this.callFloatLeft = this.width - 15 - 70
       }
-    },
+    }
   },
   mounted() {
     this.mitt.on('showAudioCall', () => {
@@ -125,7 +149,7 @@ export default {
 <style>
 .scale-enter-active,
 .scale-leave-active {
-  transition: transform .2s ease;
+  transition: transform 0.2s ease;
 }
 
 .scale-enter-from,
@@ -149,7 +173,7 @@ export default {
   border-radius: 6rem;
   justify-content: center;
   flex-direction: column;
-  color: #14BF5F;
+  color: #14bf5f;
   font-size: 12rem;
 
   img {
@@ -167,11 +191,11 @@ export default {
   width: 100vw;
   height: calc(var(--vh, 1vh) * 100);
   background: linear-gradient(to bottom, #262626, black);
-  transition: all .3s;
+  transition: all 0.3s;
   font-size: 12rem;
 
   .float {
-    transition: all .3s;
+    transition: all 0.3s;
     position: absolute;
     top: 0;
     left: 0;
@@ -183,11 +207,11 @@ export default {
     justify-content: space-between;
 
     span {
-      transition: all .3s;
+      transition: all 0.3s;
     }
 
     > .header {
-      transition: all .3s;
+      transition: all 0.3s;
       width: 100%;
       padding: var(--page-padding);
       box-sizing: border-box;
@@ -240,7 +264,7 @@ export default {
         }
 
         .shrink {
-          transform: rotate(90deg) scale(.6) !important;
+          transform: rotate(90deg) scale(0.6) !important;
         }
       }
     }
@@ -268,7 +292,6 @@ export default {
         max-width: 50rem;
         margin-bottom: 1%;
       }
-
     }
   }
 
@@ -286,10 +309,9 @@ export default {
       }
 
       span {
-        transform: scale(.2);
+        transform: scale(0.2);
       }
     }
   }
 }
-
 </style>

@@ -1,14 +1,18 @@
 <template>
-  <div class="ConfirmDialog " @click="$emit('dismiss')" v-if="visible">
+  <div class="ConfirmDialog" @click="$emit('dismiss')" v-if="visible">
     <div class="content" @click.stop="stop">
       <slot name="header"></slot>
       <div class="body">
         <div class="title" v-if="title">{{ title }}</div>
-        <div class="subtitle" :class="subtitleColor" v-if="subtitle">{{ subtitle }}</div>
+        <div class="subtitle" :class="subtitleColor" v-if="subtitle">
+          {{ subtitle }}
+        </div>
         <slot></slot>
       </div>
       <div class="footer">
-        <div class="cancel" :class="cancelTextColor" @click.stop="cancel">{{ cancelText }}</div>
+        <div class="cancel" :class="cancelTextColor" @click.stop="cancel">
+          {{ cancelText }}
+        </div>
         <div class="ok" @click.stop="ok">{{ okText }}</div>
       </div>
     </div>
@@ -17,7 +21,7 @@
 <script>
 /*TODO 单独使用时，没有mark*/
 export default {
-  name: "ConfirmDialog",
+  name: 'ConfirmDialog',
   props: {
     visible: {
       type: Boolean,
@@ -58,14 +62,13 @@ export default {
       default() {
         return 'gray'
       }
-    },
+    }
   },
   data() {
     return {}
   },
   methods: {
-    stop() {
-    },
+    stop() {},
     ok() {
       this.$emit('ok')
       this.$emit('update:visible', false)
@@ -79,7 +82,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .ConfirmDialog {
   z-index: 10;
@@ -93,7 +96,6 @@ export default {
   justify-content: center;
   align-items: center;
   color: black;
-
 
   .content {
     background: white;
@@ -127,7 +129,8 @@ export default {
       border-top: 1px solid whitesmoke;
       font-size: 14rem;
 
-      .cancel, .ok {
+      .cancel,
+      .ok {
         display: flex;
         align-items: center;
         justify-content: center;

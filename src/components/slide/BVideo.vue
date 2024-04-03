@@ -1,50 +1,40 @@
 <template>
   <div class="video-wrapper" ref="videoWrapper" :class="positionName">
-    <Loading v-if="loading" style="position: absolute"/>
+    <Loading v-if="loading" style="position: absolute" />
     <!--    <video :src="item.video + '?v=123'"-->
     <video
-        :src="item.video.play_addr.url_list[0]"
-        :poster="_checkImgUrl(item.video.cover.url_list[0])"
-        ref="video"
-        muted
-        preload
-        loop
-        x5-video-player-type="h5-page"
-        :x5-video-player-fullscreen='false'
-        :webkit-playsinline="true"
-        :x5-playsinline="true"
-        :playsinline="true"
-        :fullscreen="false"
-        :autoplay="isPlay"
+      :src="item.video.play_addr.url_list[0]"
+      :poster="poster"
+      ref="video"
+      muted
+      preload
+      loop
+      x5-video-player-type="h5-page"
+      :x5-video-player-fullscreen="false"
+      :webkit-playsinline="true"
+      :x5-playsinline="true"
+      :playsinline="true"
+      :fullscreen="false"
+      :autoplay="isPlay"
     >
-      <p> 您的浏览器不支持 video 标签。</p>
+      <p>您的浏览器不支持 video 标签。</p>
     </video>
-    <Icon icon="fluent:play-28-filled" class="pause-icon" v-if="!isPlaying"/>
+    <Icon icon="fluent:play-28-filled" class="pause-icon" v-if="!isPlaying" />
     <div class="float">
       <template v-if="isLive">
         <div class="living">点击进入直播间</div>
-        <ItemDesc
-            :is-live="true"
-            v-model:item="localItem"
-            :position="position"
-        />
+        <ItemDesc :is-live="true" v-model:item="localItem" :position="position" />
       </template>
       <template v-else>
-        <div :style="{opacity:isMove ? 0:1}" class="normal">
+        <div :style="{ opacity: isMove ? 0 : 1 }" class="normal">
           <template v-if="!commentVisible">
-            <ItemToolbar v-model:item="localItem"
-                         :position="position"
-                         v-bind="$attrs"
-            />
-            <ItemDesc
-                v-model:item="localItem"
-                :position="position"
-            />
+            <ItemToolbar v-model:item="localItem" :position="position" v-bind="$attrs" />
+            <ItemDesc v-model:item="localItem" :position="position" />
           </template>
           <div v-if="isMy" class="comment-status">
             <div class="comment">
               <div class="type-comment">
-                <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar">
+                <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar" />
                 <div class="right">
                   <p>
                     <span class="name">zzzzz</span>
@@ -55,20 +45,21 @@
               </div>
               <transition-group name="comment-status" tag="div" class="loveds">
                 <div class="type-loved" :key="i" v-for="i in test">
-                  <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar">
-                  <img src="../../assets/img/icon/love.svg" alt="" class="loved">
+                  <img src="../../assets/img/icon/head-image.jpeg" alt="" class="avatar" />
+                  <img src="../../assets/img/icon/love.svg" alt="" class="loved" />
                 </div>
               </transition-group>
             </div>
           </div>
         </div>
-        <div class="progress"
-             :class="progressClass"
-             ref="progress"
-             @click="null"
-             @touchstart="touchstart"
-             @touchmove="touchmove"
-             @touchend="touchend"
+        <div
+          class="progress"
+          :class="progressClass"
+          ref="progress"
+          @click="null"
+          @touchstart="touchstart"
+          @touchmove="touchmove"
+          @touchend="touchend"
         >
           <div class="time" v-if="isMove">
             <span class="currentTime">{{ LUtils.$duration(currentTime) }}</span>
@@ -86,17 +77,17 @@
 </template>
 
 <script>
-import Utils, {_checkImgUrl} from '../../utils'
-import Loading from "../Loading";
-import ItemToolbar from "./ItemToolbar";
-import ItemDesc from "./ItemDesc";
-import bus, {EVENT_KEY} from "../../utils/bus";
-import {SlideItemPlayStatus} from "../../utils/const_var";
-import {computed} from "vue";
-import {Icon} from "@iconify/vue";
+import Utils, { _checkImgUrl } from '../../utils'
+import Loading from '../Loading'
+import ItemToolbar from './ItemToolbar'
+import ItemDesc from './ItemDesc'
+import bus, { EVENT_KEY } from '../../utils/bus'
+import { SlideItemPlayStatus } from '@/utils/const_var'
+import { computed } from 'vue'
+import { Icon } from '@iconify/vue'
 
 export default {
-  name: "BVideo",
+  name: 'BVideo',
   components: {
     Loading,
     ItemToolbar,
@@ -143,8 +134,11 @@ export default {
     }
   },
   computed: {
+    poster() {
+      return _checkImgUrl(this.item.video.poster ?? this.item.video.cover.url_list[0])
+    },
     durationStyle() {
-      return {width: this.playX + 'px'}
+      return { width: this.playX + 'px' }
     },
     progressClass() {
       if (this.isMove) {
@@ -169,12 +163,12 @@ export default {
       step: 0,
       currentTime: -1,
       playX: 0,
-      start: {x: 0},
-      last: {x: 0, time: 0},
+      start: { x: 0 },
+      last: { x: 0, time: 0 },
       height: 0,
       width: 0,
       isMove: false,
-      ignoreWaiting: false,//忽略waiting事件。因为改变进度会触发waiting事件，烦的一批
+      ignoreWaiting: false, //忽略waiting事件。因为改变进度会触发waiting事件，烦的一批
       test: [1, 2],
       localItem: this.item,
       progressBarRect: {},
@@ -190,11 +184,11 @@ export default {
     this.width = document.body.clientWidth
     let video = this.$refs.video
     video.currentTime = 0
-    let fun = e => {
+    let fun = (e) => {
       this.currentTime = Math.ceil(e.target.currentTime)
       this.playX = (this.currentTime - 1) * this.step
     }
-    video.addEventListener('loadedmetadata', e => {
+    video.addEventListener('loadedmetadata', () => {
       this.videoScreenHeight = video.videoHeight / (video.videoWidth / this.width)
       this.duration = video.duration
       this.progressBarRect = this.$refs.progress.getBoundingClientRect()
@@ -202,17 +196,21 @@ export default {
       video.addEventListener('timeupdate', fun)
     })
 
-    let eventTester = (e, t) => {
-      video.addEventListener(e, () => {
-        // console.log('eventTester', e, this.item.id)
-        if (e === 'playing') this.loading = false
-        if (e === 'waiting') {
-          if (!this.paused && !this.ignoreWaiting) {
-            this.loading = true
+    let eventTester = (e) => {
+      video.addEventListener(
+        e,
+        () => {
+          // console.log('eventTester', e, this.item.id)
+          if (e === 'playing') this.loading = false
+          if (e === 'waiting') {
+            if (!this.paused && !this.ignoreWaiting) {
+              this.loading = true
+            }
           }
-        }
-        // console.log(e, t)
-      }, false);
+          // console.log(e, t)
+        },
+        false
+      )
     }
 
     // eventTester("loadstart", '客户端开始请求数据'); //客户端开始请求数据
@@ -227,8 +225,8 @@ export default {
     // eventTester("pause", 'pause()触发'); //pause()触发
     // eventTester("loadedmetadata", '成功获取资源长度'); //成功获取资源长度
     // eventTester("loadeddata"); //
-    eventTester("waiting", '等待数据，并非错误'); //等待数据，并非错误
-    eventTester("playing", '开始回放'); //开始回放
+    eventTester('waiting', '等待数据，并非错误') //等待数据，并非错误
+    eventTester('playing', '开始回放') //开始回放
     // eventTester("canplay", '/可以播放，但中途可能因为加载而暂停'); //可以播放，但中途可能因为加载而暂停
     // eventTester("canplaythrough", '可以播放，歌曲全部加载完毕'); //可以播放，歌曲全部加载完毕
     // eventTester("seeking", '寻找中'); //寻找中
@@ -267,13 +265,13 @@ export default {
     onCloseSubType() {
       this.commentVisible = false
     },
-    onDialogMove({tag, e}) {
+    onDialogMove({ tag, e }) {
       if (this.commentVisible && tag === 'comment') {
         Utils.$setCss(this.$refs.video, 'transition-duration', `0ms`)
         Utils.$setCss(this.$refs.video, 'height', `calc(var(--vh, 1vh) * 30 + ${e}px)`)
       }
     },
-    onDialogEnd({tag, isClose}) {
+    onDialogEnd({ tag, isClose }) {
       if (this.commentVisible && tag === 'comment') {
         console.log('isClose', isClose)
         Utils.$setCss(this.$refs.video, 'transition-duration', `300ms`)
@@ -292,42 +290,43 @@ export default {
         this.commentVisible = true
       }
     },
-    onCloseComments(id) {
+    onCloseComments() {
       if (this.commentVisible) {
         Utils.$setCss(this.$refs.video, 'transition-duration', `300ms`)
         Utils.$setCss(this.$refs.video, 'height', '100%')
         this.commentVisible = false
       }
     },
-    click({uniqueId, index, type}) {
-      if (
-          this.position.uniqueId === uniqueId &&
-          this.position.index === index
-      ) {
-        if (this.isLive) {
-          if (type === EVENT_KEY.ITEM_TOGGLE) {
-            bus.emit(EVENT_KEY.NAV, {path: '/home/live', query: {id: this.item.id}})
-          }
-        } else {
-          if (type === EVENT_KEY.ITEM_TOGGLE) {
+    click({ uniqueId, index, type }) {
+      if (this.position.uniqueId === uniqueId && this.position.index === index) {
+        if (type === EVENT_KEY.ITEM_TOGGLE) {
+          if (this.isLive) {
+            if (type === EVENT_KEY.ITEM_TOGGLE) {
+              this.pause()
+              bus.emit(EVENT_KEY.NAV, {
+                path: '/home/live',
+                query: { id: this.item.id }
+              })
+            }
+          }else {
             if (this.status === SlideItemPlayStatus.Play) {
               this.pause()
             } else {
               this.play()
             }
           }
-          if (type === EVENT_KEY.ITEM_STOP) {
-            this.$refs.video.currentTime = 0
-            this.ignoreWaiting = true
-            this.pause()
-            setTimeout(() => this.ignoreWaiting = false, 300)
-          }
-          if (type === EVENT_KEY.ITEM_PLAY) {
-            this.$refs.video.currentTime = 0
-            this.ignoreWaiting = true
-            this.play()
-            setTimeout(() => this.ignoreWaiting = false, 300)
-          }
+        }
+        if (type === EVENT_KEY.ITEM_STOP) {
+          this.$refs.video.currentTime = 0
+          this.ignoreWaiting = true
+          this.pause()
+          setTimeout(() => (this.ignoreWaiting = false), 300)
+        }
+        if (type === EVENT_KEY.ITEM_PLAY) {
+          this.$refs.video.currentTime = 0
+          this.ignoreWaiting = true
+          this.play()
+          setTimeout(() => (this.ignoreWaiting = false), 300)
         }
       }
     },
@@ -361,7 +360,7 @@ export default {
       // console.log('end', e)
       Utils.$stopPropagation(e)
       if (this.isPlaying) return
-      setTimeout(() => this.isMove = false, 1000)
+      setTimeout(() => (this.isMove = false), 1000)
       this.$refs.video.currentTime = this.currentTime
       this.play()
     }
@@ -370,7 +369,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-
 .fade-enter-active,
 .fade-leave-active {
   transition: transform 0.5s linear;
@@ -380,7 +378,6 @@ export default {
 .fade-leave-to {
   transform: scale(0);
 }
-
 
 .video-wrapper {
   position: relative;
@@ -392,7 +389,9 @@ export default {
   video {
     max-width: 100vw;
     height: 100%;
-    transition: height, margin-top .3s;
+    transition:
+      height,
+      margin-top 0.3s;
     //background: black;
     /*position: absolute;*/
   }
@@ -408,7 +407,7 @@ export default {
       position: absolute;
       bottom: 0;
       width: 100%;
-      transition: all .3s;
+      transition: all 0.3s;
 
       .toolbar {
         //width: 40px;
@@ -470,7 +469,9 @@ export default {
           }
         }
 
-        .love, .message, .share {
+        .love,
+        .message,
+        .share {
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -491,7 +492,6 @@ export default {
         .loved {
           background: red;
         }
-
       }
 
       .content {
@@ -529,7 +529,6 @@ export default {
           }
         }
 
-
         .music {
           position: relative;
           width: 60%;
@@ -549,7 +548,6 @@ export default {
         align-items: center;
 
         .comment {
-
           .type-comment {
             display: flex;
             background: rgb(130, 21, 44);
@@ -574,9 +572,7 @@ export default {
               .text {
                 color: white;
               }
-
             }
-
           }
 
           .loveds {
@@ -588,7 +584,7 @@ export default {
             position: relative;
             margin-bottom: 20px;
             animation: test 1s;
-            animation-delay: .5s;
+            animation-delay: 0.5s;
 
             .avatar {
               width: 36px;
@@ -618,7 +614,6 @@ export default {
               display: none;
               transform: translate3d(0, -60px, 0);
             }
-
           }
         }
       }
@@ -654,7 +649,7 @@ export default {
       @radius: 10rem;
 
       @h: 2rem;
-      @tr: height .3s;;
+      @tr: height 0.3s;
 
       .bg {
         transition: @tr;
@@ -677,7 +672,7 @@ export default {
       }
 
       .point {
-        transition: all .2s;
+        transition: all 0.2s;
         width: @h+2;
         height: @h+2;
         border-radius: 50%;
@@ -740,5 +735,4 @@ export default {
   top: 70%;
   transform: translate(-50%, -50%);
 }
-
 </style>

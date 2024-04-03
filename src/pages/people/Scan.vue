@@ -1,44 +1,41 @@
 <template>
   <div class="Scan">
-    <img src="../../assets/img/icon/components/gray-back.png" @click="$back" class="back">
+    <img src="../../assets/img/icon/components/gray-back.png" @click="$back" class="back" />
     <div class="video-ctn">
       <video src="http://qy9rc9xff.hn-bkt.clouddn.com/0.mp4"></video>
     </div>
     <div class="float">
       <div class="open-light">
-        <img src="../../assets/img/icon/qr-code-white.svg" alt="">
+        <img src="../../assets/img/icon/qr-code-white.svg" alt="" />
         <span>轻触照亮</span>
       </div>
       <div class="option">
-        <img src="../../assets/img/icon/qr-code-white.svg" alt="">
+        <img src="../../assets/img/icon/qr-code-white.svg" alt="" />
         <span>我的抖音码</span>
       </div>
       <div class="option">
-        <img src="../../assets/img/icon/qr-code-white.svg" alt="">
+        <img src="../../assets/img/icon/qr-code-white.svg" alt="" />
         <span>相册</span>
       </div>
     </div>
-    <div class="scan-anim">
-
-    </div>
+    <div class="scan-anim"></div>
   </div>
 </template>
 <script>
 //TODO 那个动画没做，用css画有点麻烦，后面ps p一张图片吧
 export default {
-  name: "Scan",
+  name: 'Scan',
   data() {
     return {}
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {}
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .Scan {
   position: fixed;
@@ -103,6 +100,5 @@ export default {
       width: 100vw;
     }
   }
-
 }
 </style>

@@ -1,12 +1,7 @@
 <template>
-  <div id='BaseHeader' :class="[isFixed?'fixed':'']">
+  <div id="BaseHeader" :class="[isFixed ? 'fixed' : '']">
     <div class="header">
-      <dy-back
-          :mode="backMode"
-          :img="backImg"
-          @click="back()"
-          class="left"
-          direction="left"/>
+      <dy-back :mode="backMode" :img="backImg" @click="back()" class="left" direction="left" />
       <slot name="center"><span></span></slot>
       <slot name="right"><span></span></slot>
     </div>
@@ -15,7 +10,7 @@
 </template>
 <script>
 export default {
-  name: "BaseHeader",
+  name: 'BaseHeader',
   components: {},
   props: {
     backMode: {
@@ -24,22 +19,21 @@ export default {
     },
     backImg: {
       type: String,
-      default: 'back',
+      default: 'back'
     },
     isClose: {
       type: Boolean,
-      default: false,
+      default: false
     },
     isFixed: {
       type: Boolean,
-      default: true,
+      default: true
     }
   },
   data() {
     return {}
   },
-  created() {
-  },
+  created() {},
   computed: {},
   methods: {
     back() {
@@ -54,7 +48,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../assets/less/index";
+@import '../assets/less/index';
 
 #BaseHeader {
   width: 100%;

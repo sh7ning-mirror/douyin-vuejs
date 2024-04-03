@@ -1,9 +1,9 @@
 <template>
-  <img class="close" ref="img" :src="src"/>
+  <img class="close" ref="img" :src="src" />
 </template>
 <script>
 export default {
-  name: "Back",
+  name: 'Back',
   props: {
     mode: {
       type: String,
@@ -15,23 +15,28 @@ export default {
     },
     direction: {
       type: String,
-      default: 'left',
+      default: 'left'
     },
     scale: {
       type: [Number, String],
-      default: 1,
-    },
+      default: 1
+    }
   },
   data() {
     return {}
   },
   computed: {
     src() {
-      return new URL(`../assets/img/icon/components/${this.mode}-${this.img}.png`, import.meta.url).href
+      return new URL(`../assets/img/icon/components/${this.mode}-${this.img}.png`, import.meta.url)
+        .href
     }
   },
   mounted() {
-    this.$setCss(this.$refs.img, 'transform', `rotate(${this.direction === 'left' ? '0' : '180'}deg) scale(${this.scale})`)
+    this.$setCss(
+      this.$refs.img,
+      'transform',
+      `rotate(${this.direction === 'left' ? '0' : '180'}deg) scale(${this.scale})`
+    )
   },
   methods: {}
 }

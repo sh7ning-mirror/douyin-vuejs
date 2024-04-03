@@ -1,5 +1,5 @@
 <template>
-  <div class="SimpleConfirmDialog " @click="$emit('dismiss')">
+  <div class="SimpleConfirmDialog" @click="$emit('dismiss')">
     <div class="content" @click.stop="stop">
       <div class="item">{{ title }}</div>
       <div class="footer">
@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: "SimpleConfirmDialog",
+  name: 'SimpleConfirmDialog',
   props: {
     visible: {
       type: Boolean,
@@ -34,20 +34,18 @@ export default {
       default() {
         return '放弃'
       }
-    },
+    }
   },
   data() {
     return {}
   },
   methods: {
-    stop() {
-    }
+    stop() {}
   }
 }
 </script>
 
 <style scoped lang="less">
-
 .SimpleConfirmDialog {
   z-index: 10;
   position: absolute;
@@ -60,7 +58,6 @@ export default {
   justify-content: center;
   align-items: center;
   color: black;
-
 
   .content {
     background: white;
@@ -78,11 +75,7 @@ export default {
       .cancel {
         margin-right: 25rem;
       }
-
     }
-
   }
-
-
 }
 </style>

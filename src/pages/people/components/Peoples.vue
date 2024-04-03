@@ -1,22 +1,24 @@
 <template>
   <div id="Peoples">
-    <transition-group :name="loading?'':'list-complete'" tag="div" class="people-wrapper">
-      <People v-for="(item,index) in localList"
-              :key="item.id"
-              :people="item"
-              @remove="remove(index)"
-              @follow="follow(index)"
-              @unfollow="unfollow(index)"
-              @agree="agree(index)"
-              @ignore="ignore(index)"
-              :mode="mode"/>
+    <transition-group :name="loading ? '' : 'list-complete'" tag="div" class="people-wrapper">
+      <People
+        v-for="(item, index) in localList"
+        :key="item.id"
+        :people="item"
+        @remove="remove(index)"
+        @follow="follow(index)"
+        @unfollow="unfollow(index)"
+        @agree="agree(index)"
+        @ignore="ignore(index)"
+        :mode="mode"
+      />
     </transition-group>
     <from-bottom-dialog
-        page-id="Fans"
-        v-model="isShowUnfollow"
-        mode="white"
-        mask-mode="dark"
-        :show-heng-gang="false"
+      page-id="Fans"
+      v-model="isShowUnfollow"
+      mode="white"
+      mask-mode="dark"
+      :show-heng-gang="false"
     >
       <div class="unfollow-dialog">
         <div class="notice">确认取消关注?</div>
@@ -29,11 +31,11 @@
   </div>
 </template>
 <script>
-import People from "./People";
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
+import People from './People'
+import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
 
 export default {
-  name: "Peoples",
+  name: 'Peoples',
   components: {
     FromBottomDialog,
     People
@@ -41,7 +43,9 @@ export default {
   props: {
     list: {
       type: Array,
-      default: []
+      default() {
+        return []
+      }
     },
     mode: {
       type: String,
@@ -68,8 +72,7 @@ export default {
       }
     }
   },
-  created() {
-  },
+  created() {},
   methods: {
     remove(index) {
       this.$notice('将不会再为你推荐该用户')
@@ -101,10 +104,10 @@ export default {
         this.currentIndex = index
       }
     },
-    agree(index ) {
+    agree(index) {
       this.localList[index].type = this.RELATE_ENUM.FOLLOW_ME
     },
-    ignore(index ) {
+    ignore(index) {
       this.localList.splice(index, 1)
     },
     confirmUnfollow() {
@@ -118,15 +121,14 @@ export default {
     noLook() {
       this.isShowUnfollow = false
       this.$showConfirmDialog(
-          '确认不看 TA?',
-          '确认后，将不再为你推荐对方的作品，你可以在对方主页随时恢复。',
-          'gray',
-          () => {
-            this.$notice('设置成功')
-          },
-          () => {
-          },
-          '不看 TA'
+        '确认不看 TA?',
+        '确认后，将不再为你推荐对方的作品，你可以在对方主页随时恢复。',
+        'gray',
+        () => {
+          this.$notice('设置成功')
+        },
+        () => {},
+        '不看 TA'
       )
     }
   }
@@ -134,7 +136,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .list-complete-enter-from,
 .list-complete-leave-to {

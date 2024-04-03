@@ -11,26 +11,26 @@
     <div class="userinfo">
       <div class="change-avatar">
         <div class="avatar-ctn" @click="showAvatarDialog">
-          <img class="avatar" :src="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="">
-          <img class="change" src="../../../assets/img/icon/me/camera-light.png" alt="">
+          <img class="avatar" :src="_checkImgUrl(userinfo.cover_url[0].url_list[0])" alt="" />
+          <img class="change" src="../../../assets/img/icon/me/camera-light.png" alt="" />
         </div>
         <span>点击更换头像</span>
       </div>
-      <div class="row" @click="$nav('/me/edit-userinfo-item',{type:1})">
+      <div class="row" @click="$nav('/me/edit-userinfo-item', { type: 1 })">
         <div class="left">名字</div>
         <div class="right">
           <span>{{ isEmpty(userinfo.nickname) }}</span>
           <dy-back scale=".8" direction="right"></dy-back>
         </div>
       </div>
-      <div class="row" @click="$nav('/me/edit-userinfo-item',{type:2})">
+      <div class="row" @click="$nav('/me/edit-userinfo-item', { type: 2 })">
         <div class="left">抖音号</div>
         <div class="right">
-          <span>{{ isEmpty(_getUserDouyinId({author: userinfo})) }}</span>
+          <span>{{ isEmpty(_getUserDouyinId({ author: userinfo })) }}</span>
           <dy-back scale=".8" direction="right"></dy-back>
         </div>
       </div>
-      <div class="row" @click="$nav('/me/edit-userinfo-item',{type:3})">
+      <div class="row" @click="$nav('/me/edit-userinfo-item', { type: 3 })">
         <div class="left">简介</div>
         <div class="right">
           <span>{{ isEmpty(userinfo.signature) }}</span>
@@ -57,9 +57,7 @@
         <div class="right">
           <span v-if="userinfo.province || userinfo.city">
             {{ userinfo.province }}
-            <template v-if="userinfo.province &&  userinfo.city">
-              -
-            </template>
+            <template v-if="userinfo.province && userinfo.city"> - </template>
             {{ userinfo.city }}
           </span>
           <dy-back scale=".8" direction="right"></dy-back>
@@ -75,40 +73,45 @@
     </div>
     <transition name="fade">
       <div class="preview-img" v-if="previewImg" @click="previewImg = ''">
-        <img class="resource" :src="previewImg" alt="">
-        <img class="download" src="../../../assets/img/icon/components/video/download.png" alt="" @click.stop="$no">
+        <img class="resource" :src="previewImg" alt="" />
+        <img
+          class="download"
+          src="../../../assets/img/icon/components/video/download.png"
+          alt=""
+          @click.stop="$no"
+        />
       </div>
     </transition>
   </div>
 </template>
 
 <script>
-import MobileSelect from "../../../components/mobile-select/mobile-select";
-import {mapState} from "pinia";
-import {useBaseStore} from "@/store/pinia";
-import {_checkImgUrl, _getUserDouyinId} from "../../../utils";
+import MobileSelect from '../../../components/mobile-select/mobile-select'
+import { mapState } from 'pinia'
+import { useBaseStore } from '@/store/pinia'
+import { _checkImgUrl, _getUserDouyinId } from '../../../utils'
 
 export default {
-  name: "EditUserInfo",
+  name: 'EditUserInfo',
   setup() {
     const baseStore = useBaseStore()
-    return {baseStore}
+    return { baseStore }
   },
   components: {},
   data() {
     return {
       sexList: [
-        {id: 1, name: '男'},
-        {id: 2, name: '女'},
-        {id: 3, name: '不展示'},
+        { id: 1, name: '男' },
+        { id: 2, name: '女' },
+        { id: 3, name: '不展示' }
       ],
       avatarList: [
-        {id: 1, name: '拍一张'},
-        {id: 2, name: '从相册选择'},
-        {id: 3, name: '查看大图'},
-        {id: 4, name: '取消'},
+        { id: 1, name: '拍一张' },
+        { id: 2, name: '从相册选择' },
+        { id: 3, name: '查看大图' },
+        { id: 4, name: '取消' }
       ],
-      previewImg: '',
+      previewImg: ''
     }
   },
   computed: {
@@ -132,15 +135,15 @@ export default {
       return '点击设置'
     },
     showSexDialog() {
-      this.$showSelectDialog(this.sexList, async e => {
+      this.$showSelectDialog(this.sexList, async (e) => {
         this.$showLoading()
         await this.$sleep(500)
-        this.baseStore.setUserinfo({...this.userinfo, gender: e.id})
+        this.baseStore.setUserinfo({ ...this.userinfo, gender: e.id })
         this.$hideLoading()
       })
     },
     showAvatarDialog() {
-      this.$showSelectDialog(this.avatarList, e => {
+      this.$showSelectDialog(this.avatarList, (e) => {
         switch (e.id) {
           case 1:
           case 2:
@@ -153,36 +156,39 @@ export default {
     },
     showBirthdayDialog() {
       new MobileSelect({
-        trigger: "#trigger1",
-        title: "生日",
-        connector: "生日",
+        trigger: '#trigger1',
+        title: '生日',
+        connector: '生日',
         wheels: [
           {
-            data: Array.apply(null, {length: 100}).map((v, i) => new Date().getFullYear() - i)
+            data: Array.apply(null, { length: 100 }).map((v, i) => new Date().getFullYear() - i)
           },
           {
-            data: Array.apply(null, {length: 12}).map((v, i) => 12 - i)
+            data: Array.apply(null, { length: 12 }).map((v, i) => 12 - i)
           },
           {
-            data: Array.apply(null, {length: 31}).map((v, i) => 31 - i)
-          },
+            data: Array.apply(null, { length: 31 }).map((v, i) => 31 - i)
+          }
         ],
         callback: async (indexArr, data) => {
           console.log(data)
           this.$showLoading()
           await this.$sleep(500)
-          this.baseStore.setUserinfo({...this.userinfo, birthday: data.join('-')})
+          this.baseStore.setUserinfo({
+            ...this.userinfo,
+            birthday: data.join('-')
+          })
           this.$hideLoading()
           // this.localSchool.joinTime = ~~data[0]
         }
       }).show()
-    },
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .edit {
   position: fixed;
@@ -254,7 +260,7 @@ export default {
       height: @avatar-width;
 
       .avatar {
-        opacity: .5;
+        opacity: 0.5;
         position: absolute;
         width: @avatar-width;
         height: @avatar-width;
@@ -267,9 +273,7 @@ export default {
         position: relative;
       }
     }
-
   }
-
 }
 
 .change-dialog {
@@ -294,14 +298,12 @@ export default {
     .item {
       font-size: 15rem;
       padding: 15rem 20rem;
-      transition: all .2s;
+      transition: all 0.2s;
 
       &:active {
         background: darkgray;
       }
     }
-
   }
-
 }
 </style>

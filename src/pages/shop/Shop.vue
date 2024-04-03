@@ -3,30 +3,27 @@
     <div class="wrapper">
       <div class="search">
         <div class="search-input">
-          <Icon icon="tabler:search"/>
+          <Icon icon="tabler:search" />
           <div class="placeholder">50元话费充值</div>
-          <Icon color="gray" icon="lucide:camera"/>
+          <Icon color="gray" icon="lucide:camera" />
           <div class="search-notice">搜索</div>
         </div>
         <div class="more">
-          <Icon icon="ep:shopping-cart"/>
+          <Icon icon="ep:shopping-cart" />
         </div>
       </div>
     </div>
-    <ScrollList
-        class="Scroll"
-        :api="recommendedShop"
-    >
-      <template v-slot="{list}">
+    <ScrollList class="Scroll" :api="recommendedShop">
+      <template v-slot="{ list }">
         <div class="top-card">
           <div class="card">
             <div class="options">
               <div class="option" @click="$no">
-                <Icon icon="lets-icons:order-light"/>
+                <Icon icon="lets-icons:order-light" />
                 <div>我的订单</div>
               </div>
               <div class="option" @click="$no">
-                <Icon icon="material-symbols-light:charging-station-outline"/>
+                <Icon icon="material-symbols-light:charging-station-outline" />
                 <div>手机充值</div>
               </div>
               <div class="option" @click="$no">
@@ -34,7 +31,7 @@
                 <div>购物消息</div>
               </div>
               <div class="option" @click="$no">
-                <Icon icon="fluent:location-16-regular"/>
+                <Icon icon="fluent:location-16-regular" />
                 <div>小时达</div>
               </div>
               <div class="option" @click="$no">
@@ -42,59 +39,60 @@
                 <div>退款/售后</div>
               </div>
               <div class="option" @click="$no">
-                <Icon icon="icon-park-outline:clothes-turtleneck"/>
+                <Icon icon="icon-park-outline:clothes-turtleneck" />
                 <div>潮流服饰</div>
               </div>
             </div>
           </div>
-          <div class="card" style="margin-bottom: 5rem;">
+          <div class="card" style="margin-bottom: 5rem">
             <div class="baiyibutie">
               <div class="item">
-                <img src="@/assets/img/icon/shop/baiyibutie.png" alt="">
+                <img src="@/assets/img/icon/shop/baiyibutie.png" alt="" />
                 <span>38节补贴</span>
               </div>
               <div class="item">
-                <img src="@/assets/img/icon/shop/1.webp" alt="">
+                <img src="@/assets/img/icon/shop/1.webp" alt="" />
                 <span class="price">
-              <span class="m">￥</span>
-              <span>470</span>
-            </span>
+                  <span class="m">￥</span>
+                  <span>470</span>
+                </span>
               </div>
               <div class="item">
-                <img src="@/assets/img/icon/shop/2.webp" alt="">
+                <img src="@/assets/img/icon/shop/2.webp" alt="" />
                 <span class="price">
-              <span class="m">￥</span>
-              <span>699</span>
-            </span>
+                  <span class="m">￥</span>
+                  <span>699</span>
+                </span>
               </div>
               <div class="item">
-                <img src="@/assets/img/icon/shop/3.png" alt="">
+                <img src="@/assets/img/icon/shop/3.png" alt="" />
                 <span class="price">
-              <span class="m">￥</span>
-              <span>8.8</span>
-            </span>
+                  <span class="m">￥</span>
+                  <span>8.8</span>
+                </span>
               </div>
               <div class="item">
-                <img src="@/assets/img/icon/shop/4.jpg" alt="">
+                <img src="@/assets/img/icon/shop/4.jpg" alt="" />
                 <span class="price">
-              <span class="m">￥</span>
-              <span>2.99</span>
-            </span>
+                  <span class="m">￥</span>
+                  <span>2.99</span>
+                </span>
               </div>
             </div>
           </div>
         </div>
         <WaterfallList :list="list">
-          <template v-slot="{item}">
-            <div class="goods"
-                 @click="nav('/shop/detail',{},item)">
+          <template v-slot="{ item }">
+            <div class="goods" @click="nav('/shop/detail', {}, item)">
               <div class="item">
-                <img class="poster" v-lazy="_checkImgUrl('goods/'+item.cover)"/>
+                <img class="poster" v-lazy="_checkImgUrl('goods/' + item.cover)" />
                 <div class="bottom">
                   <div class="desc">
                     {{ item.name }}
                   </div>
-                  <div class="discounts" v-if="item.discount">{{ item.discount }}</div>
+                  <div class="discounts" v-if="item.discount">
+                    {{ item.discount }}
+                  </div>
                   <div class="info">
                     <div class="price">
                       ￥
@@ -102,9 +100,7 @@
                     </div>
                     <div class="num">已售{{ item.sold }}件</div>
                   </div>
-                  <div class="low" v-if="item.isLowPrice">
-                    近30天低价
-                  </div>
+                  <div class="low" v-if="item.isLowPrice">近30天低价</div>
                 </div>
               </div>
             </div>
@@ -112,39 +108,25 @@
         </WaterfallList>
       </template>
     </ScrollList>
-    <Footer v-bind:init-tab="2"
-            :is-white="true"
-            style="position: fixed;left: 0;"/>
-
+    <BaseFooter v-bind:init-tab="2" :is-white="true" style="position: fixed; left: 0" />
   </div>
 </template>
 
 <script setup lang="jsx">
-
-import {onMounted, reactive} from "vue";
-import {useNav} from "@/utils/hooks/useNav";
-import {$no, _checkImgUrl} from "@/utils";
-import ScrollList from "@/components/ScrollList.vue";
-import {recommendedShop} from "@/api/user";
-import WaterfallList from "@/components/WaterfallList.vue";
+import { useNav } from '@/utils/hooks/useNav'
+import { $no, _checkImgUrl } from '@/utils'
+import ScrollList from '@/components/ScrollList.vue'
+import { recommendedShop } from '@/api/user'
+import WaterfallList from '@/components/WaterfallList.vue'
 
 defineOptions({
   name: 'Shop'
 })
 
 const nav = useNav()
-const state = reactive({
-  listEl: null,
-  fixed: false
-})
-
-onMounted(() => {
-})
 </script>
 
 <style scoped lang="less">
-
-
 @fColor: #f1f1f1;
 
 #Shop {

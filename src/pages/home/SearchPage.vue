@@ -2,22 +2,18 @@
   <div class="Search">
     <div class="header">
       <dy-back mode="light" @click="$back" class="mr1r"></dy-back>
-      <BSearch placeholder="搜索用户名字/抖音号"
-               :isShowRightText="true"
-               @notice="$no"
-      >
-      </BSearch>
+      <BSearch placeholder="搜索用户名字/抖音号" :isShowRightText="true" @notice="$no"></BSearch>
     </div>
     <div class="content">
       <div class="history">
-        <div class="row" v-for="(item,index) in lHistory">
+        <div class="row" :key="index" v-for="(item, index) in lHistory">
           <div class="left">
-            <img src="../../assets/img/icon/home/time-white.png" alt="">
+            <img src="../../assets/img/icon/home/time-white.png" alt="" />
             <span> {{ item }}</span>
           </div>
-          <dy-back img="close" mode="gray" @click="history.splice(index,1)" scale=".7"></dy-back>
+          <dy-back img="close" mode="gray" @click="history.splice(index, 1)" scale=".7"></dy-back>
         </div>
-        <div v-if="history.length>2" class="history-expand" @click="toggle">
+        <div v-if="history.length > 2" class="history-expand" @click="toggle">
           {{ isExpand ? '清除全部搜索记录' : '展开全部' }}
         </div>
       </div>
@@ -25,23 +21,36 @@
         <div class="title">
           <div class="left">猜你想搜</div>
           <div class="right" @click.stop="refresh">
-            <img class="scan" src="../../assets/img/icon/home/refresh-gray.png">
+            <img class="scan" src="../../assets/img/icon/home/refresh-gray.png" />
             <span>换一换</span>
           </div>
         </div>
         <div class="keys">
-          <div class="key" v-for="(item,index ) in randomGuess">
+          <div class="key" :key="index" v-for="(item, index) in randomGuess">
             <span class="desc">{{ item.name }}</span>
-            <img v-if="item.type === 1" src="../../assets/img/icon/home/new.webp" alt="" class="type">
+            <img
+              v-if="item.type === 1"
+              src="../../assets/img/icon/home/new.webp"
+              alt=""
+              class="type"
+            />
           </div>
         </div>
       </div>
       <div class="rank-list">
         <div class="indicator">
-          <div class="tab" :class="{active:slideIndex === 0}" @click="slideIndex = 0">抖音热榜</div>
-          <div class="tab" :class="{active:slideIndex === 1}" @click="slideIndex = 1">直播榜</div>
-          <div class="tab" :class="{active:slideIndex === 2}" @click="slideIndex = 2">音乐榜</div>
-          <div class="tab" :class="{active:slideIndex === 3}" @click="slideIndex = 3">品牌榜</div>
+          <div class="tab" :class="{ active: slideIndex === 0 }" @click="slideIndex = 0">
+            抖音热榜
+          </div>
+          <div class="tab" :class="{ active: slideIndex === 1 }" @click="slideIndex = 1">
+            直播榜
+          </div>
+          <div class="tab" :class="{ active: slideIndex === 2 }" @click="slideIndex = 2">
+            音乐榜
+          </div>
+          <div class="tab" :class="{ active: slideIndex === 3 }" @click="slideIndex = 3">
+            品牌榜
+          </div>
         </div>
         <!--        TODO 滚动到下面的时候，应该禁止slide-move，因为第个slideitem的高度不一样，高的切到矮的，会闪屏-->
         <SlideHorizontal v-model:index="slideIndex" :style="slideListHeight">
@@ -49,7 +58,7 @@
             <div class="slide0" ref="slide0">
               <div class="l-row">
                 <div class="rank-wrapper">
-                  <img src="../../assets/img/icon/home/to-top-yellow.png" class="rank">
+                  <img src="../../assets/img/icon/home/to-top-yellow.png" class="rank" />
                 </div>
                 <div class="right">
                   <div class="center">
@@ -57,18 +66,43 @@
                   </div>
                 </div>
               </div>
-              <div class="l-row" v-for="(item,index) in hotRankList">
+              <div class="l-row" :key="index" v-for="(item, index) in hotRankList">
                 <div class="rank-wrapper">
-                  <img v-if="index === 0" src="../../assets/img/icon/home/hot1.webp" alt="" class="rank">
-                  <img v-else-if="index === 1" src="../../assets/img/icon/home/hot2.webp" alt="" class="rank">
-                  <img v-else-if="index === 2" src="../../assets/img/icon/home/hot3.webp" alt="" class="rank">
+                  <img
+                    v-if="index === 0"
+                    src="../../assets/img/icon/home/hot1.webp"
+                    alt=""
+                    class="rank"
+                  />
+                  <img
+                    v-else-if="index === 1"
+                    src="../../assets/img/icon/home/hot2.webp"
+                    alt=""
+                    class="rank"
+                  />
+                  <img
+                    v-else-if="index === 2"
+                    src="../../assets/img/icon/home/hot3.webp"
+                    alt=""
+                    class="rank"
+                  />
                   <div v-else class="rank">{{ index + 1 }}</div>
                 </div>
                 <div class="right">
                   <div class="center">
                     <div class="desc">{{ item.name }}</div>
-                    <img v-if="item.type === 1" src="../../assets/img/icon/home/new.webp" alt="" class="type">
-                    <img v-if="item.type === 0" src="../../assets/img/icon/home/hot.webp" alt="" class="type">
+                    <img
+                      v-if="item.type === 1"
+                      src="../../assets/img/icon/home/new.webp"
+                      alt=""
+                      class="type"
+                    />
+                    <img
+                      v-if="item.type === 0"
+                      src="../../assets/img/icon/home/hot.webp"
+                      alt=""
+                      class="type"
+                    />
                   </div>
                   <div class="count">999w</div>
                 </div>
@@ -78,22 +112,24 @@
           </SlideItem>
           <SlideItem>
             <div class="slide1" ref="slide1">
-              <div class="l-row" v-for="(item,index) in liveRankList">
+              <div class="l-row" :key="index" v-for="(item, index) in liveRankList">
                 <div class="rank-wrapper">
-                  <div class="rank" :class="{top:index<3}">{{ index + 1 }}</div>
+                  <div class="rank" :class="{ top: index < 3 }">
+                    {{ index + 1 }}
+                  </div>
                 </div>
                 <div class="right">
                   <div class="center">
                     <div class="avatar-wrapper">
-                      <img src="../../assets/img/icon/avatar/1.png" alt="" class="avatar">
+                      <img src="../../assets/img/icon/avatar/1.png" alt="" class="avatar" />
                     </div>
                     <div class="desc">{{ item.name }}</div>
                     <div v-if="item.type === 0" class="live-type">
-                      <img class="type1" src="../../assets/img/icon/home/pk.webp">
+                      <img class="type1" src="../../assets/img/icon/home/pk.webp" />
                       <span>PK</span>
                     </div>
                     <div v-if="item.type === 1" class="live-type">
-                      <img class="type2" src="../../assets/img/icon/home/redpack.png">
+                      <img class="type2" src="../../assets/img/icon/home/redpack.png" />
                       <span>红包</span>
                     </div>
                   </div>
@@ -105,19 +141,26 @@
           </SlideItem>
           <SlideItem>
             <div class="slide2" ref="slide2">
-              <div class="l-row" v-for="(item,index) in musicRankList" @click="$nav('/home/music-rank-list')">
+              <div
+                class="l-row"
+                :key="index"
+                v-for="(item, index) in musicRankList"
+                @click="$nav('/home/music-rank-list')"
+              >
                 <div class="rank-wrapper">
-                  <div class="rank" :class="{top:index < 3}">{{ index + 1 }}</div>
+                  <div class="rank" :class="{ top: index < 3 }">
+                    {{ index + 1 }}
+                  </div>
                 </div>
                 <div class="right">
                   <div class="center">
                     <div class="avatar-wrapper">
-                      <img v-lazy="$imgPreview(item.cover)" alt="" class="avatar">
+                      <img v-lazy="$imgPreview(item.cover)" alt="" class="avatar" />
                     </div>
                     <div class="desc">{{ item.name }}</div>
                   </div>
                   <div class="count">
-                    <img src="../../assets/img/icon/home/hot-gray.png" alt="">
+                    <img src="../../assets/img/icon/home/hot-gray.png" alt="" />
                     <span>{{ formatNumber(item.use_count) }}</span>
                   </div>
                 </div>
@@ -129,28 +172,33 @@
             <div class="slide3" ref="slide3">
               <div class="slide4-wrapper">
                 <div class="brands">
-                  <div class="brand"
-                       @click="toggleKey(key)"
-                       :class="{active:key === selectBrandKey}"
-                       v-for="key in Object.keys(brandRankList)">
+                  <div
+                    class="brand"
+                    @click="toggleKey(key)"
+                    :key="i"
+                    :class="{ active: key === selectBrandKey }"
+                    v-for="(key, i) in Object.keys(brandRankList)"
+                  >
                     {{ key }}
                   </div>
                 </div>
-                <div class="l-row" v-for="(item,index) in selectBrandList">
+                <div class="l-row" :key="index" v-for="(item, index) in selectBrandList">
                   <div class="rank-wrapper">
-                    <div class="rank" :class="{top:index < 3}">{{ index + 1 }}</div>
+                    <div class="rank" :class="{ top: index < 3 }">
+                      {{ index + 1 }}
+                    </div>
                   </div>
                   <div class="right">
                     <div class="center">
-                      <div class="avatar-wrapper" :class="item.living ? 'living':''">
+                      <div class="avatar-wrapper" :class="item.living ? 'living' : ''">
                         <div class="avatar-out-line"></div>
-                        <img v-lazy="$imgPreview(item.logo)" alt="" class="avatar">
+                        <img v-lazy="$imgPreview(item.logo)" alt="" class="avatar" />
                         <!--                      <img :src="item.logo" class="avatar">-->
                       </div>
                       <div class="desc">{{ item.name }}</div>
                     </div>
                     <div class="count">
-                      <img src="../../assets/img/icon/home/hot-gray.png" alt="">
+                      <img src="../../assets/img/icon/home/hot-gray.png" alt="" />
                       <span>{{ formatNumber(item.hot_count) }}</span>
                     </div>
                   </div>
@@ -158,10 +206,7 @@
                 <div class="more" @click="$no">查看完整品牌榜 ></div>
               </div>
 
-              <SlideRowList
-                  :autoplay="true"
-                  indicatorType="bullets"
-              >
+              <SlideRowList :autoplay="true" indicatorType="bullets">
                 <SlideItem>
                   <div class="ad">AD1</div>
                 </SlideItem>
@@ -195,15 +240,15 @@
   </div>
 </template>
 <script>
-import Search from "../../components/Search";
-import Dom from "../../utils/dom";
-import {nextTick} from "vue";
-import {sampleSize} from "@/utils";
+import Search from '../../components/Search'
+import Dom from '../../utils/dom'
+import { nextTick } from 'vue'
+import { sampleSize } from '@/utils'
 
 export default {
-  name: "SearchPage",
+  name: 'SearchPage',
   components: {
-    'BSearch': Search
+    BSearch: Search
   },
   data() {
     return {
@@ -218,99 +263,111 @@ export default {
         '历史记录7',
         '历史记录8',
         '历史记录9',
-        '历史记录10',
+        '历史记录10'
       ],
       guess: [
-        {name: '少年透明人', type: -1},
-        {name: '花呗分批次接入征信', type: -1},
-        {name: '新娘婚礼上跪求悔婚', type: -1},
-        {name: '当你想换iPhone13时', type: -1},
-        {name: 'Ling OS灵犀系统', type: -1},
-        {name: '桑塔纳2022款', type: -1},
-        {name: '透明人', type: -1},
-        {name: '恒大集团凌晨发公告', type: 0},
-        {name: '2022款日产GT-R', type: 1},
-        {name: '四川双一流大学名单', type: -1},
-        {name: '一公司放假通知走红', type: -1},
-        {name: '成都新全优教育倒闭', type: -1},
-        {name: '当代女生社交现状', type: -1},
-        {name: '恒大集团凌晨发公告', type: -1},
+        { name: '少年透明人', type: -1 },
+        { name: '花呗分批次接入征信', type: -1 },
+        { name: '新娘婚礼上跪求悔婚', type: -1 },
+        { name: '当你想换iPhone13时', type: -1 },
+        { name: 'Ling OS灵犀系统', type: -1 },
+        { name: '桑塔纳2022款', type: -1 },
+        { name: '透明人', type: -1 },
+        { name: '恒大集团凌晨发公告', type: 0 },
+        { name: '2022款日产GT-R', type: 1 },
+        { name: '四川双一流大学名单', type: -1 },
+        { name: '一公司放假通知走红', type: -1 },
+        { name: '成都新全优教育倒闭', type: -1 },
+        { name: '当代女生社交现状', type: -1 },
+        { name: '恒大集团凌晨发公告', type: -1 }
       ],
       randomGuess: [],
       hotRankList: [
-        {name: '国内手机厂商最大的软肋就是 android 系统！', type: 0},
-        {name: '大家的官网订单现在什么状态', type: -1},
-        {name: '库克不愧是供应链管理大师， A15 一鱼三吃', type: -1},
-        {name: '找到了 iOS 被怀疑淘宝窃听的可能原因', type: 1},
-        {name: 'rebase 还是 merge？', type: -1},
-        {name: '十一出游西安，西安的大佬们能给些建议吗？', type: 0},
-        {name: '领克 01，燃油还是 phev？', type: 1},
-        {name: '为什么要抢购新手机呢？', type: -1},
-        {name: '拼多多官方处理问题跟京东真的没法比', type: -1},
-        {name: '百度输入法 VS 搜狗输入法', type: -1},
-        {name: '关于 ios 上 app 检测代理', type: 0},
-        {name: 'iPadmini6 到货以后，要不要换路由器', type: 1},
-        {name: '现在有推荐的同步盘么？', type: -1},
-        {name: '大哥们， mac 电池鼓包你们都咋修的。。', type: -1},
-        {name: '发现一个特别赞的同步盘方案 Resilio Sync', type: -1},
-        {name: '得鼻炎了, 说下症状和应对吧', type: 1},
-        {name: '打翻了一瓶矿泉水在 MacBook Pro 上，赶紧用鼠标关机了，等多久可以尝试开机？', type: 0},
-        {name: '筋膜枪哪个牌子好啊？', type: -1},
-        {name: '最近在学理财小白基础知识，然后请教大家办哪个证券账户比较好呀', type: -1},
-        {name: '有没有长期使用 sidecar 功能的 V 友，这个东西长期的稳定性如何？', type: 0},
-        {name: '犹豫是否要年年焕新', type: -1},
-        {name: '请问如何在国内给 AppStore HK/TW 区充值.', type: 0},
-        {name: '最近感觉一个妹子不错，不过我比她大 5 岁', type: 1},
-        {name: '12mini 1 月 20 号购入，现在电池健康 92%，正常现象？', type: -1},
-        {name: '现在新 iphone12/128 啥价格比较合适啊？', type: -1},
-        {name: 'iOS 15 不改地区就能看到全球所有交通卡', type: -1},
-        {name: '求推荐拼车/打车软件', type: 1},
-        {name: '如何比较方便的杀死 nohup 起的进程及其所有子进程?', type: 0},
-        {name: '换了新工作，好像又掉坑里了。', type: 0},
-        {name: '有没有这样一款记账软件？', type: 1},
+        { name: '国内手机厂商最大的软肋就是 android 系统！', type: 0 },
+        { name: '大家的官网订单现在什么状态', type: -1 },
+        { name: '库克不愧是供应链管理大师， A15 一鱼三吃', type: -1 },
+        { name: '找到了 iOS 被怀疑淘宝窃听的可能原因', type: 1 },
+        { name: 'rebase 还是 merge？', type: -1 },
+        { name: '十一出游西安，西安的大佬们能给些建议吗？', type: 0 },
+        { name: '领克 01，燃油还是 phev？', type: 1 },
+        { name: '为什么要抢购新手机呢？', type: -1 },
+        { name: '拼多多官方处理问题跟京东真的没法比', type: -1 },
+        { name: '百度输入法 VS 搜狗输入法', type: -1 },
+        { name: '关于 ios 上 app 检测代理', type: 0 },
+        { name: 'iPadmini6 到货以后，要不要换路由器', type: 1 },
+        { name: '现在有推荐的同步盘么？', type: -1 },
+        { name: '大哥们， mac 电池鼓包你们都咋修的。。', type: -1 },
+        { name: '发现一个特别赞的同步盘方案 Resilio Sync', type: -1 },
+        { name: '得鼻炎了, 说下症状和应对吧', type: 1 },
+        {
+          name: '打翻了一瓶矿泉水在 MacBook Pro 上，赶紧用鼠标关机了，等多久可以尝试开机？',
+          type: 0
+        },
+        { name: '筋膜枪哪个牌子好啊？', type: -1 },
+        {
+          name: '最近在学理财小白基础知识，然后请教大家办哪个证券账户比较好呀',
+          type: -1
+        },
+        {
+          name: '有没有长期使用 sidecar 功能的 V 友，这个东西长期的稳定性如何？',
+          type: 0
+        },
+        { name: '犹豫是否要年年焕新', type: -1 },
+        { name: '请问如何在国内给 AppStore HK/TW 区充值.', type: 0 },
+        { name: '最近感觉一个妹子不错，不过我比她大 5 岁', type: 1 },
+        {
+          name: '12mini 1 月 20 号购入，现在电池健康 92%，正常现象？',
+          type: -1
+        },
+        { name: '现在新 iphone12/128 啥价格比较合适啊？', type: -1 },
+        { name: 'iOS 15 不改地区就能看到全球所有交通卡', type: -1 },
+        { name: '求推荐拼车/打车软件', type: 1 },
+        { name: '如何比较方便的杀死 nohup 起的进程及其所有子进程?', type: 0 },
+        { name: '换了新工作，好像又掉坑里了。', type: 0 },
+        { name: '有没有这样一款记账软件？', type: 1 }
       ],
       liveRankList: [
-        {name: '毛三岁（收女徒弟）', type: 0},
-        {name: '广州表哥', type: -1},
-        {name: '一只扬儿', type: -1},
-        {name: '沈酒', type: -1},
-        {name: '客家婷子', type: 1},
-        {name: '三斤.（9237）', type: -1},
-        {name: '虎哥说车', type: -1},
-        {name: '爆笑三江锅（永不言败）', type: -1},
-        {name: '子豪(尊师胜仔）5点扛把子', type: 1},
-        {name: '琪琪', type: -1},
-        {name: '战神土牛（征战全网）', type: 0},
-        {name: '小鲁班下午5点直播', type: -1},
-        {name: '惠子ssica', type: -1},
-        {name: '大狼狗郑建鹏&言真夫妇', type: -1},
-        {name: '一条小团团', type: -1},
-        {name: '高火火', type: -1},
-        {name: '郭聪明', type: -1},
-        {name: '罗永浩', type: 1},
-        {name: '陈赫', type: 0},
-        {name: '摩登兄弟', type: -1},
-        {name: '浪老师', type: -1},
-        {name: '陈死狗cnh', type: -1},
-        {name: '杨驴驴y', type: -1},
-        {name: 'imxiaoxin', type: 0},
-        {name: '丶才子欧巴', type: -1},
-        {name: '旭旭宝宝', type: -1},
-        {name: 'pigff', type: -1},
-        {name: '正经人令北', type: -1},
-        {name: '雨神丶', type: -1},
-        {name: '智勋勋勋勋', type: 0},
+        { name: '毛三岁（收女徒弟）', type: 0 },
+        { name: '广州表哥', type: -1 },
+        { name: '一只扬儿', type: -1 },
+        { name: '沈酒', type: -1 },
+        { name: '客家婷子', type: 1 },
+        { name: '三斤.（9237）', type: -1 },
+        { name: '虎哥说车', type: -1 },
+        { name: '爆笑三江锅（永不言败）', type: -1 },
+        { name: '子豪(尊师胜仔）5点扛把子', type: 1 },
+        { name: '琪琪', type: -1 },
+        { name: '战神土牛（征战全网）', type: 0 },
+        { name: '小鲁班下午5点直播', type: -1 },
+        { name: '惠子ssica', type: -1 },
+        { name: '大狼狗郑建鹏&言真夫妇', type: -1 },
+        { name: '一条小团团', type: -1 },
+        { name: '高火火', type: -1 },
+        { name: '郭聪明', type: -1 },
+        { name: '罗永浩', type: 1 },
+        { name: '陈赫', type: 0 },
+        { name: '摩登兄弟', type: -1 },
+        { name: '浪老师', type: -1 },
+        { name: '陈死狗cnh', type: -1 },
+        { name: '杨驴驴y', type: -1 },
+        { name: 'imxiaoxin', type: 0 },
+        { name: '丶才子欧巴', type: -1 },
+        { name: '旭旭宝宝', type: -1 },
+        { name: 'pigff', type: -1 },
+        { name: '正经人令北', type: -1 },
+        { name: '雨神丶', type: -1 },
+        { name: '智勋勋勋勋', type: 0 }
       ],
       musicRankList: [
         {
           name: '龙卷风',
-          "mp3": "http://im5.tongbu.com/rings/singerring/zt_uunGo_1/5605.mp3",
+          mp3: 'http://im5.tongbu.com/rings/singerring/zt_uunGo_1/5605.mp3',
           cover: new URL('../../assets/img/music-cover/1.jpg', import.meta.url).href,
           author: '周杰伦',
           duration: 99,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '爱在西元前',
@@ -320,7 +377,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '蜗牛',
@@ -330,7 +387,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '半岛铁盒',
@@ -340,7 +397,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '轨迹',
@@ -350,7 +407,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '七里香',
@@ -360,7 +417,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '发如雪',
@@ -370,7 +427,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '霍元甲',
@@ -380,7 +437,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '千里之外(周杰伦/费玉清)',
@@ -390,7 +447,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '菊花台',
@@ -400,7 +457,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '不能说的秘密',
@@ -410,7 +467,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '牛仔很忙',
@@ -420,7 +477,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '给我一首歌的时间',
@@ -430,7 +487,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '烟花易冷',
@@ -440,7 +497,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '惊叹号',
@@ -450,7 +507,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '明明就',
@@ -460,7 +517,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '算什么男人',
@@ -470,7 +527,7 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
+          is_play: false
         },
         {
           name: '告白气球',
@@ -480,11 +537,11 @@ export default {
           duration: 60,
           use_count: 37441000,
           is_collect: false,
-          is_play: false,
-        },
+          is_play: false
+        }
       ],
       brandRankList: {
-        '汽车': [
+        汽车: [
           {
             name: '五菱汽车',
             logo: 'https://www.wuling.com/favicon.ico',
@@ -514,9 +571,9 @@ export default {
             logo: 'https://www.vw.com.cn/favicon.ico',
             hot_count: 1395,
             living: false
-          },
+          }
         ],
-        '手机': [
+        手机: [
           {
             name: '华为',
             logo: 'https://isesglobal.com/wp-content/uploads/2021/01/Huawei.jpg',
@@ -546,9 +603,9 @@ export default {
             logo: 'https://www.samsung.com/etc.clientlibs/samsung/clientlibs/consumer/global/clientlib-common/resources/images/Favicon.png',
             hot_count: 1395,
             living: false
-          },
+          }
         ],
-        '美妆': [
+        美妆: [
           {
             name: '巴黎欧莱雅',
             logo: 'https://oap-cn-prd-cd.e-loreal.cn/-/media/project/loreal/brand-sites/oap/apac/cn/identity/image-2020-06-19-20-48-00-996.png',
@@ -578,7 +635,7 @@ export default {
             logo: 'https://www.80wzbk.com/uploads/logo/20210129/20210129104015_541.jpg',
             hot_count: 1395,
             living: false
-          },
+          }
         ]
       },
       selectBrandKey: '汽车',
@@ -605,7 +662,9 @@ export default {
       return Object.keys(this.brandRankList)
     },
     slideListHeight() {
-      return {height: this.slideItemHeight ? (this.slideItemHeight + 'px') : '100%'}
+      return {
+        height: this.slideItemHeight ? this.slideItemHeight + 'px' : '100%'
+      }
     }
   },
   watch: {
@@ -647,9 +706,15 @@ export default {
     },
     toggle() {
       if (this.isExpand) {
-        this.$showSimpleConfirmDialog('是否清空历史记录？', () => {
-          this.history = []
-        }, null, '确定', '取消')
+        this.$showSimpleConfirmDialog(
+          '是否清空历史记录？',
+          () => {
+            this.history = []
+          },
+          null,
+          '确定',
+          '取消'
+        )
       } else {
         this.isExpand = true
       }
@@ -659,7 +724,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .Search {
   position: fixed;
@@ -772,7 +837,6 @@ export default {
             text-overflow: ellipsis;
             overflow: hidden;
           }
-
         }
       }
     }
@@ -879,7 +943,7 @@ export default {
           color: var(--second-text-color);
 
           &:active {
-            opacity: .5;
+            opacity: 0.5;
           }
 
           .rank-wrapper {
@@ -965,7 +1029,6 @@ export default {
                   width: 15rem;
                   height: 10rem;
                 }
-
               }
             }
 
@@ -992,7 +1055,7 @@ export default {
           color: var(--second-text-color);
 
           &:active {
-            opacity: .5;
+            opacity: 0.5;
           }
 
           .rank-wrapper {
@@ -1045,7 +1108,6 @@ export default {
                 text-overflow: ellipsis;
                 overflow: hidden;
               }
-
             }
 
             .count {
@@ -1098,7 +1160,7 @@ export default {
             color: var(--second-text-color);
 
             &:active {
-              opacity: .5;
+              opacity: 0.5;
             }
 
             .rank-wrapper {
@@ -1201,7 +1263,6 @@ export default {
                   text-overflow: ellipsis;
                   overflow: hidden;
                 }
-
               }
 
               .count {

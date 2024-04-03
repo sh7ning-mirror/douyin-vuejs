@@ -1,28 +1,31 @@
 <template>
   <div id="MoreSearch">
     <div class="content">
-      <Search v-model="searchKey"
-              right-text="取消"
-              right-text-color="white"
-              @notice="$back"
-              :isShowRightText="true"/>
-      <People v-for="(item,index) in searchFriendsAll"
-              :key="item.id"
-              mode="search"
-              :searchKey="searchKey"
-              :people="item"/>
-
+      <Search
+        v-model="searchKey"
+        right-text="取消"
+        right-text-color="white"
+        @notice="$back"
+        :isShowRightText="true"
+      />
+      <People
+        v-for="item in searchFriendsAll"
+        :key="item.id"
+        mode="search"
+        :searchKey="searchKey"
+        :people="item"
+      />
     </div>
   </div>
 </template>
 <script>
-import Search from "../../components/Search";
-import {mapState} from "pinia";
-import People from "../people/components/People";
-import {useBaseStore} from "@/store/pinia";
+import Search from '../../components/Search'
+import { mapState } from 'pinia'
+import People from '../people/components/People'
+import { useBaseStore } from '@/store/pinia'
 
 export default {
-  name: "MoreSearch",
+  name: 'MoreSearch',
   components: {
     Search,
     People
@@ -35,7 +38,7 @@ export default {
   computed: {
     ...mapState(useBaseStore, ['friends', 'userinfo']),
     searchFriendsAll() {
-      return this.friends.all.filter(v => {
+      return this.friends.all.filter((v) => {
         return v.name.search(this.searchKey) !== -1 || v.account.search(this.searchKey) !== -1
       })
     }
@@ -49,8 +52,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-
-
 #MoreSearch {
   position: fixed;
   left: 0;

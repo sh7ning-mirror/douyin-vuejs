@@ -5,33 +5,38 @@
         <span class="f16">任务通知</span>
       </template>
       <template v-slot:right>
-        <span class="f14" @click="$nav('/message/notice-setting',{ type : 'TASK' })">通知设置</span>
+        <span class="f14" @click="$nav('/message/notice-setting', { type: 'TASK' })">通知设置</span>
       </template>
     </BaseHeader>
-    <Loading v-if="loading"/>
+    <Loading v-if="loading" />
     <div class="content" v-else>
       <Scroll ref="mainScroll">
         <div class="list">
-          <NoMore/>
-          <!--TODO　超过3行显示全文-->
-          <div class="item" v-for="item in list" @click="goDetail(item)">
+          <NoMore />
+          <!--TODO 超过3行显示全文-->
+          <div class="item" :key="i" v-for="(item, i) in list" @click="goDetail(item)">
             <div class="header">
               <div class="left">
-                <img src="../../../assets/img/icon/message/task.webp" alt="">
+                <img src="../../../assets/img/icon/message/task.webp" alt="" />
               </div>
               <div class="right">
                 <span>成长任务</span>
-                <img @click.stop="isShowSetting = true" src="../../../assets/img/icon/menu-gray.png" alt="">
+                <img
+                  @click.stop="isShowSetting = true"
+                  src="../../../assets/img/icon/menu-gray.png"
+                  alt=""
+                />
               </div>
             </div>
-            <div class="title">{{ item.title }}
+            <div class="title">
+              {{ item.title }}
               <div class="ml1r not-read" v-if="!item.read"></div>
             </div>
             <div class="time">{{ item.time }}</div>
             <div class="content-text">{{ item.content }}</div>
             <div class="look-detail" v-if="item.detail">
               <span>查看详情</span>
-              <dy-back direction="right" scale=".6"/>
+              <dy-back direction="right" scale=".6" />
             </div>
           </div>
         </div>
@@ -40,18 +45,16 @@
     </div>
 
     <from-bottom-dialog
-        page-id="TaskNotice"
-        mode="white"
-        mask-mode="dark"
-        :show-heng-gang="false"
-        v-model="isShowSetting"
-        height="160rem"
+      page-id="TaskNotice"
+      mode="white"
+      mask-mode="dark"
+      :show-heng-gang="false"
+      v-model="isShowSetting"
+      height="160rem"
     >
       <div class="setting-dialog">
         <div class="row disabled">成长任务</div>
-        <div class="row" @click="openNotice = !openNotice;isShowSetting = false">
-          {{ openNotice ? '关闭' : '开启' }}消息免打扰
-        </div>
+        <div class="row" @click="handleClick">{{ openNotice ? '关闭' : '开启' }}消息免打扰</div>
         <div class="space"></div>
         <div class="row" @click="isShowSetting = false">取消</div>
       </div>
@@ -59,15 +62,14 @@
   </div>
 </template>
 <script>
-import {nextTick} from "vue";
-import Mask from "../../../components/Mask";
-import FromBottomDialog from "../../../components/dialog/FromBottomDialog";
-import Scroll from "../../../components/Scroll";
-import BasePage from "../../BasePage";
+import { nextTick } from 'vue'
+import FromBottomDialog from '../../../components/dialog/FromBottomDialog'
+import Scroll from '../../../components/Scroll'
+import BasePage from '../../BasePage'
 
 export default {
   extends: BasePage,
-  name: "SystemNotice",
+  name: 'SystemNotice',
   components: {
     FromBottomDialog,
     Scroll
@@ -83,29 +85,33 @@ export default {
           title: '发作品得流量',
           detail: 'xxx',
           time: '2021-10-12 12:12',
-          content: '4.24-4.28，公开发布1个道具作品，即得50-100的额外流量。快来发布视频，获得更多关注'
+          content:
+            '4.24-4.28，公开发布1个道具作品，即得50-100的额外流量。快来发布视频，获得更多关注'
         },
         {
           type: 1,
           title: '发作品得流量',
           detail: 'xxx',
           time: '2021-10-12 12:12',
-          content: '4.24-4.28，公开发布1个道具作品，即得50-100的额外流量。快来发布视频，获得更多关注'
+          content:
+            '4.24-4.28，公开发布1个道具作品，即得50-100的额外流量。快来发布视频，获得更多关注'
         },
         {
           type: 1,
           title: '发作品得流量',
           detail: 'xxx',
           time: '2021-10-12 12:12',
-          content: '4.24-4.28，公开发布1个道具作品，即得50-100的额外流量。快来发布视频，获得更多关注'
+          content:
+            '4.24-4.28，公开发布1个道具作品，即得50-100的额外流量。快来发布视频，获得更多关注'
         },
         {
           type: 1,
           title: '发作品得流量',
           detail: 'xxx',
           time: '2021-10-12 12:12',
-          content: '4.24-4.28，公开发布1个道具作品，即得50-100的额外流量。快来发布视频，获得更多关注'
-        },
+          content:
+            '4.24-4.28，公开发布1个道具作品，即得50-100的额外流量。快来发布视频，获得更多关注'
+        }
       ]
     }
   },
@@ -115,6 +121,10 @@ export default {
     this.getData()
   },
   methods: {
+    handleClick() {
+      this.openNotice = !this.openNotice
+      this.isShowSetting = false
+    },
     async getData() {
       this.loading = true
       await this.$sleep(700)
@@ -133,8 +143,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-
-
 #TaskNotice {
   position: fixed;
   left: 0;
@@ -215,9 +223,7 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
-
         }
-
       }
     }
 
@@ -229,11 +235,9 @@ export default {
       align-items: center;
       justify-content: center;
     }
-
   }
 
   .setting-dialog {
-
     .row {
       color: black !important;
       height: 50rem;
@@ -248,7 +252,7 @@ export default {
 
       &.disabled {
         font-size: 12rem;
-        opacity: .5;
+        opacity: 0.5;
       }
     }
 
@@ -257,6 +261,5 @@ export default {
       background: whitesmoke;
     }
   }
-
 }
 </style>

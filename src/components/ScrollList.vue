@@ -1,18 +1,15 @@
 <template>
-  <Scroll
-      :loading="state.loading"
-      :full-loading="!state.list.length"
-      @pulldown="loadData">
+  <Scroll :loading="state.loading" :full-loading="!state.list.length" @pulldown="loadData">
     <slot :list="state.list"></slot>
-    <NoMore v-if="state.total !== 0 && state.total === state.list.length"/>
+    <NoMore v-if="state.total !== 0 && state.total === state.list.length" />
   </Scroll>
 </template>
 
 <script setup>
-import {onMounted, reactive} from "vue";
-import {_notice} from "@/utils";
-import Scroll from "@/components/Scroll.vue";
-import NoMore from "@/components/NoMore.vue";
+import { onMounted, reactive } from 'vue'
+import { _notice } from '@/utils'
+import Scroll from '@/components/Scroll.vue'
+import NoMore from '@/components/NoMore.vue'
 
 const props = defineProps({
   api: {
@@ -45,7 +42,10 @@ async function getData(refresh = false) {
   }
   if (state.loading) return
   state.loading = true
-  let res = await props.api({pageNo: state.pageNo, pageSize: state.pageSize})
+  let res = await props.api({
+    pageNo: state.pageNo,
+    pageSize: state.pageSize
+  })
   state.loading = false
   if (res.success) {
     if (refresh) {
@@ -62,6 +62,4 @@ async function getData(refresh = false) {
 onMounted(getData)
 </script>
 
-<style scoped lang="less">
-
-</style>
+<style scoped lang="less"></style>

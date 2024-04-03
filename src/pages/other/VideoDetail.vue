@@ -1,10 +1,10 @@
 <template>
   <div id="video-detail">
     <div class="search-wrapper">
-      <Icon class="back" icon="icon-park-outline:left" @click="$back"/>
+      <Icon class="back" icon="icon-park-outline:left" @click="$back" />
       <div class="search" @click="nav('/home/search')">
         <div class="left">
-          <Icon class="icon" icon="ion:search"/>
+          <Icon class="icon" icon="ion:search" />
           <span>搜你想看的</span>
         </div>
         <div class="right">
@@ -15,109 +15,112 @@
     </div>
     <div class="content">
       <SlideVerticalInfinite
-          ref="listRef"
-          v-love="state.uniqueId"
-          :id="state.uniqueId"
-          :uniqueId="state.uniqueId"
-          name="main"
-          :active="true"
-          :loading="false"
-          v-model:index="state.index"
-          :render="render"
-          :list="state.list"
+        ref="listRef"
+        v-love="state.uniqueId"
+        :id="state.uniqueId"
+        :uniqueId="state.uniqueId"
+        name="main"
+        :active="true"
+        :loading="false"
+        v-model:index="state.index"
+        :render="render"
+        :list="state.list"
       />
     </div>
     <div class="footer">
       <div class="comment">
         <div class="left">
-          <img :src="_checkImgUrl(baseStore.userinfo.avatar_168x168.url_list[0])" class="avatar" alt=""/>
+          <img
+            :src="_checkImgUrl(baseStore.userinfo.avatar_168x168.url_list[0])"
+            class="avatar"
+            alt=""
+          />
           <span>善语结善缘，恶言伤人心</span>
         </div>
         <div class="right">
-          <Icon icon="tabler:photo"/>
-          <Icon icon="ion:at-sharp"/>
-          <Icon icon="fa-regular:laugh"/>
+          <Icon icon="tabler:photo" />
+          <Icon icon="ion:at-sharp" />
+          <Icon icon="fa-regular:laugh" />
         </div>
       </div>
     </div>
 
-    <Comment page-id="video-detail"
-             :video-id="state.currentItem.aweme_id"
-             v-model="state.commentVisible"
-             @close="closeComments"
+    <Comment
+      page-id="video-detail"
+      :video-id="state.currentItem.aweme_id"
+      v-model="state.commentVisible"
+      @close="closeComments"
     />
 
-    <Share v-model="state.isSharing"
-           ref="share"
-           page-id="video-detail"
-           @dislike="dislike"
-           :item="state.currentItem"
-           :videoId="state.recommendList[state.itemIndex]?.id"
-           :canDownload="state.recommendList[state.itemIndex]?.canDownload"
-           @play-feedback="state.showPlayFeedback = true"
-           @shareToFriend="delayShowDialog(e => state.shareToFriend = true)"
-           @showDouyinCode="state.showDouyinCode = true"
-           @download="state.shareType = 9"
+    <Share
+      v-model="state.isSharing"
+      ref="share"
+      page-id="video-detail"
+      @dislike="dislike"
+      :item="state.currentItem"
+      :videoId="state.recommendList[state.itemIndex]?.id"
+      :canDownload="state.recommendList[state.itemIndex]?.canDownload"
+      @play-feedback="state.showPlayFeedback = true"
+      @shareToFriend="delayShowDialog((e) => (state.shareToFriend = true))"
+      @showDouyinCode="state.showDouyinCode = true"
+      @download="state.shareType = 9"
     />
 
-    <PlayFeedback v-model="state.showPlayFeedback"/>
+    <PlayFeedback v-model="state.showPlayFeedback" />
 
-    <DouyinCode
-        :item="state.currentItem"
-        v-model="state.showDouyinCode"/>
+    <DouyinCode :item="state.currentItem" v-model="state.showDouyinCode" />
 
-    <ShareTo v-model:type="state.shareType"
-             :videoId="state.recommendList[state.itemIndex]?.id"
-             :canDownload="state.recommendList[state.itemIndex]?.canDownload"
+    <ShareTo
+      v-model:type="state.shareType"
+      :videoId="state.recommendList[state.itemIndex]?.id"
+      :canDownload="state.recommendList[state.itemIndex]?.canDownload"
     />
 
     <FollowSetting
-        v-model:currentItem="state.currentItem"
-        @showChangeNote="delayShowDialog( e => state.showChangeNote = true)"
-        @showBlockDialog="delayShowDialog(e => state.showBlockDialog = true)"
-        @showShare="delayShowDialog( e => state.isSharing = true)"
-        v-model="state.showFollowSetting"/>
+      v-model:currentItem="state.currentItem"
+      @showChangeNote="delayShowDialog((e) => (state.showChangeNote = true))"
+      @showBlockDialog="delayShowDialog((e) => (state.showBlockDialog = true))"
+      @showShare="delayShowDialog((e) => (state.isSharing = true))"
+      v-model="state.showFollowSetting"
+    />
 
     <FollowSetting2
-        v-model:currentItem="state.currentItem"
-        @cancelFollow="$refs.uploader.cancelFollow()"
-        v-model="state.showFollowSetting2"/>
+      v-model:currentItem="state.currentItem"
+      @cancelFollow="$refs.uploader.cancelFollow()"
+      v-model="state.showFollowSetting2"
+    />
 
-    <BlockDialog v-model="state.showBlockDialog"/>
+    <BlockDialog v-model="state.showBlockDialog" />
 
-    <ConfirmDialog
-        title="设置备注名"
-        ok-text="确认"
-        v-model:visible="state.showChangeNote"
-    >
-      <Search mode="light" v-model="state.test" :isShowSearchIcon="false"/>
+    <ConfirmDialog title="设置备注名" ok-text="确认" v-model:visible="state.showChangeNote">
+      <Search mode="light" v-model="state.test" :isShowSearchIcon="false" />
     </ConfirmDialog>
 
-    <ShareToFriend v-model="state.shareToFriend"/>
+    <ShareToFriend v-model="state.shareToFriend" />
   </div>
 </template>
 
 <script setup lang="jsx">
-import Comment from "../../components/Comment.vue";
-import Share from "../../components/Share.vue";
-import {onMounted, onUnmounted, reactive} from "vue";
-import bus, {EVENT_KEY} from "../../utils/bus";
-import {useNav} from "@/utils/hooks/useNav";
-import PlayFeedback from "@/pages/home/components/PlayFeedback.vue";
-import ShareTo from "@/pages/home/components/ShareTo.vue";
-import DouyinCode from "../../components/DouyinCode.vue";
-import FollowSetting from "@/pages/home/components/FollowSetting.vue";
-import BlockDialog from "../message/components/BlockDialog.vue";
-import Search from "../../components/Search.vue";
-import ConfirmDialog from "../../components/dialog/ConfirmDialog.vue";
-import FollowSetting2 from "@/pages/home/components/FollowSetting2.vue";
-import ShareToFriend from "@/pages/home/components/ShareToFriend.vue";
-import {DefaultUser} from "@/utils/const_var";
-import {_checkImgUrl} from "@/utils";
-import {useBaseStore} from "@/store/pinia";
-import SlideVerticalInfinite from "@/components/slide/SlideVerticalInfinite.vue";
-import {useSlideListItemRender} from "@/utils/hooks/useSlideListItemRender";
-import {useRouter} from "vue-router";
+import Comment from '../../components/Comment.vue'
+import Share from '../../components/Share.vue'
+import { onMounted, onUnmounted, reactive } from 'vue'
+import bus, { EVENT_KEY } from '../../utils/bus'
+import { useNav } from '@/utils/hooks/useNav'
+import PlayFeedback from '@/pages/home/components/PlayFeedback.vue'
+import ShareTo from '@/pages/home/components/ShareTo.vue'
+import DouyinCode from '../../components/DouyinCode.vue'
+import FollowSetting from '@/pages/home/components/FollowSetting.vue'
+import BlockDialog from '../message/components/BlockDialog.vue'
+import Search from '../../components/Search.vue'
+import ConfirmDialog from '../../components/dialog/ConfirmDialog.vue'
+import FollowSetting2 from '@/pages/home/components/FollowSetting2.vue'
+import ShareToFriend from '@/pages/home/components/ShareToFriend.vue'
+import { DefaultUser } from '@/utils/const_var'
+import { _checkImgUrl } from '@/utils'
+import { useBaseStore } from '@/store/pinia'
+import SlideVerticalInfinite from '@/components/slide/SlideVerticalInfinite.vue'
+import { useSlideListItemRender } from '@/utils/hooks/useSlideListItemRender'
+import { useRouter } from 'vue-router'
 
 defineOptions({
   name: 'VideoDetail'
@@ -126,14 +129,6 @@ const nav = useNav()
 const router = useRouter()
 
 const baseStore = useBaseStore()
-const data = reactive({
-  dialog: {
-    shareToFriend: false,
-    permissionDialog: false,
-    test: false,
-  },
-  isMy: false
-})
 
 const state = reactive({
   baseIndex: 1,
@@ -159,16 +154,15 @@ const state = reactive({
   currentItem: {
     author: DefaultUser,
     isRequest: false,
-    aweme_list: [],
+    aweme_list: []
   },
   index: 0,
   list: [],
   uniqueId: 'uniqueId_2',
   totalSize: 0,
   pageSize: 10,
-  pageNo: 0,
+  pageNo: 0
 })
-
 
 const render = useSlideListItemRender()
 
@@ -190,27 +184,27 @@ function setCurrentItem(item) {
     state.currentItem = {
       ...item,
       isRequest: false,
-      aweme_list: [],
+      aweme_list: []
     }
   }
   // console.log('item', item)
 }
 
 onMounted(() => {
-  bus.on(EVENT_KEY.ENTER_FULLSCREEN, (e) => state.fullScreen = true)
-  bus.on(EVENT_KEY.EXIT_FULLSCREEN, (e) => state.fullScreen = false)
-  bus.on(EVENT_KEY.OPEN_COMMENTS, (e) => {
+  bus.on(EVENT_KEY.ENTER_FULLSCREEN, () => (state.fullScreen = true))
+  bus.on(EVENT_KEY.EXIT_FULLSCREEN, () => (state.fullScreen = false))
+  bus.on(EVENT_KEY.OPEN_COMMENTS, () => {
     bus.emit(EVENT_KEY.ENTER_FULLSCREEN)
     state.commentVisible = true
   })
-  bus.on(EVENT_KEY.CLOSE_COMMENTS, (e) => {
+  bus.on(EVENT_KEY.CLOSE_COMMENTS, () => {
     bus.emit(EVENT_KEY.EXIT_FULLSCREEN)
     state.commentVisible = false
   })
-  bus.on(EVENT_KEY.SHOW_SHARE, (e) => {
+  bus.on(EVENT_KEY.SHOW_SHARE, () => {
     state.isSharing = true
   })
-  bus.on(EVENT_KEY.NAV, ({path, query}) => nav(path, query))
+  bus.on(EVENT_KEY.NAV, ({ path, query }) => nav(path, query))
   bus.on(EVENT_KEY.GO_USERINFO, () => {
     router.back()
   })
@@ -230,11 +224,9 @@ function dislike() {
   // state.list[state.index] = state.list[1]
   // Utils.$notice('操作成功，将减少此类视频的推荐')
 }
-
 </script>
 
 <style scoped lang="less">
-
 #video-detail {
   position: fixed;
   font-size: 14rem;
@@ -348,5 +340,4 @@ function dislike() {
     }
   }
 }
-
 </style>

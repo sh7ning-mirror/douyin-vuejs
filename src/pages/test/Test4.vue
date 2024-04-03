@@ -1,22 +1,18 @@
 <template>
   <div id="Test">
     <base-button type="primary" @click="t = true">test</base-button>
-<!--    <ShareToFriend pageId="Test" v-model="t"/>-->
-    <VideoShare v-model="t" page-id="Test"/>
+    <!--    <ShareToFriend pageId="Test" v-model="t"/>-->
+    <VideoShare v-model="t" page-id="Test" />
   </div>
 </template>
 <script>
-import ShareToFriend from "../home/components/ShareToFriend";
-import BaseButton from "../../components/BaseButton";
-import Search from "../../components/Search";
-import VideoShare from "../home/components/VideoShare";
+import BaseButton from '../../components/BaseButton'
+import VideoShare from '../home/components/VideoShare'
 
 export default {
-  name: "Test4",
+  name: 'Test4',
   components: {
     BaseButton,
-    ShareToFriend,
-    Search,
     VideoShare
   },
   props: {
@@ -27,17 +23,16 @@ export default {
   },
   data() {
     return {
-      t: false,
+      t: false
     }
   },
   methods: {},
-  mounted() {
-  }
+  mounted() {}
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 #Test {
   position: fixed;

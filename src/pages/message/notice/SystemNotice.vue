@@ -5,30 +5,33 @@
         <span class="f16">系统通知</span>
       </template>
       <template v-slot:right>
-        <span class="f14" @click="$nav('/message/notice-setting',{ type : 'SYSTEM' })">通知设置</span>
+        <span class="f14" @click="$nav('/message/notice-setting', { type: 'SYSTEM' })"
+          >通知设置</span
+        >
       </template>
     </BaseHeader>
-    <Loading v-if="loading"/>
+    <Loading v-if="loading" />
     <div class="content" v-else>
       <Scroll ref="mainScroll">
         <div class="list">
-          <NoMore/>
-          <!--TODO　超过3行显示全文-->
-          <div class="item" v-for="item in list" @click="goDetail(item)">
-            <div class="title">{{ item.title }}
+          <NoMore />
+          <!--TODO 超过3行显示全文-->
+          <div class="item" :key="i" v-for="(item, i) in list" @click="goDetail(item)">
+            <div class="title">
+              {{ item.title }}
               <div class="ml1r not-read" v-if="!item.read"></div>
             </div>
             <div class="time">{{ item.time }}</div>
             <div class="content-text">{{ item.content }}</div>
             <div class="look-detail" v-if="item.detail">
               <span>查看详情</span>
-              <dy-back direction="right" scale=".6"/>
+              <dy-back direction="right" scale=".6" />
             </div>
           </div>
         </div>
       </Scroll>
 
-      <!--      TODO 子页面未做-->
+      <!--TODO 子页面未做-->
       <div class="hover-dialog left" v-if="isShowLeftHover">
         <div class="arrow"></div>
         <div class="l-row no-border" @click="$no">登录设备管理</div>
@@ -42,18 +45,18 @@
         <div class="l-row" @click="$no">安全课堂</div>
       </div>
 
-      <Mask mode="white" v-if="isShowMask" @click="isShowMask = false"/>
+      <BaseMask mode="white" v-if="isShowMask" @click="isShowMask = false" />
 
       <div class="options">
         <div class="option" @click="isShowLeftHover = !isShowLeftHover">
-          <img src="../../../assets/img/icon/message/menu-thin.png" alt="">
+          <img src="../../../assets/img/icon/message/menu-thin.png" alt="" />
           <span>自助工具</span>
         </div>
         <div class="option" @click="$no">
           <span>规则中心</span>
         </div>
         <div class="option" @click="isShowRightHover = !isShowRightHover">
-          <img src="../../../assets/img/icon/message/menu-thin.png" alt="">
+          <img src="../../../assets/img/icon/message/menu-thin.png" alt="" />
           <span>更多帮助</span>
         </div>
       </div>
@@ -61,15 +64,14 @@
   </div>
 </template>
 <script>
-import {nextTick} from "vue";
-import Mask from "../../../components/Mask";
-import Scroll from "../../../components/Scroll";
-import BasePage from "../../BasePage";
+import { nextTick } from 'vue'
+import Scroll from '../../../components/Scroll'
+import BasePage from '../../BasePage'
 
 export default {
   extends: BasePage,
-  name: "SystemNotice",
-  components: {Mask, Scroll},
+  name: 'SystemNotice',
+  components: { Scroll },
   data() {
     return {
       loading: false,
@@ -82,29 +84,33 @@ export default {
           title: '账号登录提醒',
           detail: 'xxx',
           time: '2021-10-12 12:12',
-          content: '您的抖音号4533452342于2021-02-09 07:45:23进行了登录操作。如非本人操作，账号可能被盗。建议立即修改密码，或在[设置-账号与安全-登录设备管理]中删除异常设备。参考设备：iPhone X参考地点：上海市'
+          content:
+            '您的抖音号4533452342于2021-02-09 07:45:23进行了登录操作。如非本人操作，账号可能被盗。建议立即修改密码，或在[设置-账号与安全-登录设备管理]中删除异常设备。参考设备：iPhone X参考地点：上海市'
         },
         {
           read: false,
           title: '账号登录提醒',
           detail: 'xxx',
           time: '2021-10-12 12:12',
-          content: '您的抖音号4533452342于2021-02-09 07:45:23进行了登录操作。如非本人操作，账号可能被盗。建议立即修改密码，或在[设置-账号与安全-登录设备管理]中删除异常设备。参考设备：iPhone X参考地点：上海市'
+          content:
+            '您的抖音号4533452342于2021-02-09 07:45:23进行了登录操作。如非本人操作，账号可能被盗。建议立即修改密码，或在[设置-账号与安全-登录设备管理]中删除异常设备。参考设备：iPhone X参考地点：上海市'
         },
         {
           read: false,
           title: '协议修订通知',
           detail: '',
           time: '2021-10-12 12:12',
-          content: '你好，根据业务开展的实际情况，抖音近期更新了《抖音用户服务协议》《抖音隐私政策》及《儿童/青少年使用须知》中的相关内容。你可以在“我”-“设置”页面中，查看更新后的协议全文。'
+          content:
+            '你好，根据业务开展的实际情况，抖音近期更新了《抖音用户服务协议》《抖音隐私政策》及《儿童/青少年使用须知》中的相关内容。你可以在“我”-“设置”页面中，查看更新后的协议全文。'
         },
         {
           read: false,
           title: '协议修订通知',
           detail: '',
           time: '2021-10-12 12:12',
-          content: '你好，根据业务开展的实际情况，抖音近期更新了《抖音用户服务协议》部分条款的表述。你可以在“我”-“设置”页面中，查看更新后的协议全文。'
-        },
+          content:
+            '你好，根据业务开展的实际情况，抖音近期更新了《抖音用户服务协议》部分条款的表述。你可以在“我”-“设置”页面中，查看更新后的协议全文。'
+        }
       ]
     }
   },
@@ -124,14 +130,13 @@ export default {
         this.isShowLeftHover = false
         this.isShowRightHover = false
       }
-    },
+    }
   },
   computed: {},
   created() {
     this.getData()
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     async getData() {
       this.loading = true
@@ -151,8 +156,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-
-
 #SystemNotice {
   position: fixed;
   left: 0;
@@ -203,9 +206,7 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
-
         }
-
       }
     }
 

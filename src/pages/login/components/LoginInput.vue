@@ -7,38 +7,56 @@
       </div>
       <div class="right flex1">
         <input
-            @click="isTyping = true"
-            @blur="delaySetTypingFalse"
-            :autofocus="autofocus"
-            v-model="value"
-            type="text"
-            :placeholder="placeholder">
-        <img v-if="value && isTyping" src="../../../assets/img/icon/login/close-full-gray.png" alt="" @click="value=''">
+          @click="isTyping = true"
+          @blur="delaySetTypingFalse"
+          :autofocus="autofocus"
+          v-model="value"
+          type="text"
+          :placeholder="placeholder"
+        />
+        <img
+          v-if="value && isTyping"
+          src="../../../assets/img/icon/login/close-full-gray.png"
+          alt=""
+          @click="value = ''"
+        />
       </div>
     </div>
     <div class="input-number" v-if="type === 'password'">
       <div class="right flex1">
         <input
-            @click="isTyping = true"
-            @blur="delaySetTypingFalse"
-            :autofocus="autofocus"
-            v-model="value"
-            type="password"
-            autocomplete="new-password"
-            :placeholder="placeholder">
-        <img v-if="value && isTyping" src="../../../assets/img/icon/login/close-full-gray.png" alt="" @click="value=''">
+          @click="isTyping = true"
+          @blur="delaySetTypingFalse"
+          :autofocus="autofocus"
+          v-model="value"
+          type="password"
+          autocomplete="new-password"
+          :placeholder="placeholder"
+        />
+        <img
+          v-if="value && isTyping"
+          src="../../../assets/img/icon/login/close-full-gray.png"
+          alt=""
+          @click="value = ''"
+        />
       </div>
     </div>
     <div class="input-number" v-if="type === 'code'">
       <div class="left no-border flex1">
         <input
-            @click="isTyping = true"
-            @blur="delaySetTypingFalse"
-            :autofocus="autofocus"
-            v-model="value"
-            type="text"
-            :placeholder="placeholder">
-        <img v-if="value && isTyping" src="../../../assets/img/icon/login/close-full-gray.png" alt="" @click="value=''">
+          @click="isTyping = true"
+          @blur="delaySetTypingFalse"
+          :autofocus="autofocus"
+          v-model="value"
+          type="text"
+          :placeholder="placeholder"
+        />
+        <img
+          v-if="value && isTyping"
+          src="../../../assets/img/icon/login/close-full-gray.png"
+          alt=""
+          @click="value = ''"
+        />
       </div>
       <div class="right" @click="send">
         <span :class="isSendVerificationCode && 'disabled'">{{ verificationCodeBtnText }}</span>
@@ -48,10 +66,20 @@
 </template>
 <script>
 export default {
-  name: "LoginInput",
+  name: 'LoginInput',
   props: {
-    modelValue: '',
-    placeholder: '',
+    modelValue: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    placeholder: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
     type: {
       type: String,
       default: 'phone'
@@ -63,7 +91,7 @@ export default {
     isSendVerificationCode: {
       type: Boolean,
       default: false
-    },
+    }
   },
   data() {
     return {
@@ -84,7 +112,7 @@ export default {
   watch: {
     isSendVerificationCode: {
       immediate: true,
-      handler(newVal, oldVal) {
+      handler(newVal) {
         if (newVal) {
           this.verificationCodeBtnText = 60
           let ticker = setInterval(() => {
@@ -116,7 +144,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../../assets/less/index";
+@import '../../../assets/less/index';
 
 .input-number {
   display: flex;
@@ -200,7 +228,7 @@ export default {
     background: whitesmoke;
     caret-color: red;
 
-    &[type="password"] {
+    &[type='password'] {
       //letter-spacing: 10rem;
     }
   }

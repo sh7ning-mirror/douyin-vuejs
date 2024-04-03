@@ -1,5 +1,5 @@
 <script setup>
-import {computed} from "vue";
+import { computed } from 'vue'
 
 const props = defineProps({
   list: {
@@ -30,7 +30,6 @@ const rightList = computed(() => {
 </template>
 
 <style scoped lang="less">
-
 .waterfall {
   display: flex;
   gap: 10rem;
@@ -41,5 +40,4 @@ const rightList = computed(() => {
     flex-direction: column;
   }
 }
-
 </style>

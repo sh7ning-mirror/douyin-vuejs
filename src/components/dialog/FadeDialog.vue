@@ -1,23 +1,22 @@
 <template>
   <div class="FadeDialog">
-     <slot></slot>
+    <slot></slot>
   </div>
 </template>
 <script>
 export default {
-  name: "FadeDialog",
+  name: 'FadeDialog',
   data() {
     return {}
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {}
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .FadeDialog {
   position: fixed;

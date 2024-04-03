@@ -5,7 +5,7 @@
         <span class="f14" @click="$nav('/login/help')">帮助与设置</span>
       </template>
     </BaseHeader>
-    <Loading v-if="loading.getPhone"/>
+    <Loading v-if="loading.getPhone" />
     <div v-else class="content">
       <div class="desc">
         <div class="title">登录看朋友内容</div>
@@ -13,24 +13,38 @@
         <div class="sub-title">认证服务由中国移动提供</div>
       </div>
 
-      <dy-button type="primary" :loading="loading.login" :active="false" :loadingWithText="true" @click="login">
+      <dy-button
+        type="primary"
+        :loading="loading.login"
+        :active="false"
+        :loadingWithText="true"
+        @click="login"
+      >
         {{ loading.login ? '登录中' : '一键登录' }}
       </dy-button>
-      <dy-button :active="false" type="white" @click="$nav('/login/other')">其他手机号码登录</dy-button>
+      <dy-button :active="false" type="white" @click="$nav('/login/other')"
+        >其他手机号码登录</dy-button
+      >
 
-      <div class="protocol" :class="showAnim?'anim-bounce':''">
-        <Tooltip style="top: -100%;left: -10rem;" v-model="showTooltip"/>
+      <div class="protocol" :class="showAnim ? 'anim-bounce' : ''">
+        <Tooltip style="top: -100%; left: -10rem" v-model="showTooltip" />
         <div class="left">
-          <Check v-model="isAgree"/>
+          <Check v-model="isAgree" />
         </div>
         <div class="right">
           我已阅读并同意
-          <span class="link" @click="$nav('/service-protocol',{type:'“抖音”用户服务协议'})">用户协议</span>
+          <span class="link" @click="$nav('/service-protocol', { type: '“抖音”用户服务协议' })"
+            >用户协议</span
+          >
           和
-          <span class="link" @click="$nav('/service-protocol',{type:'“抖音”隐私政策'})">隐私政策</span>
+          <span class="link" @click="$nav('/service-protocol', { type: '“抖音”隐私政策' })"
+            >隐私政策</span
+          >
           <div>
             以及
-            <span class="link" @click="$nav('/service-protocol',{type:'中国移动认证服务协议'})">《中国移动认证服务条款》</span>
+            <span class="link" @click="$nav('/service-protocol', { type: '中国移动认证服务协议' })"
+              >《中国移动认证服务条款》</span
+            >
             ，同时登录并使用抖音火山版（原“火山小视频”）和抖音
           </div>
         </div>
@@ -39,26 +53,31 @@
       <div class="other-login">
         <transition name="fade">
           <div v-if="isOtherLogin" class="icons">
-            <img @click="$no" src="../../assets/img/icon/login/toutiao-round.png" alt="">
-            <img @click="$no" src="../../assets/img/icon/login/qq-round.webp" alt="">
-            <img @click="$no" src="../../assets/img/icon/login/wechat-round.png" alt="">
-            <img @click="$no" src="../../assets/img/icon/login/weibo-round.webp" alt="">
+            <img @click="$no" src="../../assets/img/icon/login/toutiao-round.png" alt="" />
+            <img @click="$no" src="../../assets/img/icon/login/qq-round.webp" alt="" />
+            <img @click="$no" src="../../assets/img/icon/login/wechat-round.png" alt="" />
+            <img @click="$no" src="../../assets/img/icon/login/weibo-round.webp" alt="" />
           </div>
         </transition>
       </div>
       <transition name="fade">
-        <span v-if="!isOtherLogin" class="other-login-text link" @click="isOtherLogin = !isOtherLogin">其他方式登录</span>
+        <span
+          v-if="!isOtherLogin"
+          class="other-login-text link"
+          @click="isOtherLogin = !isOtherLogin"
+          >其他方式登录</span
+        >
       </transition>
     </div>
   </div>
 </template>
 <script>
-import Check from "../../components/Check";
-import Tooltip from "./components/Tooltip";
-import Loading from "../../components/Loading";
+import Check from '../../components/Check'
+import Tooltip from './components/Tooltip'
+import Loading from '../../components/Loading'
 
 export default {
-  name: "login",
+  name: 'login',
   components: {
     Check,
     Tooltip,
@@ -72,12 +91,11 @@ export default {
       showTooltip: false,
       loading: {
         login: false,
-        getPhone: false,
+        getPhone: false
       }
     }
   },
-  computed: {
-  },
+  computed: {},
   created() {
     this.getPhone()
   },
@@ -108,7 +126,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .login {
   position: fixed;
@@ -164,7 +182,6 @@ export default {
         margin-right: 5rem;
       }
     }
-
 
     .other-login {
       position: absolute;

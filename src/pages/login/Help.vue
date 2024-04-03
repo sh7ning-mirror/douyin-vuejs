@@ -9,26 +9,25 @@
       </template>
     </BaseHeader>
     <div class="content">
-      <iframe src="https://kf.qq.com/touch/product/wechat_app.html"/>
+      <iframe src="https://kf.qq.com/touch/product/wechat_app.html" />
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: "Help",
+  name: 'Help',
   props: {},
   data() {
     return {}
   },
   computed: {},
-  created() {
-  },
+  created() {},
   methods: {}
 }
 </script>
 
 <style scoped lang="less">
-@import "../../assets/less/index";
+@import '../../assets/less/index';
 
 .Help {
   position: fixed;

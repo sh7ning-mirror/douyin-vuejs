@@ -2,21 +2,23 @@
   <div class="SlideItemMusic">
     <div v-show="!isFullLyrics">
       <div class="cover">
-        <img v-lazy="$imgPreview(modelValue.cover)" alt="">
+        <img v-lazy="$imgPreview(modelValue.cover)" alt="" />
       </div>
       <div class="lyrics-wrapper" ref="lyrics-wrapper" @click="isFullLyrics = true">
         <div class="container">
-          <div class="lyrics" v-for="item in lyricsFullTexts">{{ item.c }}</div>
+          <div class="lyrics" :key="i" v-for="(item, i) in lyricsFullTexts">{{ item.c }}</div>
         </div>
       </div>
       <!--            <div class="lyrics-mask" @click="isFullLyrics = true"></div>-->
     </div>
     <div class="lyrics-full" v-show="isFullLyrics" @click="isFullLyrics = false">
-      <div class="list" style="overflow:auto;"
-           @touchmove="$emit('slideCanMove', false)"
-           @touchend="$emit('slideCanMove', true)"
+      <div
+        class="list"
+        style="overflow: auto"
+        @touchmove="$emit('slideCanMove', false)"
+        @touchend="$emit('slideCanMove', true)"
       >
-        <div class="item" v-for="item in lyricsFullTexts">{{ item.c }}</div>
+        <div class="item" :key="i" v-for="(item, i) in lyricsFullTexts">{{ item.c }}</div>
       </div>
     </div>
     <div class="bottom">
@@ -27,12 +29,20 @@
         </div>
         <div class="right">
           <div class="btn">
-            <img src="@/assets/img/icon/star-white.png" v-show="!isCollect" @click="isCollect = !isCollect">
-            <img src="@/assets/img/icon/star-yellow.png" v-show="isCollect" @click="isCollect = !isCollect">
+            <img
+              src="@/assets/img/icon/star-white.png"
+              v-show="!isCollect"
+              @click="isCollect = !isCollect"
+            />
+            <img
+              src="@/assets/img/icon/star-yellow.png"
+              v-show="isCollect"
+              @click="isCollect = !isCollect"
+            />
             <span>收藏</span>
           </div>
           <div class="btn" @click="$emit('showShare')">
-            <img src="@/assets/img/icon/share-white-full.png" alt="">
+            <img src="@/assets/img/icon/share-white-full.png" alt="" />
             <span>分享</span>
           </div>
         </div>
@@ -40,40 +50,58 @@
       <div class="progress">
         <div class="start">{{ $durationTime(currentTime) }}</div>
         <div class="bar">
-          <div class="slide-bar"
-               ref="slideBar"
-               @touchstart="start"
-               @touchmove="move"
-               @touchend="end"></div>
+          <div
+            class="slide-bar"
+            ref="slideBar"
+            @touchstart="start"
+            @touchmove="move"
+            @touchend="end"
+          ></div>
           <div class="bar-line" :style="durationStyle(1)"></div>
           <div class="bar-point" :style="durationStyle(2)"></div>
         </div>
         <div class="end">{{ $durationTime(duration) }}</div>
       </div>
       <div class="options">
-        <img v-show="isLoop" src="@/assets/img/icon/me/loop.png" @click="$emit('update:isLoop',false)">
-        <img v-show="!isLoop" src="@/assets/img/icon/me/play-normal.png" @click="$emit('update:isLoop',true)">
+        <img
+          v-show="isLoop"
+          src="@/assets/img/icon/me/loop.png"
+          @click="$emit('update:isLoop', false)"
+        />
+        <img
+          v-show="!isLoop"
+          src="@/assets/img/icon/me/play-normal.png"
+          @click="$emit('update:isLoop', true)"
+        />
         <div class="center">
-          <img src="@/assets/img/icon/me/previous.png" @click="slide('previous')">
-          <img v-show="isPlay" class="control" src="@/assets/img/icon/me/pause.png"
-               @click="togglePlay()">
-          <img v-show="!isPlay" class="control" src="@/assets/img/icon/me/play.png"
-               @click="togglePlay()">
-          <img src="@/assets/img/icon/me/next.png" @click="slide('next')">
+          <img src="@/assets/img/icon/me/previous.png" @click="slide('previous')" />
+          <img
+            v-show="isPlay"
+            class="control"
+            src="@/assets/img/icon/me/pause.png"
+            @click="togglePlay()"
+          />
+          <img
+            v-show="!isPlay"
+            class="control"
+            src="@/assets/img/icon/me/play.png"
+            @click="togglePlay()"
+          />
+          <img src="@/assets/img/icon/me/next.png" @click="slide('next')" />
         </div>
-        <img src="@/assets/img/icon/me/music-list.png" @click="$emit('showList')">
+        <img src="@/assets/img/icon/me/music-list.png" @click="$emit('showList')" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import {nextTick} from "vue";
-import globalMethods from "../../../utils";
-import gaobaiqiqiu from "../../../assets/data/lyrics/gaobaiqiqiu.lrc?raw";
-import {userCollect} from "@/api/user";
+import { nextTick } from 'vue'
+import globalMethods from '../../../utils'
+import gaobaiqiqiu from '../../../assets/data/lyrics/gaobaiqiqiu.lrc?raw'
+import { userCollect } from '@/api/user'
 
 export default {
-  name: "SlideItemMusic",
+  name: 'SlideItemMusic',
   components: {},
   props: {
     modelValue: {
@@ -85,7 +113,7 @@ export default {
     isLoop: {
       type: Boolean,
       default: false
-    },
+    }
   },
   data() {
     return {
@@ -108,28 +136,28 @@ export default {
     }
   },
   computed: {},
-  created() {
-  },
+  created() {},
   mounted() {
     this.audio.src = this.modelValue.mp3
+    // eslint-disable-next-line no-undef
     if (process.env.NODE_ENV === 'development') {
-      this.audio.volume = .2
+      this.audio.volume = 0.2
     }
-    this.audio.addEventListener('loadedmetadata', e => {
+    this.audio.addEventListener('loadedmetadata', () => {
       this.duration = this.audio.duration
       this.slideBarWidth = this.$refs.slideBar.clientWidth
       this.step = this.slideBarWidth / Math.floor(this.duration)
     })
 
-    let lrcObj = this.createLrcObj(gaobaiqiqiu);
+    let lrcObj = this.createLrcObj(gaobaiqiqiu)
     this.lyricsTexts.push(lrcObj.ms[0])
     this.lyricsTexts.push(lrcObj.ms[1])
-    lrcObj.ms.map(v => {
+    lrcObj.ms.map((v) => {
       if (v.c) this.lyricsFullTexts.push(v)
     })
 
     // console.log(lrcObj.ms)
-    this.audio.addEventListener('timeupdate', e => {
+    this.audio.addEventListener('timeupdate', (e) => {
       let currentTime = Math.ceil(e.target.currentTime)
       // let lastLyricsText = this.lyricsTexts[this.lyricsTexts.length - 1]
       // if (Number(lastLyricsText.t) < currentTime) {
@@ -153,8 +181,8 @@ export default {
         }
       }
     })
-    this.audio.addEventListener('play', e => this.isPlay = true)
-    this.audio.addEventListener('ended', e => {
+    this.audio.addEventListener('play', () => (this.isPlay = true))
+    this.audio.addEventListener('ended', () => {
       if (this.isLoop) {
         this.lastPageX = 0
         this.audio.currentTime = 0
@@ -193,45 +221,50 @@ export default {
     },
     createLrcObj(lrc) {
       let oLRC = {
-        ti: "", //歌曲名
-        ar: "", //演唱者
-        al: "", //专辑名
-        by: "", //歌词制作人
+        ti: '', //歌曲名
+        ar: '', //演唱者
+        al: '', //专辑名
+        by: '', //歌词制作人
         offset: 0, //时间补偿值，单位毫秒，用于调整歌词整体位置
         ms: [] //歌词数组{t:时间,c:歌词}
-      };
-      if (lrc.length === 0) return;
-      let lrcs = lrc.split('\n');//用回车拆分成数组
-      for (let i in lrcs) {//遍历歌词数组
-        lrcs[i] = lrcs[i].replace(/(^\s*)|(\s*$)/g, ""); //去除前后空格
-        let t = lrcs[i].substring(lrcs[i].indexOf("[") + 1, lrcs[i].indexOf("]"));//取[]间的内容
-        let s = t.split(":");//分离:前后文字
-        if (isNaN(parseInt(s[0]))) { //不是数值
+      }
+      if (lrc.length === 0) return
+      let lrcs = lrc.split('\n') //用回车拆分成数组
+      for (let i in lrcs) {
+        //遍历歌词数组
+        lrcs[i] = lrcs[i].replace(/(^\s*)|(\s*$)/g, '') //去除前后空格
+        let t = lrcs[i].substring(lrcs[i].indexOf('[') + 1, lrcs[i].indexOf(']')) //取[]间的内容
+        let s = t.split(':') //分离:前后文字
+        if (isNaN(parseInt(s[0]))) {
+          //不是数值
           for (let i in oLRC) {
-            if (i != "ms" && i == s[0].toLowerCase()) {
-              oLRC[i] = s[1];
+            if (i != 'ms' && i == s[0].toLowerCase()) {
+              oLRC[i] = s[1]
             }
           }
-        } else { //是数值
-          let arr = lrcs[i].match(/\[(\d+:.+?)\]/g);//提取时间字段，可能有多个
-          let start = 0;
+        } else {
+          //是数值
+          let arr = lrcs[i].match(/\[(\d+:.+?)\]/g) //提取时间字段，可能有多个
+          let start = 0
           for (let k in arr) {
-            start += arr[k].length; //计算歌词位置
+            start += arr[k].length //计算歌词位置
           }
-          let content = lrcs[i].substring(start);//获取歌词内容
+          let content = lrcs[i].substring(start) //获取歌词内容
           for (let k in arr) {
-            let t = arr[k].substring(1, arr[k].length - 1);//取[]间的内容
-            let s = t.split(":");//分离:前后文字
-            oLRC.ms.push({//对象{t:时间,c:歌词}加入ms数组
+            let t = arr[k].substring(1, arr[k].length - 1) //取[]间的内容
+            let s = t.split(':') //分离:前后文字
+            oLRC.ms.push({
+              //对象{t:时间,c:歌词}加入ms数组
               t: (parseFloat(s[0]) * 60 + parseFloat(s[1])).toFixed(3),
               c: content
-            });
+            })
           }
         }
       }
-      oLRC.ms.sort(function (a, b) {//按时间顺序排序
-        return a.t - b.t;
-      });
+      oLRC.ms.sort(function (a, b) {
+        //按时间顺序排序
+        return a.t - b.t
+      })
       return oLRC
       /*
       for(let i in oLRC){ //查看解析结果
@@ -243,7 +276,10 @@ export default {
       this.lyricsTexts.push(txt)
       nextTick(() => {
         let comments = this.$refs['lyrics-wrapper']
-        comments.scrollTo({top: comments.scrollHeight - comments.clientHeight, behavior: 'smooth'})
+        comments.scrollTo({
+          top: comments.scrollHeight - comments.clientHeight,
+          behavior: 'smooth'
+        })
       })
     },
     start(e) {
@@ -274,16 +310,16 @@ export default {
     durationStyle(type) {
       // return {}
       if (type === 1) {
-        return {width: this.pageX + 'px'}
+        return { width: this.pageX + 'px' }
       }
-      return {left: this.pageX + 'px'}
-    },
+      return { left: this.pageX + 'px' }
+    }
   }
 }
 </script>
 
 <style scoped lang="less">
-@import "@/assets/less/index.less";
+@import '@/assets/less/index.less';
 
 .SlideItemMusic {
   color: white;
@@ -294,8 +330,7 @@ export default {
   flex-direction: column;
   align-items: center;
   position: relative;
-  background: linear-gradient(to bottom right, rgba(136, 132, 133, 1), rgba(136, 132, 133, .7));
-
+  background: linear-gradient(to bottom right, rgba(136, 132, 133, 1), rgba(136, 132, 133, 0.7));
 
   .cover {
     margin-top: 80rem;
@@ -309,7 +344,6 @@ export default {
       height: 100%;
       box-shadow: 0 0 15rem 5rem #514f4f;
     }
-
   }
 
   .lyrics-wrapper {
@@ -355,7 +389,6 @@ export default {
         height: 40rem;
       }
     }
-
   }
 
   .bottom {
@@ -482,5 +515,4 @@ export default {
     }
   }
 }
-
 </style>

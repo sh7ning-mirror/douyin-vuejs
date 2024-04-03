@@ -2,21 +2,21 @@
   <router-view v-slot="{ Component }">
     <transition :name="transitionName">
       <keep-alive :exclude="excludeRoutes">
-        <component :is="Component"/>
+        <component :is="Component" />
       </keep-alive>
     </transition>
   </router-view>
-  <Call/>
+  <Call />
 </template>
 <script>
 /*
 * try {navigator.control.gesture(false);} catch (e) {} //UC浏览器关闭默认手势事件
 try {navigator.control.longpressMenu(false);} catch (e) {} //关闭长按弹出菜单
 * */
-import {mapActions, mapState} from "pinia";
-import routes from "./router/routes";
-import Call from "./components/Call";
-import {useBaseStore} from "@/store/pinia";
+import { mapActions, mapState } from 'pinia'
+import routes from './router/routes'
+import Call from './components/Call'
+import { useBaseStore } from '@/store/pinia'
 
 export default {
   name: 'App',
@@ -25,29 +25,38 @@ export default {
   },
   data() {
     return {
-      transitionName: 'go',
+      transitionName: 'go'
     }
   },
   computed: {
-    ...mapState(useBaseStore, ['excludeRoutes']),
+    ...mapState(useBaseStore, ['excludeRoutes'])
   },
   // watch $route 决定使用哪种过渡
   watch: {
-    '$route'(to, from) {
-      this.setMaskDialog({state: false, mode: this.maskDialogMode})
+    $route(to, from) {
+      this.setMaskDialog({ state: false, mode: this.maskDialogMode })
 
       //footer下面的5个按钮，对跳不要用动画
-      let noAnimation = ['/', '/home', '/slide', '/me', '/shop', '/message', '/publish', '/home/live',
-        'slide'
+      let noAnimation = [
+        '/',
+        '/home',
+        '/slide',
+        '/me',
+        '/shop',
+        '/message',
+        '/publish',
+        '/home/live',
+        'slide',
+        '/test'
       ]
       if (noAnimation.indexOf(from.path) !== -1 && noAnimation.indexOf(to.path) !== -1) {
-        return this.transitionName = ''
+        return (this.transitionName = '')
       }
 
-      const toDepth = routes.findIndex(v => v.path === to.path)
-      const fromDepth = routes.findIndex(v => v.path === from.path)
+      const toDepth = routes.findIndex((v) => v.path === to.path)
+      const fromDepth = routes.findIndex((v) => v.path === from.path)
       this.transitionName = toDepth > fromDepth ? 'go' : 'back'
-    },
+    }
   },
   methods: {
     ...mapActions(useBaseStore, ['init', 'setMaskDialog']),
@@ -66,21 +75,22 @@ export default {
     })
 
     try {
-      navigator.control.gesture(false);
+      navigator.control.gesture(false)
     } catch (e) {
+      //
     }
     try {
-      navigator.control.longpressMenu(false);
+      navigator.control.longpressMenu(false)
     } catch (e) {
+      //
     }
-    document.onselectstart = new Function("return false")//禁止选中文字
-  },
-
+    document.onselectstart = new Function('return false') //禁止选中文字
+  }
 }
 </script>
 
 <style lang="less">
-@import "./assets/less/index";
+@import './assets/less/index';
 
 #app {
   height: 100%;
@@ -93,7 +103,10 @@ export default {
 }
 
 //最终状态
-.back-enter-to, .back-enter-from, .go-enter-to, .go-leave-from {
+.back-enter-to,
+.back-enter-from,
+.go-enter-to,
+.go-leave-from {
   transform: translate3d(0, 0, 0);
 }
 
@@ -101,10 +114,12 @@ export default {
   transform: translate3d(-100%, 0, 0);
 }
 
-.go-enter-active, .go-leave-active, .back-enter-active, .back-leave-active {
-  transition: all .3s;
+.go-enter-active,
+.go-leave-active,
+.back-enter-active,
+.back-leave-active {
+  transition: all 0.3s;
 }
-
 
 .back-enter-from {
   transform: translate3d(-100%, 0, 0);

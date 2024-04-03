@@ -6,12 +6,12 @@
 </template>
 <script>
 export default {
-  name: "NoMore",
+  name: 'NoMore'
 }
 </script>
 
 <style scoped lang="less">
-@import "../assets/less/index";
+@import '../assets/less/index';
 
 .NoMore {
   font-size: 12rem;
