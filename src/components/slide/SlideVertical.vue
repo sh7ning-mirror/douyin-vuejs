@@ -2,13 +2,13 @@
 import { onMounted, reactive, ref, watch } from 'vue'
 import GM from '../../utils'
 import {
-  getSlideDistance,
+  getSlideOffset,
   slideInit,
   slideReset,
   slideTouchEnd,
   slideTouchMove,
   slideTouchStart
-} from './common'
+} from '@/utils/slide'
 import { SlideType } from '@/utils/const_var'
 
 const props = defineProps({
@@ -22,20 +22,34 @@ const props = defineProps({
   changeActiveIndexUseAnim: {
     type: Boolean,
     default: true
+  },
+  name: {
+    type: String,
+    default: () => 'SlideVertical'
   }
 })
 const emit = defineEmits(['update:index'])
 
-const judgeValue = 20
+//slide-list的ref引用
 const wrapperEl = ref(null)
+
 const state = reactive({
-  name: 'SlideVertical',
-  localIndex: props.index,
-  needCheck: true,
-  next: false,
-  start: { x: 0, y: 0, time: 0 },
-  move: { x: 0, y: 0 },
-  wrapper: { width: 0, height: 0, childrenLength: 0 }
+  judgeValue: 20, //一个用于判断滑动朝向的固定值
+  type: SlideType.VERTICAL, //组件类型
+  name: props.name,
+  localIndex: props.index, //当前下标
+  needCheck: true, //是否需要检测，每次按下都需要检测，up事件会重置为true
+  next: false, //能否滑动
+  isDown: false, //是否按下，用于move事件判断
+  start: { x: 0, y: 0, time: 0 }, //按下时的起点坐标
+  move: { x: 0, y: 0 }, //移动时的坐标
+  //slide-list的宽度和子元素数量
+  wrapper: {
+    width: 0,
+    height: 0,
+    //childrenLength用于canNext方法判断当前页是否是最后一页，是则不能滑动，不捕获事件
+    childrenLength: 0
+  }
 })
 
 watch(
@@ -49,14 +63,14 @@ watch(
       GM.$setCss(
         wrapperEl.value,
         'transform',
-        `translate3d(0,${getSlideDistance(state, SlideType.VERTICAL)}px, 0)`
+        `translate3d(0,${getSlideOffset(state, wrapperEl.value)}px, 0)`
       )
     }
   }
 )
 
 onMounted(() => {
-  slideInit(wrapperEl.value, state, SlideType.VERTICAL)
+  slideInit(wrapperEl.value, state)
 })
 
 function touchStart(e) {
@@ -64,19 +78,12 @@ function touchStart(e) {
 }
 
 function touchMove(e) {
-  slideTouchMove(e, wrapperEl.value, state, judgeValue, canNext, null, SlideType.VERTICAL)
+  slideTouchMove(e, wrapperEl.value, state)
 }
 
 function touchEnd(e) {
-  slideTouchEnd(e, state, canNext, null, null, SlideType.VERTICAL)
-  slideReset(wrapperEl.value, state, SlideType.VERTICAL, emit)
-}
-
-function canNext(isNext) {
-  return !(
-    (state.localIndex === 0 && !isNext) ||
-    (state.localIndex === state.wrapper.childrenLength - 1 && isNext)
-  )
+  slideTouchEnd(e, state)
+  slideReset(e, wrapperEl.value, state, emit)
 }
 </script>
 
@@ -85,9 +92,9 @@ function canNext(isNext) {
     <div
       class="slide-list flex-direction-column"
       ref="wrapperEl"
-      @touchstart="touchStart"
-      @touchmove="touchMove"
-      @touchend="touchEnd"
+      @pointerdown="touchStart"
+      @pointermove="touchMove"
+      @pointerup="touchEnd"
     >
       <slot></slot>
     </div>

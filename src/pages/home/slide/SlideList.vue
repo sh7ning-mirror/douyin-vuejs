@@ -4,7 +4,7 @@
     v-love="props.uniqueId"
     :id="props.uniqueId"
     :uniqueId="props.uniqueId"
-    name="main"
+    name="infinite"
     :active="props.active"
     :loading="baseStore.loading"
     v-model:index="state.index"
@@ -89,7 +89,7 @@ async function getData(refresh = false) {
   })
   // console.log('getSlide4Data-', 'refresh', refresh, res)
   baseStore.loading = false
-  if (res.code === 200) {
+  if (res.success) {
     state.totalSize = res.data.total
     if (refresh) {
       state.list = []
